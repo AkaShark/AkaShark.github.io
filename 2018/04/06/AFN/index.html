@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>对于AFN的简单封装（Cookie） - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2018-04-06 13:07" pubdate>
+        2018年4月6日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">对于AFN的简单封装（Cookie）</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h3 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h3><p>最近在隔壁的小组有一个项目，由于好久没有学习iOS，所有想乘机温习下功课，然后就主动请缨，帮助他们一起写项目，因为这个项目是有网络请求的（话说都有吧）然后觉得之前用的学长的一些网络请求有点不是很理解，然后就想自己也来封装一个（其实就是想装逼么。。。）好废话不多说 开整。</p>
+<a id="more"></a>
+
+<h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><p>这个封装是基于AFN（iOS网络请求最好的框架）用的AFN3.0。其实就是感觉就是将复杂重复的代码提取到了一起，然后再统一的调用，这个就是应该所谓的代码高聚合低耦合吧。（不知道这个算不算是设计模式中的工厂模式，请各位知道的大佬给提个醒~）</p>
+<h3 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h3><p>这个类总共封装了9个方法，其中包裹简单的get和post封装，还有上传图片的方法，其中最主要的，也是花时间最长的封装是关于cookie的封装，关于cookie的封装我遇到了一些小的问题等下再跟大家一一到来。废话少说，上代码。</p>
+<pre><code class="hljs objectivec"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 注：以下封装只针对json数据</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">@interface</span> <span class="hljs-title">HelloAFN</span> : <span class="hljs-title">NSObject</span></span>
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 时间戳</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment"> @return 返回时间戳</span>
+<span class="hljs-comment"> */</span>
++(<span class="hljs-built_in">NSString</span> *)TheTimeStamp;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 封装get请求</span>
+<span class="hljs-comment"> </span>
+<span class="hljs-comment"> @param URLString URL</span>
+<span class="hljs-comment"> @param parameters 参数字典</span>
+<span class="hljs-comment"> @param succeed 成功后返回的JSON数据</span>
+<span class="hljs-comment"> @param failure 失败后返回的JSON数据</span>
+<span class="hljs-comment"> */</span>
++ (<span class="hljs-keyword">void</span>)GET:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters succeed:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))succeed failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure;
+
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 封装post请求</span>
+<span class="hljs-comment"> </span>
+<span class="hljs-comment"> @param URLString URL</span>
+<span class="hljs-comment"> @param parameters 参数字典</span>
+<span class="hljs-comment"> @param success 成功后返回的JSON</span>
+<span class="hljs-comment"> @param failure 失败后返回的JSON</span>
+<span class="hljs-comment"> */</span>
++ (<span class="hljs-keyword">void</span>)POST:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))success failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 这个请求过后的请求需要添加cookie（一般是在登陆的请求）</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment"> @param URLString 请求URL</span>
+<span class="hljs-comment"> @param parameters 参数</span>
+<span class="hljs-comment"> @param succeed 成功json</span>
+<span class="hljs-comment"> @param failure 是吧json</span>
+<span class="hljs-comment"> @param is 是否需要cookie</span>
+<span class="hljs-comment"> </span>
+<span class="hljs-comment"> */</span>
++ (<span class="hljs-keyword">void</span>)GET:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters succeed:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))succeed failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure andWithCookie:(<span class="hljs-built_in">BOOL</span>)is;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 这个请求过后的请求需要添加cookie（一般是在登陆的请求）此方法一般常用</span>
+<span class="hljs-comment"> @param URLString 请求url</span>
+<span class="hljs-comment"> @param parameters 参数</span>
+<span class="hljs-comment"> @param success 成功json</span>
+<span class="hljs-comment"> @param failure 失败json</span>
+<span class="hljs-comment"> @param is 是否需要</span>
+<span class="hljs-comment"> */</span>
++ (<span class="hljs-keyword">void</span>)POST:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))success failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure andWithCookie: (<span class="hljs-built_in">BOOL</span>)is;
+
+
+
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 上传图片</span>
+<span class="hljs-comment"> (大的图片有压缩)</span>
+<span class="hljs-comment"> @param dic 除去图片还需要的参数</span>
+<span class="hljs-comment"> @param imgDic 图片的字典</span>
+<span class="hljs-comment"> @param url 上传的url</span>
+<span class="hljs-comment"> @param success 成功回调</span>
+<span class="hljs-comment"> @param faile 失败回调</span>
+<span class="hljs-comment"> */</span>
++(<span class="hljs-keyword">void</span>)PostThrImagesWithDic:(<span class="hljs-built_in">NSDictionary</span> *)dic WithImg:(<span class="hljs-built_in">NSDictionary</span> *)imgDic url:(<span class="hljs-built_in">NSString</span> *)url success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSDictionary</span> *))success faile:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *))faile;
+
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 移除cookie</span>
+<span class="hljs-comment"> */</span>
++(<span class="hljs-keyword">void</span>)removeAllCookie;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 更新cookie</span>
+<span class="hljs-comment"> */</span>
++(<span class="hljs-keyword">void</span>)upDataTheCookie;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> 上传图片（含有cookie）</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment"> @param dic 其他参数</span>
+<span class="hljs-comment"> @param imgDic image字典</span>
+<span class="hljs-comment"> @param url url地址</span>
+<span class="hljs-comment"> @param success 成功回调</span>
+<span class="hljs-comment"> @param faile 失败回调</span>
+<span class="hljs-comment"> @param yes 是否cookie</span>
+<span class="hljs-comment"> */</span>
++(<span class="hljs-keyword">void</span>)PostThrImagesWithDic:(<span class="hljs-built_in">NSDictionary</span> *)dic WithImg:(<span class="hljs-built_in">NSDictionary</span> *)imgDic url:(<span class="hljs-built_in">NSString</span> *)url success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSDictionary</span> *))success faile:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *))faile is:(<span class="hljs-built_in">BOOL</span>)yes;
+
+<span class="hljs-keyword">@end</span>
+</code></pre>
+<p>以上就是我在.h中封装的一些函数头，这些函数的功能已经写得详细了。<br>然后就是.m的些内容了</p>
+<pre><code class="hljs objectivec"><span class="hljs-class"><span class="hljs-keyword">@implementation</span> <span class="hljs-title">HelloAFN</span></span>
+
+
+
+<span class="hljs-comment">//时间戳</span>
++ (<span class="hljs-built_in">NSString</span> *)TheTimeStamp&#123;
+    <span class="hljs-comment">//设置一个NSDateFormatter的格式</span>
+    <span class="hljs-built_in">NSDateFormatter</span> *formatter = [[<span class="hljs-built_in">NSDateFormatter</span> alloc] init];
+    [formatter setDateFormat:<span class="hljs-string">@&quot;yyyyMMddHHmmssSSS&quot;</span>];
+    <span class="hljs-keyword">return</span> [formatter stringFromDate:[<span class="hljs-built_in">NSDate</span> date]];
+&#125;
+
+<span class="hljs-comment">//get</span>
++ (<span class="hljs-keyword">void</span>)GET:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters succeed:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))succeed failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure
+&#123;
+    <span class="hljs-comment">//创建网络请求管理对象</span>
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    <span class="hljs-comment">//申明返回的结果是json类型</span>
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    <span class="hljs-comment">//申明请求的数据是json类型</span>
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    <span class="hljs-comment">//如果报接受类型不一致请替换一致text/html或别的</span>
+    manager.responseSerializer.acceptableContentTypes = [<span class="hljs-built_in">NSSet</span> setWithObjects:<span class="hljs-string">@&quot;text/html&quot;</span>,<span class="hljs-string">@&quot;application/json&quot;</span>,<span class="hljs-string">@&quot;&quot;</span>,<span class="hljs-string">@&quot;&quot;</span>,<span class="hljs-literal">nil</span>];
+    <span class="hljs-comment">//发送网络请求(请求方式为GET)</span>
+    [manager GET:URLString parameters:parameters progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull downloadProgress) &#123;
+        <span class="hljs-comment">//会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span>
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        succeed(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        failure(error);
+    &#125;];
+    
+&#125;
+
+<span class="hljs-comment">//post</span>
++ (<span class="hljs-keyword">void</span>)POST:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))success failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure&#123;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    <span class="hljs-comment">//返回非json</span>
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    <span class="hljs-comment">//image 加解析 image/</span>
+    manager.responseSerializer.acceptableContentTypes = [<span class="hljs-built_in">NSSet</span> setWithObjects:<span class="hljs-string">@&quot;application/json&quot;</span>, <span class="hljs-string">@&quot;text/json&quot;</span>, <span class="hljs-string">@&quot;text/javascript&quot;</span>, <span class="hljs-string">@&quot;text/html&quot;</span>,<span class="hljs-literal">nil</span>];
+    
+    [manager POST:URLString parameters:parameters progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull uploadProgress) &#123;
+        <span class="hljs-comment">//会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span>
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        success(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        failure(error);
+    &#125;];
+&#125;
+
+<span class="hljs-comment">//cookie get</span>
++ (<span class="hljs-keyword">void</span>)GET:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters succeed:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span> responseObject))succeed failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *error))failure andWithCookie:(<span class="hljs-built_in">BOOL</span>)is
+&#123;
+    <span class="hljs-comment">//创建网络请求管理对象</span>
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    <span class="hljs-comment">//申明返回的结果是json类型</span>
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    <span class="hljs-comment">//申明请求的数据是json类型</span>
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    <span class="hljs-comment">//如果报接受类型不一致请替换一致text/html或别的</span>
+    manager.responseSerializer.acceptableContentTypes = [<span class="hljs-built_in">NSSet</span> setWithObjects:<span class="hljs-string">@&quot;text/html&quot;</span>,<span class="hljs-string">@&quot;application/json&quot;</span>,<span class="hljs-string">@&quot;text/json&quot;</span>,<span class="hljs-string">@&quot;&quot;</span>,<span class="hljs-literal">nil</span>];
+<span class="hljs-comment">//     需要cookie</span>
+    <span class="hljs-keyword">if</span>(is)
+    &#123;
+        <span class="hljs-built_in">NSArray</span> *cookies = [[<span class="hljs-built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage] cookies];
+        
+            <span class="hljs-comment">//在afn中设置cookie</span>
+            <span class="hljs-built_in">NSString</span> *cookie = [[<span class="hljs-built_in">NSString</span> alloc] init];
+            <span class="hljs-built_in">NSDictionary</span> *dic =[<span class="hljs-built_in">NSHTTPCookie</span> requestHeaderFieldsWithCookies:cookies];
+            <span class="hljs-keyword">if</span> ([dic[<span class="hljs-string">@&quot;Cookie&quot;</span>] isKindOfClass:[<span class="hljs-built_in">NSArray</span> <span class="hljs-keyword">class</span>]])
+            &#123;
+                cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>][<span class="hljs-number">0</span>];
+            &#125;
+            <span class="hljs-keyword">else</span>&#123;
+                cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>];
+            &#125;
+            [manager.requestSerializer setValue:cookie forHTTPHeaderField:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+        
+<span class="hljs-comment">//            NSHTTPCookie *cookie;</span>
+<span class="hljs-comment">//            for (cookie in cookies)</span>
+<span class="hljs-comment">//            &#123;</span>
+<span class="hljs-comment">//                [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:cookie];</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//            &#125;</span>
+<span class="hljs-comment">//        NSData *cookieData = [NSKeyedArchiver archivedDataWithRootObject:cookies];</span>
+        
+        <span class="hljs-built_in">NSUserDefaults</span> *defaults = [<span class="hljs-built_in">NSUserDefaults</span> standardUserDefaults];
+        [defaults setObject:cookie forKey:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+    &#125;
+    <span class="hljs-comment">//发送网络请求(请求方式为GET)</span>
+    [manager GET:URLString parameters:parameters progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull downloadProgress) &#123;
+        <span class="hljs-comment">//会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span>
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        succeed(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        failure(error);
+    &#125;];
+&#125;
+
+<span class="hljs-comment">//cookie post</span>
++(<span class="hljs-keyword">void</span>)POST:(<span class="hljs-built_in">NSString</span> *)URLString parameters:(<span class="hljs-keyword">id</span>)parameters success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-keyword">id</span>))success failure:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *))failure andWithCookie:(<span class="hljs-built_in">BOOL</span>)is
+&#123;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    <span class="hljs-comment">//返回非json</span>
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    <span class="hljs-comment">//image 加解析 image/</span>
+    manager.responseSerializer.acceptableContentTypes = [<span class="hljs-built_in">NSSet</span> setWithObjects:<span class="hljs-string">@&quot;application/json&quot;</span>, <span class="hljs-string">@&quot;text/json&quot;</span>, <span class="hljs-string">@&quot;text/javascript&quot;</span>, <span class="hljs-string">@&quot;text/html&quot;</span>,<span class="hljs-literal">nil</span>];
+<span class="hljs-comment">//    装入cookie</span>
+    <span class="hljs-keyword">if</span>(is)
+    &#123;
+        <span class="hljs-built_in">NSArray</span> *cookies = [[<span class="hljs-built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage] cookies];
+
+<span class="hljs-comment">////            在afn中设置cookie</span>
+                        <span class="hljs-built_in">NSString</span> *cookie = [[<span class="hljs-built_in">NSString</span> alloc] init];
+                        <span class="hljs-built_in">NSDictionary</span> *dic =[<span class="hljs-built_in">NSHTTPCookie</span> requestHeaderFieldsWithCookies:cookies];
+                        <span class="hljs-keyword">if</span> ([dic[<span class="hljs-string">@&quot;Cookie&quot;</span>] isKindOfClass:[<span class="hljs-built_in">NSArray</span> <span class="hljs-keyword">class</span>]])
+                        &#123;
+                            cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>][<span class="hljs-number">0</span>];
+                        &#125;
+                        <span class="hljs-keyword">else</span>&#123;
+                            cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>];
+                        &#125;
+                        [manager.requestSerializer setValue:cookie forHTTPHeaderField:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+        
+<span class="hljs-comment">//            NSHTTPCookie *cookie;</span>
+<span class="hljs-comment">//            for (cookie in cookies)</span>
+<span class="hljs-comment">//            &#123;</span>
+<span class="hljs-comment">//                [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:cookie];</span>
+<span class="hljs-comment">//                </span>
+<span class="hljs-comment">//            &#125;</span>
+<span class="hljs-comment">//            NSData *cookieData = [NSKeyedArchiver archivedDataWithRootObject:cookies];</span>
+        
+        <span class="hljs-built_in">NSUserDefaults</span> *defaults = [<span class="hljs-built_in">NSUserDefaults</span> standardUserDefaults];
+        [defaults setObject:cookie forKey:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+    &#125;
+    [manager POST:URLString parameters:parameters progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull uploadProgress) &#123;
+        <span class="hljs-comment">//会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span>
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        success(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        failure(error);
+    &#125;];
+&#125;
+
+
+<span class="hljs-comment">//images</span>
++(<span class="hljs-keyword">void</span>)PostThrImagesWithDic:(<span class="hljs-built_in">NSDictionary</span> *)dic WithImg:(<span class="hljs-built_in">NSDictionary</span> *)imgDic url:(<span class="hljs-built_in">NSString</span> *)url success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSDictionary</span> *))success faile:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *))faile
+&#123;
+    AFHTTPSessionManager *postAvatarManger = [AFHTTPSessionManager manager];
+    postAvatarManger.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [postAvatarManger POST:url parameters:dic constructingBodyWithBlock:^(<span class="hljs-keyword">id</span>&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">id</span> key <span class="hljs-keyword">in</span> imgDic)
+        &#123;
+            <span class="hljs-built_in">UIImage</span> *image = [imgDic objectForKey:key];
+            <span class="hljs-built_in">NSData</span> *data = [[<span class="hljs-built_in">NSData</span> alloc] init];
+            data = <span class="hljs-built_in">UIImageJPEGRepresentation</span>(image, <span class="hljs-number">1.0</span>);
+            <span class="hljs-built_in">CGFloat</span> count = <span class="hljs-number">100</span>;
+            <span class="hljs-keyword">while</span> (data.length&gt;<span class="hljs-number">102400</span>)
+            &#123;
+                count--;
+                data = <span class="hljs-built_in">UIImageJPEGRepresentation</span>(image, count/<span class="hljs-number">100</span>);
+            &#125;
+            <span class="hljs-comment">//name: 后台规定的key</span>
+            <span class="hljs-comment">//fileName:自己给文件起名</span>
+            <span class="hljs-comment">//mimeType :图片类型</span>
+            [formData appendPartWithFileData:data name:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%@&quot;</span>,key] fileName:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%@.jpeg&quot;</span>,key] mimeType:<span class="hljs-string">@&quot;image/jpeg&quot;</span>];
+        &#125;
+        
+    &#125; progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull uploadProgress) &#123;
+        <span class="hljs-literal">nil</span>;
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        success(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        faile(error);
+    
+    &#125;];
+    
+&#125;
+<span class="hljs-comment">//cookie images</span>
++(<span class="hljs-keyword">void</span>)PostThrImagesWithDic:(<span class="hljs-built_in">NSDictionary</span> *)dic WithImg:(<span class="hljs-built_in">NSDictionary</span> *)imgDic url:(<span class="hljs-built_in">NSString</span> *)url success:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSDictionary</span> *))success faile:(<span class="hljs-keyword">void</span> (^)(<span class="hljs-built_in">NSError</span> *))faile is:(<span class="hljs-built_in">BOOL</span>)yes
+&#123;
+    AFHTTPSessionManager *postAvatarManger = [AFHTTPSessionManager manager];
+    <span class="hljs-keyword">if</span>(yes)
+    &#123;
+<span class="hljs-comment">//        取出cookie</span>
+        <span class="hljs-built_in">NSUserDefaults</span> *defaults = [<span class="hljs-built_in">NSUserDefaults</span> standardUserDefaults];
+        <span class="hljs-built_in">NSString</span> *cookie =[defaults objectForKey:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+<span class="hljs-comment">//        放到请求头中</span>
+        [postAvatarManger.requestSerializer setValue:cookie forHTTPHeaderField:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+    &#125;
+    postAvatarManger.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [postAvatarManger POST:url parameters:dic constructingBodyWithBlock:^(<span class="hljs-keyword">id</span>&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">id</span> key <span class="hljs-keyword">in</span> imgDic)
+        &#123;
+            <span class="hljs-built_in">UIImage</span> *image = [imgDic objectForKey:key];
+            <span class="hljs-built_in">NSData</span> *data = [[<span class="hljs-built_in">NSData</span> alloc] init];
+            data = <span class="hljs-built_in">UIImageJPEGRepresentation</span>(image, <span class="hljs-number">1.0</span>);
+            <span class="hljs-built_in">CGFloat</span> count = <span class="hljs-number">100</span>;
+            <span class="hljs-keyword">while</span> (data.length&gt;<span class="hljs-number">102400</span>)
+            &#123;
+                count--;
+                data = <span class="hljs-built_in">UIImageJPEGRepresentation</span>(image, count/<span class="hljs-number">100</span>);
+            &#125;
+            <span class="hljs-comment">//name: 后台规定的key</span>
+            <span class="hljs-comment">//fileName:自己给文件起名</span>
+            <span class="hljs-comment">//mimeType :图片类型</span>
+            [formData appendPartWithFileData:data name:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%@&quot;</span>,key] fileName:[<span class="hljs-built_in">NSString</span> stringWithFormat:<span class="hljs-string">@&quot;%@.jpeg&quot;</span>,key] mimeType:<span class="hljs-string">@&quot;image/jpeg&quot;</span>];
+        &#125;
+        
+    &#125; progress:^(<span class="hljs-built_in">NSProgress</span> * _Nonnull uploadProgress) &#123;
+        <span class="hljs-literal">nil</span>;
+    &#125; success:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="hljs-keyword">id</span>  _Nullable responseObject) &#123;
+        success(responseObject);
+    &#125; failure:^(<span class="hljs-built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="hljs-built_in">NSError</span> * _Nonnull error) &#123;
+        faile(error);
+        
+    &#125;];
+&#125;
+<span class="hljs-comment">//清除cookie</span>
++(<span class="hljs-keyword">void</span>)removeAllCookie
+&#123;
+    <span class="hljs-built_in">NSUserDefaults</span> *defatlus = [<span class="hljs-built_in">NSUserDefaults</span> standardUserDefaults];
+<span class="hljs-comment">//    转化字典</span>
+    <span class="hljs-built_in">NSDictionary</span> *dictionary = [defatlus dictionaryRepresentation];
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">NSString</span> *key <span class="hljs-keyword">in</span> [dictionary allKeys])
+    &#123;
+        <span class="hljs-keyword">if</span> ([key isEqualToString:<span class="hljs-string">@&quot;Cookie&quot;</span>])
+        &#123;
+            [defatlus removeObjectForKey:key];
+            [defatlus synchronize];
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-comment">// 更新cookie</span>
++(<span class="hljs-keyword">void</span>)upDataTheCookie
+&#123;
+    <span class="hljs-built_in">NSArray</span> *cookies = [[<span class="hljs-built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage] cookies];
+    <span class="hljs-built_in">NSString</span> *cookie = [[<span class="hljs-built_in">NSString</span> alloc] init];
+    <span class="hljs-built_in">NSDictionary</span> *dic = [<span class="hljs-built_in">NSHTTPCookie</span> requestHeaderFieldsWithCookies:cookies];
+    <span class="hljs-keyword">if</span> ([dic[<span class="hljs-string">@&quot;Cookie&quot;</span>] isKindOfClass:[<span class="hljs-built_in">NSArray</span> <span class="hljs-keyword">class</span>]])
+    &#123;
+        cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>][<span class="hljs-number">0</span>];
+    &#125;
+    <span class="hljs-keyword">else</span>&#123;
+        cookie = dic[<span class="hljs-string">@&quot;Cookie&quot;</span>];
+    &#125;
+    <span class="hljs-built_in">NSUserDefaults</span> *defaults = [<span class="hljs-built_in">NSUserDefaults</span> standardUserDefaults];
+    [defaults setObject:cookie forKey:<span class="hljs-string">@&quot;Cookie&quot;</span>];
+    [defaults synchronize];
+&#125;
+
+<span class="hljs-keyword">@end</span>
+</code></pre>
+<p>里面的代码也有注释，相关的说明。下面就主要说下我遇到的问题吧。和怎么去解决的吧。</p>
+<h3 id="问题好相应的解决"><a href="#问题好相应的解决" class="headerlink" title="问题好相应的解决"></a>问题好相应的解决</h3><h4 id="认识cookie"><a href="#认识cookie" class="headerlink" title="认识cookie"></a>认识cookie</h4><p>我遇到的主要问题就是在cookie的封装。cookie在我的理解就是一种客户端和服务器端保持链接的一种方式吧。主要来说就是，客户端登陆后，服务器端返回cookie标记这个用户，然后客户端再次请求的时候要再请求头中加入cookie，来标识身份，然后通过服务器端就会通过这个cookie来认定客户端。（说成大白话就是，客户端第一次进门的时候服务器端给了一个手牌，然后客户端在瞎逛的时候要拿着这个手牌，不然服务器端就不认他）。这是我对cookie的理解，也不知道是不是准确。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>我开始用两种方式获取到看cookie。。。。很诡异吧两种关键还不一样感觉。。一种方式我从AFN的相应报头中获取的，另一种我是通过NSHTTPCookie这个iOS对象获取的。当时很懵逼。感觉像是得到了两个东西一样，但是不知道要用哪一个。。。哎很难受啊。于是各种百度。最后看来这个一片文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/it520nm/article/details/38868491">我的救星</a>其中的一句话给我很重要的帮助</p>
+<blockquote>
+<p>使用NSHTTPCookie的类方法可以将NSHTTPCookie实例与HTTP cookie header相互转换.</p>
+</blockquote>
+<blockquote>
+<p>根据NSHTTPCookie实例数组生成对应的HTTP cookie header</p>
+</blockquote>
+<blockquote>
+<p>宛如醍醐灌顶啊。。。</p>
+</blockquote>
+<p>在iOS中其实是有专门管理cookie的，他们是NSHTTPCookie和NSHTTPCookieStorage 其中NSHTTPCookie是每一个cookie对应的iOS对象，而NSHTTPCookieStorage是一个cookie的容器。这个cookie本来是在响应的包头中的，iOS将其转换为NSHTTPCookie然后再由NSHTTPCookieStorage这个容器来管理。（自己的理解）于是茅塞顿开</p>
+<p>剩下的就撸代码了。<br>其中还有几点，我尝试用NSHTTPCookie来设置cookie但是从AFN的请求头并没有cookie，于是尝试了另外一种就是直接给AFN设置请求头，这个效果函数很好的，我没有抓包工具去测试，但是我看了AFN的请求头确实包含了cookie字段。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/minggeqingchun/article/details/77051175">AFN查看请求头响应头</a></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>放假了，清明节没出去，今天在宿舍泡一天美滋滋，明天照常上班学习去，假期最后一天打算和舍友骑着小蓝溜一圈去<del>~ （在宿舍写的博客。坐着真是不舒服啊 写的不见谅了 给位大佬，也请大家指出说的不对不好的地方一起努力学习</del>）<br><a target="_blank" rel="noopener" href="https://github.com/AkaShark/HelloAFN">github链接</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/iOS-AFN-Cookie/">iOS AFN Cookie</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/05/07/MyFirstSwift/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">我的第一个swift项目</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "对于AFN的简单封装（Cookie）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
