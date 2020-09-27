@@ -1,37 +1,415 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近在准备面试~打算暑假的时候去面试去，去看一看公司的氛围，毕竟总是埋头苦学也不知道自己的水平咋样。去尝试下看看自己的分量。（还有上次说好了要更新上一篇提到的知识点的。。。）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于iOS的深浅拷贝">
+<meta property="og:url" content="http://example.com/2018/06/10/H/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近在准备面试~打算暑假的时候去面试去，去看一看公司的氛围，毕竟总是埋头苦学也不知道自己的水平咋样。去尝试下看看自己的分量。（还有上次说好了要更新上一篇提到的知识点的。。。）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/a4a9debbly1fs61mk33mdj20w20hoadl.jpg">
+<meta property="article:published_time" content="2018-06-10T02:25:53.000Z">
+<meta property="article:modified_time" content="2018-06-10T07:21:28.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="iOS学习 面试学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/a4a9debbly1fs61mk33mdj20w20hoadl.jpg">
+
+<link rel="canonical" href="http://example.com/2018/06/10/H/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>关于iOS的深浅拷贝 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/06/10/H/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于iOS的深浅拷贝
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-06-10 10:25:53 / 修改时间：15:21:28" itemprop="dateCreated datePublished" datetime="2018-06-10T10:25:53+08:00">2018-06-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近在准备面试~打算暑假的时候去面试去，去看一看公司的氛围，毕竟总是埋头苦学也不知道自己的水平咋样。去尝试下看看自己的分量。（还有上次说好了要更新上一篇提到的知识点的。。。）</p>
+<a id="more"></a>
+<p>这两天看了一个ios的知识点关于深浅拷贝的问题，首先推荐几篇不错的<a target="_blank" rel="noopener" href="https://www.zybuluo.com/MicroCai/note/50592">我觉得讲的超级好</a>在这里也谢谢大佬们无私的分享，对应我这个的小白真的有很大的帮助~<br>好了接下来就来讲讲我的学习理解好实验吧~</p>
+<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>还有一篇大佬写的blog也是超级棒，<a target="_blank" rel="noopener" href="http://www.fanliugen.com/?p=278">blog</a>其实主要内容都是差不多。  然后废话说完了 开始我的记录。</p>
+<h1 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h1><p>先说下什么叫做深复制和浅复制吧，深复制就像他的名字一样是一个深度的复制，意识就是说是将这个对象进行的复制，在内存空间中再开辟一不部分专门来放置这个复制的对象，而复制就是将指向这个对象的指针进行复制，复制一个新的指针指向原来的那一份内存空间，内存空间不再分配内存。<br>盗图大法~<br><img src="https://ws1.sinaimg.cn/large/a4a9debbly1fs61mk33mdj20w20hoadl.jpg"><br>对于iOS系统提供的分为两种，一种是集合类（容器类）对象，另一种是非集合类（非容器类）现在分别来说下。</p>
+<h2 id="集合类的浅拷贝"><a href="#集合类的浅拷贝" class="headerlink" title="集合类的浅拷贝"></a>集合类的浅拷贝</h2><p>我这里就用了blog里面的例子了，例子我也是一个一个尝试了没问题的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSArray *someArray &#x3D; @[@&quot;a&quot;,@&quot;b&quot;,@&quot;c&quot;];</span><br><span class="line">NSArray *shallowCopyArray &#x3D; [someArray copyWithZone:nil];</span><br><span class="line">NSSet *shallowCopySet &#x3D; [NSSet mutableCopyWithZone:nil];</span><br><span class="line">NSDictionary *shallowCopyDict &#x3D; [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:NO];</span><br></pre></td></tr></table></figure>
+<p>可以复制运行下，看看shallowArray和someArray的内存地址。（可以使用NSLog（@“%p”,someArray）;或者采用lldb的p来打印地址）<br>经过打印我们发现这个内存地址是不变的。很明显他们指向的内存地址是相同的这个就是一个浅拷贝，只是简单将指针进行了拷贝。</p>
+<h2 id="集合的深拷贝"><a href="#集合的深拷贝" class="headerlink" title="集合的深拷贝"></a>集合的深拷贝</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary *someDictionary &#x3D; @&#123;@&quot;0&quot;:@&quot;a&quot;,@&quot;1&quot;:@&quot;b&quot;&#125;;</span><br><span class="line">NSDictionary *shallowCopyDict &#x3D; [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:YES];</span><br></pre></td></tr></table></figure>
+<p>采用这种initWithArray：cpyItem设置YES是深拷贝这个someDicTionary这个对象，在内存开辟内存放着拷贝的someDicTionary对象（说下我自己的理解不知道对不对，我觉得这个字典是一个结构体，在结构体里面的键值对也是一个一个指针，指向键值对存放到内存空间，这个方法拷贝的只是这个结构体这个对象但是对于他厘米的指针采用的浅拷贝拷贝指针）这个在一篇大佬的blog写的叫做一层内存拷贝，说白了就是只是拷贝了这个对象但是对象内部的都采用的浅拷贝。</p>
+<p>采用归档的方法创建的是真正意义上的深拷贝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSArray *oldArray &#x3D; @[@&quot;a&quot;,@&quot;b&quot;,@&quot;c&quot;];</span><br><span class="line">NSArray *trueDeepCopyArray &#x3D; [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:oldArray]];</span><br></pre></td></tr></table></figure>
+<p>然后就是一些比较简单的东西记录下 直接引用大佬写的啦。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString *string &#x3D; [NSMutableString stringWithString: @&quot;origin&quot;];</span><br><span class="line">&#x2F;&#x2F;copy</span><br><span class="line">NSString *stringCopy &#x3D; [string copy];</span><br><span class="line">NSMutableString *mStringCopy &#x3D; [string copy];</span><br><span class="line">NSMutableString *stringMCopy &#x3D; [string mutableCopy];</span><br><span class="line">&#x2F;&#x2F;change value</span><br><span class="line">[mStringCopy appendString:@&quot;mm&quot;]; &#x2F;&#x2F;crash</span><br><span class="line">[string appendString:@&quot; origion!&quot;];</span><br><span class="line">[stringMCopy appendString:@&quot;!!&quot;];</span><br></pre></td></tr></table></figure>
+<p>这个运行会出现错误，但是为啥呢。~ 在<code>[mStringCopy appendString:@&quot;mm&quot;]; </code>在这句gg 因为mStringCopy是对一个NSMutableString进行了copy操作的，一个MU对象进行了copy有变成了一个不可变的对象，这个可以看下XCode上面的这个对象的isa指针指向的是NSString 然后对一个不可变对象你调用这个方法 那不就G了么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在非集合类对象中：对immutable对象进行copy操作，是指针复制，mutableCopy操作时内容复制；对mutable对象进行copy和mutableCopy都是内容复制。用代码简单表示如下：</span><br><span class="line"></span><br><span class="line">[immutableObject copy] &#x2F;&#x2F; 浅复制</span><br><span class="line">[immutableObject mutableCopy] &#x2F;&#x2F;深复制</span><br><span class="line">[mutableObject copy] &#x2F;&#x2F;深复制</span><br><span class="line">[mutableObject mutableCopy] &#x2F;&#x2F;深复制</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">集合类对象是指NSArray、NSDictionary、NSSet ... 之类的对象。下面先看集合类immutable对象使用copy和mutableCopy的一个例子：</span><br><span class="line"></span><br><span class="line">NSArray *array &#x3D; @[@[@&quot;a&quot;, @&quot;b&quot;], @[@&quot;c&quot;, @&quot;d&quot;]],[NSMutableArray arrayWithObject:@&quot;1&quot;,@&quot;2&quot;]];</span><br><span class="line">NSArray *copyArray &#x3D; [array copy];</span><br><span class="line">NSMutableArray *mCopyArray &#x3D; [array mutableCopy];</span><br></pre></td></tr></table></figure>
+<p>这个不可变的集合类和非集合类类似，但是这里有一点要说下，比如说我现在要去改变这个数组的最后一个元素。你该怎么办呢~因为采用copy是浅拷贝所以这个copyArray这个指针和原来的array指向的是一块内存空间。然而mCopyArray虽然是mutableCopy是一个深拷贝但是他拷贝的就是array这个对象，但是对其中的元素还是指针拷贝，所以这几个数组内元素对应的内存空间都是一样的，所以我们只要取出其中的一个然后修改就好了这个些数组都会改变的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *muArray &#x3D; [array  objectAtIndex:1];</span><br><span class="line">[muArray addObject:@[@&quot;耶耶耶&quot;]];</span><br></pre></td></tr></table></figure>
+<p>然后打印看看你的那些数组元素吧。这里还要说一下就是关于取出这个指针的时候不可以直接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[array lastObject] &#x3D; @[@&quot;ooo&quot;];</span><br></pre></td></tr></table></figure>
+<p>这样的话是将@[@”ooo”]这个临时变量的付给了array lastObject这个改变了array lastObject这个指针，这样只会修改对应的哪一个数组的元素，但不会对应每个数组都生效的。<br>继续继续</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *array &#x3D; [NSMutableArray arrayWithObjects:[NSMutableString stringWithString:@&quot;a&quot;],@&quot;b&quot;,@&quot;c&quot;,nil];</span><br><span class="line">NSArray *copyArray &#x3D; [array copy];</span><br><span class="line">NSMutableArray *mCopyArray &#x3D; [array mutableCopy];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在集合类对象中，对immutable对象进行copy，是指针复制，mutableCopy是内容复制；对mutable对象进行copy和mutableCopy都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：</span><br><span class="line"></span><br><span class="line">[immutableObject copy] &#x2F;&#x2F; 浅复制</span><br><span class="line">[immutableObject mutableCopy] &#x2F;&#x2F;单层深复制</span><br><span class="line">[mutableObject copy] &#x2F;&#x2F;单层深复制</span><br><span class="line">[mutableObject mutableCopy] &#x2F;&#x2F;单层深复制</span><br></pre></td></tr></table></figure>
+<p>总结下~：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1、对不可变的对象进行mutableCopy操作,是进行了一次深拷贝，返回的对象是可变的对象。</span><br><span class="line"></span><br><span class="line">2、对不可变的对象进行copy操作，进行了一次浅拷贝，返回一个不可变的对象。</span><br><span class="line"></span><br><span class="line">3、对可变得对象进行copy，进行了深拷贝，产生了不可变的对象副本。</span><br><span class="line"></span><br><span class="line">4、 对可变的对象进行了一次mutableCopy，是进行了一次深拷贝， 返回的对象是一个可变的对象。</span><br><span class="line"></span><br><span class="line">5、想要让自定义的对象支持copy和mutableCopy那么就要对应实现NSCopying协议，和NSMutableCopying协议。</span><br><span class="line"></span><br><span class="line">retain和copy的区别：</span><br><span class="line"> 1、retain是对当前对象增加了一个指针指向，使对象的引用计数器加1， 是进行了一次安全的浅拷贝操作。</span><br><span class="line"> 2、copy是对当前对象进行了一次拷贝，重新拷贝了当前对象，当使用的时候减少了对当前对象的依赖。</span><br></pre></td></tr></table></figure>
+
+<p>好了就是这样了 这就我对应深浅拷贝的简单理解。 谢谢大佬们的帮助~<br>做下简单的记录 方便自己以后的学习。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS%E5%AD%A6%E4%B9%A0-%E9%9D%A2%E8%AF%95%E5%AD%A6%E4%B9%A0/" rel="tag"># iOS学习 面试学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/07/MyFirstSwift/" rel="prev" title="我的第一个swift项目">
+      <i class="fa fa-chevron-left"></i> 我的第一个swift项目
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/10/KVO/" rel="next" title="KVO了解学习">
+      KVO了解学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A6%96%E5%85%88"><span class="nav-number">2.</span> <span class="nav-text">首先</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%B1%BB%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.</span> <span class="nav-text">集合类的浅拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">集合的深拷贝</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

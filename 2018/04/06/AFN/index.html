@@ -1,37 +1,402 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前记最近在隔壁的小组有一个项目，由于好久没有学习iOS，所有想乘机温习下功课，然后就主动请缨，帮助他们一起写项目，因为这个项目是有网络请求的（话说都有吧）然后觉得之前用的学长的一些网络请求有点不是很理解，然后就想自己也来封装一个（其实就是想装逼么。。。）好废话不多说 开整。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于AFN的简单封装（Cookie）">
+<meta property="og:url" content="http://example.com/2018/04/06/AFN/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前记最近在隔壁的小组有一个项目，由于好久没有学习iOS，所有想乘机温习下功课，然后就主动请缨，帮助他们一起写项目，因为这个项目是有网络请求的（话说都有吧）然后觉得之前用的学长的一些网络请求有点不是很理解，然后就想自己也来封装一个（其实就是想装逼么。。。）好废话不多说 开整。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-06T05:07:46.000Z">
+<meta property="article:modified_time" content="2018-04-06T05:09:38.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="iOS AFN Cookie">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/04/06/AFN/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>对于AFN的简单封装（Cookie） | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/04/06/AFN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          对于AFN的简单封装（Cookie）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-04-06 13:07:46 / 修改时间：13:09:38" itemprop="dateCreated datePublished" datetime="2018-04-06T13:07:46+08:00">2018-04-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h3><p>最近在隔壁的小组有一个项目，由于好久没有学习iOS，所有想乘机温习下功课，然后就主动请缨，帮助他们一起写项目，因为这个项目是有网络请求的（话说都有吧）然后觉得之前用的学长的一些网络请求有点不是很理解，然后就想自己也来封装一个（其实就是想装逼么。。。）好废话不多说 开整。</p>
+<a id="more"></a>
+
+<h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><p>这个封装是基于AFN（iOS网络请求最好的框架）用的AFN3.0。其实就是感觉就是将复杂重复的代码提取到了一起，然后再统一的调用，这个就是应该所谓的代码高聚合低耦合吧。（不知道这个算不算是设计模式中的工厂模式，请各位知道的大佬给提个醒~）</p>
+<h3 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h3><p>这个类总共封装了9个方法，其中包裹简单的get和post封装，还有上传图片的方法，其中最主要的，也是花时间最长的封装是关于cookie的封装，关于cookie的封装我遇到了一些小的问题等下再跟大家一一到来。废话少说，上代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> 注：以下封装只针对json数据</span><br><span class="line"> *&#x2F;</span><br><span class="line">@interface HelloAFN : NSObject</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 时间戳</span><br><span class="line"></span><br><span class="line"> @return 返回时间戳</span><br><span class="line"> *&#x2F;</span><br><span class="line">+(NSString *)TheTimeStamp;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 封装get请求</span><br><span class="line"> </span><br><span class="line"> @param URLString URL</span><br><span class="line"> @param parameters 参数字典</span><br><span class="line"> @param succeed 成功后返回的JSON数据</span><br><span class="line"> @param failure 失败后返回的JSON数据</span><br><span class="line"> *&#x2F;</span><br><span class="line">+ (void)GET:(NSString *)URLString parameters:(id)parameters succeed:(void (^)(id responseObject))succeed failure:(void (^)(NSError *error))failure;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 封装post请求</span><br><span class="line"> </span><br><span class="line"> @param URLString URL</span><br><span class="line"> @param parameters 参数字典</span><br><span class="line"> @param success 成功后返回的JSON</span><br><span class="line"> @param failure 失败后返回的JSON</span><br><span class="line"> *&#x2F;</span><br><span class="line">+ (void)POST:(NSString *)URLString parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 这个请求过后的请求需要添加cookie（一般是在登陆的请求）</span><br><span class="line"></span><br><span class="line"> @param URLString 请求URL</span><br><span class="line"> @param parameters 参数</span><br><span class="line"> @param succeed 成功json</span><br><span class="line"> @param failure 是吧json</span><br><span class="line"> @param is 是否需要cookie</span><br><span class="line"> </span><br><span class="line"> *&#x2F;</span><br><span class="line">+ (void)GET:(NSString *)URLString parameters:(id)parameters succeed:(void (^)(id responseObject))succeed failure:(void (^)(NSError *error))failure andWithCookie:(BOOL)is;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 这个请求过后的请求需要添加cookie（一般是在登陆的请求）此方法一般常用</span><br><span class="line"> @param URLString 请求url</span><br><span class="line"> @param parameters 参数</span><br><span class="line"> @param success 成功json</span><br><span class="line"> @param failure 失败json</span><br><span class="line"> @param is 是否需要</span><br><span class="line"> *&#x2F;</span><br><span class="line">+ (void)POST:(NSString *)URLString parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure andWithCookie: (BOOL)is;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 上传图片</span><br><span class="line"> (大的图片有压缩)</span><br><span class="line"> @param dic 除去图片还需要的参数</span><br><span class="line"> @param imgDic 图片的字典</span><br><span class="line"> @param url 上传的url</span><br><span class="line"> @param success 成功回调</span><br><span class="line"> @param faile 失败回调</span><br><span class="line"> *&#x2F;</span><br><span class="line">+(void)PostThrImagesWithDic:(NSDictionary *)dic WithImg:(NSDictionary *)imgDic url:(NSString *)url success:(void (^)(NSDictionary *))success faile:(void (^)(NSError *))faile;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 移除cookie</span><br><span class="line"> *&#x2F;</span><br><span class="line">+(void)removeAllCookie;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 更新cookie</span><br><span class="line"> *&#x2F;</span><br><span class="line">+(void)upDataTheCookie;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 上传图片（含有cookie）</span><br><span class="line"></span><br><span class="line"> @param dic 其他参数</span><br><span class="line"> @param imgDic image字典</span><br><span class="line"> @param url url地址</span><br><span class="line"> @param success 成功回调</span><br><span class="line"> @param faile 失败回调</span><br><span class="line"> @param yes 是否cookie</span><br><span class="line"> *&#x2F;</span><br><span class="line">+(void)PostThrImagesWithDic:(NSDictionary *)dic WithImg:(NSDictionary *)imgDic url:(NSString *)url success:(void (^)(NSDictionary *))success faile:(void (^)(NSError *))faile is:(BOOL)yes;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>以上就是我在.h中封装的一些函数头，这些函数的功能已经写得详细了。<br>然后就是.m的些内容了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br></pre></td><td class="code"><pre><span class="line">@implementation HelloAFN</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;时间戳</span><br><span class="line">+ (NSString *)TheTimeStamp&#123;</span><br><span class="line">    &#x2F;&#x2F;设置一个NSDateFormatter的格式</span><br><span class="line">    NSDateFormatter *formatter &#x3D; [[NSDateFormatter alloc] init];</span><br><span class="line">    [formatter setDateFormat:@&quot;yyyyMMddHHmmssSSS&quot;];</span><br><span class="line">    return [formatter stringFromDate:[NSDate date]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;get</span><br><span class="line">+ (void)GET:(NSString *)URLString parameters:(id)parameters succeed:(void (^)(id responseObject))succeed failure:(void (^)(NSError *error))failure</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    &#x2F;&#x2F;申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;如果报接受类型不一致请替换一致text&#x2F;html或别的</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;,@&quot;application&#x2F;json&quot;,@&quot;&quot;,@&quot;&quot;,nil];</span><br><span class="line">    &#x2F;&#x2F;发送网络请求(请求方式为GET)</span><br><span class="line">    [manager GET:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) &#123;</span><br><span class="line">        &#x2F;&#x2F;会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        succeed(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        failure(error);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;post</span><br><span class="line">+ (void)POST:(NSString *)URLString parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure&#123;</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;返回非json</span><br><span class="line">    manager.responseSerializer &#x3D; [AFHTTPResponseSerializer serializer];</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;image 加解析 image&#x2F;</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;application&#x2F;json&quot;, @&quot;text&#x2F;json&quot;, @&quot;text&#x2F;javascript&quot;, @&quot;text&#x2F;html&quot;,nil];</span><br><span class="line">    </span><br><span class="line">    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line">        &#x2F;&#x2F;会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        success(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        failure(error);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;cookie get</span><br><span class="line">+ (void)GET:(NSString *)URLString parameters:(id)parameters succeed:(void (^)(id responseObject))succeed failure:(void (^)(NSError *error))failure andWithCookie:(BOOL)is</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    &#x2F;&#x2F;申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;如果报接受类型不一致请替换一致text&#x2F;html或别的</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;,@&quot;application&#x2F;json&quot;,@&quot;text&#x2F;json&quot;,@&quot;&quot;,nil];</span><br><span class="line">&#x2F;&#x2F;     需要cookie</span><br><span class="line">    if(is)</span><br><span class="line">    &#123;</span><br><span class="line">        NSArray *cookies &#x3D; [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];</span><br><span class="line">        </span><br><span class="line">            &#x2F;&#x2F;在afn中设置cookie</span><br><span class="line">            NSString *cookie &#x3D; [[NSString alloc] init];</span><br><span class="line">            NSDictionary *dic &#x3D;[NSHTTPCookie requestHeaderFieldsWithCookies:cookies];</span><br><span class="line">            if ([dic[@&quot;Cookie&quot;] isKindOfClass:[NSArray class]])</span><br><span class="line">            &#123;</span><br><span class="line">                cookie &#x3D; dic[@&quot;Cookie&quot;][0];</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">                cookie &#x3D; dic[@&quot;Cookie&quot;];</span><br><span class="line">            &#125;</span><br><span class="line">            [manager.requestSerializer setValue:cookie forHTTPHeaderField:@&quot;Cookie&quot;];</span><br><span class="line">        </span><br><span class="line">&#x2F;&#x2F;            NSHTTPCookie *cookie;</span><br><span class="line">&#x2F;&#x2F;            for (cookie in cookies)</span><br><span class="line">&#x2F;&#x2F;            &#123;</span><br><span class="line">&#x2F;&#x2F;                [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:cookie];</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F;            &#125;</span><br><span class="line">&#x2F;&#x2F;        NSData *cookieData &#x3D; [NSKeyedArchiver archivedDataWithRootObject:cookies];</span><br><span class="line">        </span><br><span class="line">        NSUserDefaults *defaults &#x3D; [NSUserDefaults standardUserDefaults];</span><br><span class="line">        [defaults setObject:cookie forKey:@&quot;Cookie&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;发送网络请求(请求方式为GET)</span><br><span class="line">    [manager GET:URLString parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) &#123;</span><br><span class="line">        &#x2F;&#x2F;会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        succeed(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        failure(error);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;cookie post</span><br><span class="line">+(void)POST:(NSString *)URLString parameters:(id)parameters success:(void (^)(id))success failure:(void (^)(NSError *))failure andWithCookie:(BOOL)is</span><br><span class="line">&#123;</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">    &#x2F;&#x2F;返回非json</span><br><span class="line">    manager.responseSerializer &#x3D; [AFHTTPResponseSerializer serializer];</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;image 加解析 image&#x2F;</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;application&#x2F;json&quot;, @&quot;text&#x2F;json&quot;, @&quot;text&#x2F;javascript&quot;, @&quot;text&#x2F;html&quot;,nil];</span><br><span class="line">&#x2F;&#x2F;    装入cookie</span><br><span class="line">    if(is)</span><br><span class="line">    &#123;</span><br><span class="line">        NSArray *cookies &#x3D; [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F;&#x2F;            在afn中设置cookie</span><br><span class="line">                        NSString *cookie &#x3D; [[NSString alloc] init];</span><br><span class="line">                        NSDictionary *dic &#x3D;[NSHTTPCookie requestHeaderFieldsWithCookies:cookies];</span><br><span class="line">                        if ([dic[@&quot;Cookie&quot;] isKindOfClass:[NSArray class]])</span><br><span class="line">                        &#123;</span><br><span class="line">                            cookie &#x3D; dic[@&quot;Cookie&quot;][0];</span><br><span class="line">                        &#125;</span><br><span class="line">                        else&#123;</span><br><span class="line">                            cookie &#x3D; dic[@&quot;Cookie&quot;];</span><br><span class="line">                        &#125;</span><br><span class="line">                        [manager.requestSerializer setValue:cookie forHTTPHeaderField:@&quot;Cookie&quot;];</span><br><span class="line">        </span><br><span class="line">&#x2F;&#x2F;            NSHTTPCookie *cookie;</span><br><span class="line">&#x2F;&#x2F;            for (cookie in cookies)</span><br><span class="line">&#x2F;&#x2F;            &#123;</span><br><span class="line">&#x2F;&#x2F;                [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:cookie];</span><br><span class="line">&#x2F;&#x2F;                </span><br><span class="line">&#x2F;&#x2F;            &#125;</span><br><span class="line">&#x2F;&#x2F;            NSData *cookieData &#x3D; [NSKeyedArchiver archivedDataWithRootObject:cookies];</span><br><span class="line">        </span><br><span class="line">        NSUserDefaults *defaults &#x3D; [NSUserDefaults standardUserDefaults];</span><br><span class="line">        [defaults setObject:cookie forKey:@&quot;Cookie&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line">        &#x2F;&#x2F;会话 可以在这里上传下载 *downloadProgress A block object to be executed when the download progress is updated. Note this block is called on the session queue, not the main queue.</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        success(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        failure(error);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;images</span><br><span class="line">+(void)PostThrImagesWithDic:(NSDictionary *)dic WithImg:(NSDictionary *)imgDic url:(NSString *)url success:(void (^)(NSDictionary *))success faile:(void (^)(NSError *))faile</span><br><span class="line">&#123;</span><br><span class="line">    AFHTTPSessionManager *postAvatarManger &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    postAvatarManger.responseSerializer &#x3D; [AFHTTPResponseSerializer serializer];</span><br><span class="line">    [postAvatarManger POST:url parameters:dic constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;</span><br><span class="line">        for (id key in imgDic)</span><br><span class="line">        &#123;</span><br><span class="line">            UIImage *image &#x3D; [imgDic objectForKey:key];</span><br><span class="line">            NSData *data &#x3D; [[NSData alloc] init];</span><br><span class="line">            data &#x3D; UIImageJPEGRepresentation(image, 1.0);</span><br><span class="line">            CGFloat count &#x3D; 100;</span><br><span class="line">            while (data.length&gt;102400)</span><br><span class="line">            &#123;</span><br><span class="line">                count--;</span><br><span class="line">                data &#x3D; UIImageJPEGRepresentation(image, count&#x2F;100);</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;name: 后台规定的key</span><br><span class="line">            &#x2F;&#x2F;fileName:自己给文件起名</span><br><span class="line">            &#x2F;&#x2F;mimeType :图片类型</span><br><span class="line">            [formData appendPartWithFileData:data name:[NSString stringWithFormat:@&quot;%@&quot;,key] fileName:[NSString stringWithFormat:@&quot;%@.jpeg&quot;,key] mimeType:@&quot;image&#x2F;jpeg&quot;];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125; progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line">        nil;</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        success(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        faile(error);</span><br><span class="line">    </span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;cookie images</span><br><span class="line">+(void)PostThrImagesWithDic:(NSDictionary *)dic WithImg:(NSDictionary *)imgDic url:(NSString *)url success:(void (^)(NSDictionary *))success faile:(void (^)(NSError *))faile is:(BOOL)yes</span><br><span class="line">&#123;</span><br><span class="line">    AFHTTPSessionManager *postAvatarManger &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">    if(yes)</span><br><span class="line">    &#123;</span><br><span class="line">&#x2F;&#x2F;        取出cookie</span><br><span class="line">        NSUserDefaults *defaults &#x3D; [NSUserDefaults standardUserDefaults];</span><br><span class="line">        NSString *cookie &#x3D;[defaults objectForKey:@&quot;Cookie&quot;];</span><br><span class="line">&#x2F;&#x2F;        放到请求头中</span><br><span class="line">        [postAvatarManger.requestSerializer setValue:cookie forHTTPHeaderField:@&quot;Cookie&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    postAvatarManger.responseSerializer &#x3D; [AFHTTPResponseSerializer serializer];</span><br><span class="line">    [postAvatarManger POST:url parameters:dic constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;</span><br><span class="line">        for (id key in imgDic)</span><br><span class="line">        &#123;</span><br><span class="line">            UIImage *image &#x3D; [imgDic objectForKey:key];</span><br><span class="line">            NSData *data &#x3D; [[NSData alloc] init];</span><br><span class="line">            data &#x3D; UIImageJPEGRepresentation(image, 1.0);</span><br><span class="line">            CGFloat count &#x3D; 100;</span><br><span class="line">            while (data.length&gt;102400)</span><br><span class="line">            &#123;</span><br><span class="line">                count--;</span><br><span class="line">                data &#x3D; UIImageJPEGRepresentation(image, count&#x2F;100);</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;name: 后台规定的key</span><br><span class="line">            &#x2F;&#x2F;fileName:自己给文件起名</span><br><span class="line">            &#x2F;&#x2F;mimeType :图片类型</span><br><span class="line">            [formData appendPartWithFileData:data name:[NSString stringWithFormat:@&quot;%@&quot;,key] fileName:[NSString stringWithFormat:@&quot;%@.jpeg&quot;,key] mimeType:@&quot;image&#x2F;jpeg&quot;];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125; progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line">        nil;</span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        success(responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        faile(error);</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;清除cookie</span><br><span class="line">+(void)removeAllCookie</span><br><span class="line">&#123;</span><br><span class="line">    NSUserDefaults *defatlus &#x3D; [NSUserDefaults standardUserDefaults];</span><br><span class="line">&#x2F;&#x2F;    转化字典</span><br><span class="line">    NSDictionary *dictionary &#x3D; [defatlus dictionaryRepresentation];</span><br><span class="line">    for (NSString *key in [dictionary allKeys])</span><br><span class="line">    &#123;</span><br><span class="line">        if ([key isEqualToString:@&quot;Cookie&quot;])</span><br><span class="line">        &#123;</span><br><span class="line">            [defatlus removeObjectForKey:key];</span><br><span class="line">            [defatlus synchronize];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 更新cookie</span><br><span class="line">+(void)upDataTheCookie</span><br><span class="line">&#123;</span><br><span class="line">    NSArray *cookies &#x3D; [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];</span><br><span class="line">    NSString *cookie &#x3D; [[NSString alloc] init];</span><br><span class="line">    NSDictionary *dic &#x3D; [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];</span><br><span class="line">    if ([dic[@&quot;Cookie&quot;] isKindOfClass:[NSArray class]])</span><br><span class="line">    &#123;</span><br><span class="line">        cookie &#x3D; dic[@&quot;Cookie&quot;][0];</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        cookie &#x3D; dic[@&quot;Cookie&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    NSUserDefaults *defaults &#x3D; [NSUserDefaults standardUserDefaults];</span><br><span class="line">    [defaults setObject:cookie forKey:@&quot;Cookie&quot;];</span><br><span class="line">    [defaults synchronize];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>里面的代码也有注释，相关的说明。下面就主要说下我遇到的问题吧。和怎么去解决的吧。</p>
+<h3 id="问题好相应的解决"><a href="#问题好相应的解决" class="headerlink" title="问题好相应的解决"></a>问题好相应的解决</h3><h4 id="认识cookie"><a href="#认识cookie" class="headerlink" title="认识cookie"></a>认识cookie</h4><p>我遇到的主要问题就是在cookie的封装。cookie在我的理解就是一种客户端和服务器端保持链接的一种方式吧。主要来说就是，客户端登陆后，服务器端返回cookie标记这个用户，然后客户端再次请求的时候要再请求头中加入cookie，来标识身份，然后通过服务器端就会通过这个cookie来认定客户端。（说成大白话就是，客户端第一次进门的时候服务器端给了一个手牌，然后客户端在瞎逛的时候要拿着这个手牌，不然服务器端就不认他）。这是我对cookie的理解，也不知道是不是准确。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>我开始用两种方式获取到看cookie。。。。很诡异吧两种关键还不一样感觉。。一种方式我从AFN的相应报头中获取的，另一种我是通过NSHTTPCookie这个iOS对象获取的。当时很懵逼。感觉像是得到了两个东西一样，但是不知道要用哪一个。。。哎很难受啊。于是各种百度。最后看来这个一片文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/it520nm/article/details/38868491">我的救星</a>其中的一句话给我很重要的帮助</p>
+<blockquote>
+<p>使用NSHTTPCookie的类方法可以将NSHTTPCookie实例与HTTP cookie header相互转换.</p>
+</blockquote>
+<blockquote>
+<p>根据NSHTTPCookie实例数组生成对应的HTTP cookie header</p>
+</blockquote>
+<blockquote>
+<p>宛如醍醐灌顶啊。。。</p>
+</blockquote>
+<p>在iOS中其实是有专门管理cookie的，他们是NSHTTPCookie和NSHTTPCookieStorage 其中NSHTTPCookie是每一个cookie对应的iOS对象，而NSHTTPCookieStorage是一个cookie的容器。这个cookie本来是在响应的包头中的，iOS将其转换为NSHTTPCookie然后再由NSHTTPCookieStorage这个容器来管理。（自己的理解）于是茅塞顿开</p>
+<p>剩下的就撸代码了。<br>其中还有几点，我尝试用NSHTTPCookie来设置cookie但是从AFN的请求头并没有cookie，于是尝试了另外一种就是直接给AFN设置请求头，这个效果函数很好的，我没有抓包工具去测试，但是我看了AFN的请求头确实包含了cookie字段。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/minggeqingchun/article/details/77051175">AFN查看请求头响应头</a></p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>放假了，清明节没出去，今天在宿舍泡一天美滋滋，明天照常上班学习去，假期最后一天打算和舍友骑着小蓝溜一圈去<del>~ （在宿舍写的博客。坐着真是不舒服啊 写的不见谅了 给位大佬，也请大家指出说的不对不好的地方一起努力学习</del>）<br><a target="_blank" rel="noopener" href="https://github.com/AkaShark/HelloAFN">github链接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS-AFN-Cookie/" rel="tag"># iOS AFN Cookie</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/07/MyFirstSwift/" rel="next" title="我的第一个swift项目">
+      我的第一个swift项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">前记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">2.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">正题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%A5%BD%E7%9B%B8%E5%BA%94%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="nav-number">4.</span> <span class="nav-text">问题好相应的解决</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86cookie"><span class="nav-number">4.1.</span> <span class="nav-text">认识cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">4.2.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

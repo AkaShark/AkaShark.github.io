@@ -1,23 +1,1024 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/14/%E7%99%BE%E5%BA%A6%E4%B8%89%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/14/%E7%99%BE%E5%BA%A6%E4%B8%89%E9%9D%A2/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-14 14:13:14 / 修改时间：15:29:02" itemprop="dateCreated datePublished" datetime="2020-01-14T14:13:14+08:00">2020-01-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="百度三面"><a href="#百度三面" class="headerlink" title="百度三面"></a>百度三面</h1><p>过年放假下学期没啥事情不用去学校啦，想着找找实习机缘巧合下获得了百度的面试机会这里分享下经验（面的百度凤巢部门iOS开发岗位）</p>
+<p>###一面<br>一面的面试官好像不是个iOS（他用的电脑不是Mac）所以他问的问题大部分都属于在学校学习的部分我以为面试完就和小伙伴玩耍去了所以问题有些忘了但是尽量回忆（本来是在一面二面三面的切换的时间记下来了但面试结束他把我的纸拿走了我又不要意思要回来。。。）</p>
+<p>一面问题：</p>
+<ul>
+<li>自我介绍（这就是有啥说啥呗）</li>
+<li>讲下关于自己做的项目(我说了一个在学校和老师合作的物联网项目)</li>
+</ul>
+<blockquote>
+<p>面试这些问题大家都懂的都必须要说的</p>
+</blockquote>
+<ul>
+<li>讲下关于HTTP/UDP/TCP 的区别</li>
+<li>讲下关于socket和http的区别（因为项目用到了socket）</li>
+</ul>
+<blockquote>
+<p>这里问的主要是关于网络相关的因为好久没有看过其实答得并不是很好</p>
+</blockquote>
+<ul>
+<li>说下关于线程和进程</li>
+</ul>
+<blockquote>
+<p>操作系统部分的</p>
+</blockquote>
+<ul>
+<li><p>谈些平时用的设计模式（我说了下MVC然后又简单提了下MVVM）</p>
+<blockquote>
+<p>设计模式</p>
+</blockquote>
+</li>
+<li><p>写一下怎么实现一个工厂类（工厂模式）说实话我还真不知道怎么去表达这个工厂模式 我问了下怎么表示用iOS么（我觉得他不是iOS我故意的想趁机多想想）结果面试官说句伪类就OK（然后我就用的语言的伪类表达了下。。。我觉的自己那个写的有点不明白还特意跟他解释了下）</p>
+</li>
+<li><p>写下用链表实现栈 实现push pop方法</p>
+</li>
+</ul>
+<blockquote>
+<p>这是手写的部分</p>
+</blockquote>
+<ul>
+<li>说下Delegate和Block的区别（iOS）</li>
+</ul>
+<blockquote>
+<p>估计大哥感觉我以为他不是iOS所以问了一个这个，我就简单说了下说着说着我觉得他不是iOS就多说了好几句想着他也不太清楚（好害怕。。。抖机灵了）</p>
+</blockquote>
+<p>写完这些差不多时间过去了快40分钟左右（期间可能还有些问题但是真的想不起来了，但是大概都是学校学的不难都有回答出来）完后一面就结束了老哥说去找下二面看看二面有时间么和我聊下，然后我就在那坐着等着。总的一面还算OK我自己觉得学校的知识扎实点应该没啥问题，而且面试官很温柔就是说话有点声音下俺都有点听不清。。。</p>
+<p>顺便观察了下百度大厦内部~ 面试是在百度科技园的2号楼 总的来说概括就是大气，干净。地板泛着光，而且整个大楼的采光不错很亮堂，我们在一楼的休息区面的旁边还有可能是小组再开讨论会之类的大家又说有笑感觉挺不错的整体的氛围。</p>
+<p>###二面<br>等了5分钟左右吧二面小哥来了，小哥哥上来就说我是咱们组的iOS。。。。（严重怀疑我抖机灵被发现了）</p>
+<blockquote>
+<p>用iOS实现单例模式(实锤肯定是一面告状了) 这个有点记得不是很清楚了就说出来了涉及到GCD还有重写copy方法之类的<br>Delegate和block的区别 平时怎么使用的 各有什么优缺点<br>写下声明一个NSString和block<br>为什么NSString用copy 如果不用strong会怎么样 NSArray用是什么修饰<br>NSMutableString用什么修饰 如果用copy会用问题么<br>block为什么用copy<br>block循环引用的原因 解决<br>堆栈的概念（这应该是问到block会拷贝到堆区所以才问了下）<br>block的原理（这里我说的不太清楚 面试官又给我讲了下）<br>平时用的常用的三方库有啥 我说的AFN和SD<br>说下AFN的原理和总体的架构<br>SD的整体思路<br>多线程的使用 什么场景下使用子线程<br>锁的相关概念<br>GCD的原理和操作<br>因为简历写了关于视频的部分所以问了下关于视频但是我们视频那个用的是FFmpeg所以我就简单说了下<br>长链接的应用<br>是否用过原生于web交互<br>数据结构图的概念和操作<br>二叉搜索树和平衡二叉树的概念<br>调平二叉平衡树<br>写下树的先序遍历的递归非递归</p>
+</blockquote>
+<p>完后我还想给面试官看下我的作品，面试官说时间差不多了（这一面差不多过了1个小时左右）我当时听他说时间差不多了，慌了以为凉了，他说让我等下去和三面商量下如果没有三面会把我送出去。</p>
+<p>哎 当时有点紧张了因为这一面的东西有的我记得不是清楚像第一个问题的单例我就没写出来，而且回答AFN和网络请求那个部分的有些问题说的太泛了（不具体没说到点上）反思就是自己的项目没有及时的去复习里面学到的东西，而且对于有些知识点的掌握停留在了解的地步还不够深入。<br>但二面小哥还是很好的整体的面试过程想是在讨论问题。</p>
+<h3 id="三面"><a href="#三面" class="headerlink" title="三面"></a>三面</h3><p>过了一会有人叫我我以为是二面的小哥要送我上路我一回头发现不是一个人。。。我心里笑开花了看来还有机会啊。三面的话没有问什么具体的问题。看来看我的作品问了问简单是实现，三面应该是iOS这边的组长之类的，我简单一说他就说。。哦 知道了。 我当时还以为他想快点吧我糊弄走呢。。。后来多聊几句发现这是他的口头禅。很好交流的面试官，简单问我几个问题之后，给我介绍了他们部门，然后就让我走了，还问了问关于生活的小问题，说整体感觉不错。然后就让我等通知了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>面试没问什么很难的问题，但是都很基础，很考验自己写的能力，代码都是手写的。要把知识学扎实，尤其是小的细节问题，这是我一直在学校就感觉自己做的不好的地方，以后要更加的注意遇到问题多想想原因。最后我觉得我能收到面试通过的消息得力于我那个几个算法写的还不错，所以要把算法提起来，多翻翻书。</p>
+<p>ps：因为面试完刚好到了小伙伴那边就想着找他待会，晚上又聊了好多睡得比较晚，今天回家歇会就赶快把题目上来，但是还是忘记了些细节，我会继续努力回忆把细节再补一补，答案也在这周会补全</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/12/29/%E5%8D%8A%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/29/%E5%8D%8A%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F/" class="post-title-link" itemprop="url">半年的感悟</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-29 16:00:32" itemprop="dateCreated datePublished" datetime="2019-12-29T16:00:32+08:00">2019-12-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/11/image%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F%E4%B8%8E%E5%86%85%E5%AD%98%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/11/image%E8%AF%BB%E5%8F%96%E6%96%B9%E5%BC%8F%E4%B8%8E%E5%86%85%E5%AD%98%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">image读取方式与内存调用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-11-11 18:35:53 / 修改时间：18:36:18" itemprop="dateCreated datePublished" datetime="2018-11-11T18:35:53+08:00">2018-11-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="关于iOS-UIImage的初始化方法"><a href="#关于iOS-UIImage的初始化方法" class="headerlink" title="关于iOS UIImage的初始化方法"></a>关于iOS UIImage的初始化方法</h1><p>两种方法：</p>
+<ul>
+<li>imageNamed：</li>
+<li>imageWithContentsOfFile：</li>
+</ul>
+<p>对于这两种方法：首先imageNamed我们最常用的他的特点是：</p>
+<ul>
+<li>用这种方式加载图片，一旦图片加载到内存中，那么就不会销毁，一直到程序退出，也就是说imageNamed会有图片缓存的功能，下次访问会变快，实际上调用这个方法会将image数据读入内存中，然后用image指针执行这个内存区域，这样的话我们将image指针赋值为nil，image的内存依然存在。</li>
+<li>用这种方式加载图片，内存有系统管理</li>
+<li>UIImage *image = [UIImage imageNamed: @“image”]的意思是创建一个UIImage对象，并不是说image这个本身就是一张图片，而是image指向一张图片。在创建这个对象的时候实际上并没有把真正的图片加载到内存里，而是等到用到图片的时候才会加载。</li>
+</ul>
+<p>然后就是这个imageWithContentsOfFile：</p>
+<ul>
+<li>使用这个方法加载图片的，当指向图片对象的指针销毁或指向其他对象，这个图片对象没有其他Strong指针指向的时候，这个图片会销毁。</li>
+<li>因为没有缓存多次加载图片那么会有多个图片对象占用内存。</li>
+<li>使用这个方法file要传递一个全路径（file 传递全路径）</li>
+<li>还有一点就是图片在image.xcassets中，是不能使用这个方法的。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在加载图片等比较小而且会多次用到的图片推荐使用imageNamed：<br>在加载比较大的图片而且使用次数不是很多的话，比如海报图片等推荐使用imageWithContentsOfFile<br>还用bundle中的图片可以使用这个两种方式来调用</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/08/%E6%9C%80%E8%BF%91%E7%94%9F%E6%B4%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/08/%E6%9C%80%E8%BF%91%E7%94%9F%E6%B4%BB/" class="post-title-link" itemprop="url">最近生活</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-11-08 10:44:15 / 修改时间：10:45:44" itemprop="dateCreated datePublished" datetime="2018-11-08T10:44:15+08:00">2018-11-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="关于最近的生活"><a href="#关于最近的生活" class="headerlink" title="关于最近的生活"></a>关于最近的生活</h1><h3 id="恋爱啦"><a href="#恋爱啦" class="headerlink" title="恋爱啦~"></a>恋爱啦<del>~</del></h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/08/%E6%9C%80%E8%BF%91%E7%94%9F%E6%B4%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/25/SomeThing-RemindsTo-me/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/25/SomeThing-RemindsTo-me/" class="post-title-link" itemprop="url">SomeThing RemindsTo me</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-10-25 19:38:13 / 修改时间：19:42:08" itemprop="dateCreated datePublished" datetime="2018-10-25T19:38:13+08:00">2018-10-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>记录每天的生活 学习，记录自己度过的每天的时光，我是不是很喜欢向往未来，同样我也不喜欢回忆过去 。这一周的学习生活过的其实并不是很好，最近和我喜欢的女生走到了一起，内心多少是有点嗯哼的。。。<br>但是我会尽快进入状态好好学习的，现在已经不是我在努力啦，是我们一起在努力+加油+</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/06/%E8%A7%A3%E5%86%B3pod%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/06/%E8%A7%A3%E5%86%B3pod%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">解决pod的一些小问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-09-06 13:35:37 / 修改时间：14:50:46" itemprop="dateCreated datePublished" datetime="2018-09-06T13:35:37+08:00">2018-09-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>好了最近状态有些不太好。。昨天晚上到今天（有点感冒身体不舒服.png）好了 昨天晚上在创建项目的时候用了下pod init结果 Oh no, an error occurred.<br>好吧。。很难受。。现在修复下吧那。<br>怎么搞呢 当然是百度 先看一下error 信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">RuntimeError - [Xcodeproj] Unknown object version.</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;xcodeproj-1.5.3&#x2F;lib&#x2F;xcodeproj&#x2F;project.rb:217:in &#96;initialize_from_file&#39;</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;xcodeproj-1.5.3&#x2F;lib&#x2F;xcodeproj&#x2F;project.rb:102:in &#96;open&#39;</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;cocoapods-1.3.1&#x2F;lib&#x2F;cocoapods&#x2F;command&#x2F;init.rb:41:in &#96;validate!&#39;</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;claide-1.0.2&#x2F;lib&#x2F;claide&#x2F;command.rb:333:in &#96;run&#39;</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;cocoapods-1.3.1&#x2F;lib&#x2F;cocoapods&#x2F;command.rb:52:in &#96;run&#39;</span><br><span class="line">&#x2F;Users&#x2F;kys-20&#x2F;.rvm&#x2F;gems&#x2F;ruby-2.4.0@global&#x2F;gems&#x2F;cocoapods-1.3.1&#x2F;bin&#x2F;pod:55:in &#96;&lt;top (required)&gt;&#39;</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;pod:23:in &#96;load&#39;</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;pod:23:in &#96;&lt;main&gt;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>简单查了一下说是这个Xcode版本和pod的版本不一样，好吧 很简单粗暴的解决下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods --pre</span><br><span class="line">更新下pod</span><br><span class="line">结果还是不行 好吧 在更新下gem好了 </span><br><span class="line">gem update</span><br><span class="line">再次pod init</span><br><span class="line">ok</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里要说一下 关于gem更换源的问题现在网上的很多教程都是要更换gem的源更换成<br><a target="_blank" rel="noopener" href="https://gems.ruby-china.org/">https://gems.ruby-china.org</a><br>但是这网站换了域名了,换成了<a target="_blank" rel="noopener" href="https://gems.ruby-china.com/">https://gems.ruby-china.com</a> 这个这个大家注意下 其实看报错信息可看的到的，就是提醒下大家。</p>
+<p>这里为小伙伴再说下pod 安装吧</p>
+<ol>
+<li>sudo gem install cocoapods （可以考虑更新下gem）</li>
+<li>没了</li>
+</ol>
+<p>Mac 都是自带gem 的更新下 换下源就OK了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/05/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/05/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">关于git的简单使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-09-05 15:45:19 / 修改时间：16:13:26" itemprop="dateCreated datePublished" datetime="2018-09-05T15:45:19+08:00">2018-09-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="关于Git的简单使用方式"><a href="#关于Git的简单使用方式" class="headerlink" title="关于Git的简单使用方式"></a>关于Git的简单使用方式</h1><p>首先在Git仓库创建一个远程仓库（国内有许多的平台，例如码云，Coding）当然还有著名的Github（同性交友网站） 书归正传 简单说下Git的使用我这个了用的平台是Coding和小伙伴一起用的 我先学会了 所有写点东西记录下也帮助他快速理解下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/05/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/01/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/01/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">排序算法学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-09-01 12:59:20 / 修改时间：13:05:00" itemprop="dateCreated datePublished" datetime="2018-09-01T12:59:20+08:00">2018-09-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h1><p>在做leetcode的题目“拆分数组”的题目遇到了排序的问题，所以来总结学习下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/01/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/29/apple%E6%9A%91%E6%9C%9F%E8%AE%AD%E7%BB%83%E8%90%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/29/apple%E6%9A%91%E6%9C%9F%E8%AE%AD%E7%BB%83%E8%90%A5/" class="post-title-link" itemprop="url">apple暑期训练营</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-29 22:11:41" itemprop="dateCreated datePublished" datetime="2018-08-29T22:11:41+08:00">2018-08-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-09-05 16:18:26" itemprop="dateModified" datetime="2018-09-05T16:18:26+08:00">2018-09-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>暑假来参加苹果组织的夏季训练营，结束了一天的学习来记录下。由于官方不让讲ppt拍照录像，所以就只能给大家一些文字的描述了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/29/apple%E6%9A%91%E6%9C%9F%E8%AE%AD%E7%BB%83%E8%90%A5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/29/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/29/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E9%A2%98/" class="post-title-link" itemprop="url">刷题训练手册</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-29 13:29:18" itemprop="dateCreated datePublished" datetime="2018-08-29T13:29:18+08:00">2018-08-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-11-27 13:07:00" itemprop="dateModified" datetime="2018-11-27T13:07:00+08:00">2018-11-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="算法题"><a href="#算法题" class="headerlink" title="算法题"></a>算法题</h1><p>坚持很重要。加油~</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/29/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
