@@ -5,6 +5,66 @@
     <link>https://akashark.github.io/</link>
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 07 Aug 2022 15:04:34 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First</title>
+      <link>https://akashark.github.io/posts/tech/first/</link>
+      <pubDate>Sun, 07 Aug 2022 15:04:34 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/tech/first/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>🙋🏻‍♂️关于</title>
+      <link>https://akashark.github.io/about/</link>
+      <pubDate>Sat, 06 Aug 2022 14:57:28 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/about/</guid>
+      <description>&lt;p style=&#34;font-size: 25px;&#34;&gt;关于我&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;英文名:&lt;/td&gt;
+&lt;td&gt;Sharker&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;职业:&lt;/td&gt;
+&lt;td&gt;学生/程序员&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;喜好:&lt;/td&gt;
+&lt;td&gt;摆烂&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>⏱时间轴</title>
+      <link>https://akashark.github.io/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://akashark.github.io/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>🔍搜索</title>
+      <link>https://akashark.github.io/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://akashark.github.io/search/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

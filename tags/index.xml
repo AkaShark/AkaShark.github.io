@@ -5,6 +5,16 @@
     <link>https://akashark.github.io/tags/</link>
     <description>Recent content in Tags on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://akashark.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 07 Aug 2022 15:04:34 +0800</lastBuildDate><atom:link href="https://akashark.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo</title>
+      <link>https://akashark.github.io/tags/hugo/</link>
+      <pubDate>Sun, 07 Aug 2022 15:04:34 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
