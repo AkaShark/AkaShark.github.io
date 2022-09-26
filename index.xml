@@ -6,7 +6,174 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 07 Aug 2022 22:11:58 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 11:54:26 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTTP发展史浅析</title>
+      <link>https://akashark.github.io/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</link>
+      <pubDate>Mon, 26 Sep 2022 11:54:26 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;http发展历程&#34;&gt;HTTP发展历程&lt;/h1&gt;
+&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h2 id=&#34;http协议版本&#34;&gt;HTTP协议版本&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/0.9&lt;/li&gt;
+&lt;li&gt;HTTP/1.0&lt;/li&gt;
+&lt;li&gt;HTTP/1.1&lt;/li&gt;
+&lt;li&gt;HTTP/2.0&lt;/li&gt;
+&lt;li&gt;HTTP/3.0&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631349733000.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;http09&#34;&gt;HTTP/0.9&lt;/h2&gt;
+&lt;p&gt;0.9版本的HTTP协议他不涉及数据包传输(仅仅是HTLM通过ASCII编码后传递)，主要是规定了客户端和服务端之间的通信格式，默认使用80端口，这个版本只有一条命令GET，而且不支持处理HTML以外任何的文件格式。
+缺点&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只支持简单的文本传输，并没有更多丰富的元素&lt;/li&gt;
+&lt;li&gt;支持的行为比较少，只支持GET&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;http10&#34;&gt;HTTP/1.0&lt;/h2&gt;
+&lt;p&gt;相对于0.9版本增加了如下&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;支持响应支持HTTP头(HTTP Header)，&lt;/li&gt;
+&lt;li&gt;支持响应含状态行，增加状态码&lt;/li&gt;
+&lt;li&gt;支持HEAD，POST等方法&lt;/li&gt;
+&lt;li&gt;支持HTML以外的文件格式 包括了图片，视频，二进制文件等
+相对于0.9版本1.0版本，为了支持互联网的变化增加了许多内容，丰富了网络提供的基础服务
+缺点&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;客户端必须为每一个待请求的对象建立并维护一个新的连接，也就是说当页面存在多个对象，HTTP1.0建立非持久连接，使得一个页面下载十分缓慢，增加了网络传输负担&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;http11&#34;&gt;HTTP/1.1&lt;/h3&gt;
+&lt;p&gt;相对于之前的版本1.1版本增加了如下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;长连接与管道化: HTTP1.1支持长连接和请求的流水线处理，在一个TCP连接上可以传送很多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTPP1.1中默认开启Connection: keey-alive&lt;/li&gt;
+&lt;li&gt;缓存处理: 在 HTTP1.0 中主要使用 header 里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1 则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。&lt;/li&gt;
+&lt;li&gt;带宽优化: HTTP1.0 中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1 则在请求头引入了range 头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。&lt;/li&gt;
+&lt;li&gt;错误状态码: 在 HTTP1.1 中新增了24 个错误状态响应码，如 409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。&lt;/li&gt;
+&lt;li&gt;Host头处理: 在 HTTP1.0 中认为每台服务器都绑定一个唯一的 IP 地址，因此，请求消息中的 URL 并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个 IP 地址。HTTP1.1 的请求消息和响应消息都应支持 Host 头域，且请求消息中如果没有 Host 头域会报告一个错误（400 Bad Request）。
+缺点&lt;/li&gt;
+&lt;li&gt;虽然 1.1 版允许复用 TCP 连接，但是同一个 TCP 连接里面，所有的数据通信是按次序进行的。服务器只有处理完一个回应，才会进行下一个回应。要是前面的回应特别慢，后面就会有许多请求排队等着。&lt;/li&gt;
+&lt;li&gt;HTTP1.x 在传输数据时，所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份，这在一定程度上无法保证数据的安全性。&lt;/li&gt;
+&lt;li&gt;HTTP1.x 在使用时，header 里携带的内容过大，在一定程度上增加了传输的成本，并且每次请求 header 基本不怎么变化，尤其在移动端增加用户流量。&lt;/li&gt;
+&lt;li&gt;虽然 HTTP1.x 支持了 keep-alive，来弥补多次创建连接产生的延迟，但是 keep-alive 使用多了同样会给服务端带来大量的性能压力，并且对于单个文件被不断请求的服务(例如图片存放网站)，keep-alive 可能会极大的影响性能，因为它在文件被请求之后还保持了不必要的连接很长时间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;spdy协议&#34;&gt;SPDY协议&lt;/h2&gt;
+&lt;p&gt;2009 年，谷歌公开了自行研发的 SPDY 协议，主要解决 HTTP/1.1 效率不高的问题。 这个协议在 Chrome 浏览器上证明可行以后，就被当作 HTTP/2 的基础，主要特性都在 HTTP/2 之中得到继承。SPDY 可以说是综合了 HTTPS 和 HTTP 两者有点于一体的传输协议，主要解决：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;降低延迟 SPDY采用了多路复用，多路复用通过多个请求Stream共享一个TCP连接的方式降低延迟的同时提高了带宽的利用率&lt;/li&gt;
+&lt;li&gt;请求优先级 多路复用带来了一个新的问题是，在连接共享的基础上可能会导致关键请求被阻塞，SPYD运行给每个request设置优先级，这样重要的请求会优先得到响应&lt;/li&gt;
+&lt;li&gt;Header压缩 SYPD采用了DEFLATE压缩算法对于HTTP的Header部分进行了压缩处理&lt;/li&gt;
+&lt;li&gt;服务端推送 采用了SPDY设计的网页可以接受服务端主动的推送，比如在请求css的时候服务端将js作为推送内容推送给浏览器，在网页请求js的时候可以直接使用浏览器的换从不用再次发起请求&lt;/li&gt;
+&lt;li&gt;默认增加SSL/LTS层来保证数据传递的安全性问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631350860915.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;http20&#34;&gt;HTTP/2.0&lt;/h2&gt;
+&lt;p&gt;HTTP/2.0可以说是SPDY的升级版，主要与SPDY的不同在于&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP2.0 支持明文传输HTTP传输，而SPDY强制使用HTTPS&lt;/li&gt;
+&lt;li&gt;HTTP2.0 消息头的压缩算法采用了HPACK，而非SPDY采用的DEFLATE
+HTTP2.0的新特性包括了&lt;/li&gt;
+&lt;li&gt;二进制分帧 HTTP2.0的所有数据帧都采用二进制编码&lt;/li&gt;
+&lt;li&gt;多路复用&lt;/li&gt;
+&lt;li&gt;请求优先级&lt;/li&gt;
+&lt;li&gt;header压缩&lt;/li&gt;
+&lt;li&gt;服务端推送&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;二进制分帧&#34;&gt;二进制分帧&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;帧: 客户端与服务器通过交换帧来通信，帧是基于这个新协议通信的最小单元&lt;/li&gt;
+&lt;li&gt;消息: 逻辑上的HTTP消息。比如请求，响应等，由一个或者多个帧组成&lt;/li&gt;
+&lt;li&gt;流: 流是连接中的一个虚拟信道，可以承载双向消息(全双工)，每个流都有一个唯一的整数标识符
+HTTP/2 采用二进制格式传输数据，而非 HTTP 1.x 的文本格式，二进制协议解析起来更高效。
+HTTP/1.x 的请求和响应报文，都是由起始行，首部和实体正文（可选）组成，各部分之间以文本换行
+符分隔。HTTP/2 将请求和响应数据分割为更小的帧，并且它们采用二进制编码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631351364781.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;帧流消息的关系&#34;&gt;帧、流、消息的关系&lt;/h3&gt;
+&lt;p&gt;每个数据流都以消息的形式发送，而消息又由一个或者多个帧组成，帧是流中的数据单元，一个数据报的header帧可以分成多个header帧，data帧可以分成多个data帧。
+多路复用
+多路复用运行同时通过单一的HTTP/2.0连接发起多重的请求-响应消息，每个request都可以复用共享的连接，每一个request对应一个id，这样一个连接上可以有多个request，每个连接的request可以随机的混合在一起，接受房可以根据request的id将request再归属到各自不同的服务端请求请求里
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631361193578.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;请求优先级&#34;&gt;请求优先级&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;把 HTTP 消息分解为很多独立的帧之后，就可以通过优化这些帧的交错和传输顺序，每个流都可以带有一个 31 比特的优先值：0 表示最高优先级；2 的 31 次方-1 表示最低优先级。&lt;/li&gt;
+&lt;li&gt;服务器可以根据流的优先级，控制资源分配（CPU、内存、带宽），而在响应数据准备好之后，优先将最高优先级的帧发送给客户端。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;header压缩&#34;&gt;header压缩&lt;/h3&gt;
+&lt;p&gt;HTTP1.X的header带有大量信息，而且每次都要重复发送，HTTP/2.0使用encoder来减少需要传输的header的大小，并且通讯双方各自cache一份header field表，避免了重复header的传输问题，又减少了需要传输的大小，为了减少这部分的资源消耗并提升性能，HTTP/2.0对一下首部采取了压缩策略&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTP/2.0在客户端和服务端使用首部表来跟踪和存储之前发送的键值对(HTTP Header)，不再重复发送Header&lt;/li&gt;
+&lt;li&gt;首部表在HTTP/2.0的连接存续期内始终存在，由客户端和服务端共同渐进地更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;针对Header的更新，如下图所示，根据已经缓存的Header Fields表来更新键值对
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631367348998.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;服务器推送&#34;&gt;服务器推送&lt;/h3&gt;
+&lt;p&gt;Server Push 即服务端能通过 push 的方式将客户端需要的内容预先推送过去，也叫“cache push”。 服务器可以对一个客户端请求发送多个响应。服务器向客户端推送资源无需客户端明确地请求，服务端可以提前给客户端推送必要的资源，这样可以减少请求延迟时间，例如服务端可以主动把 JS 和 CSS 文件推送给客户端，而不是等到 HTML 解析到资源时发送请求，大致过程如下图所示：
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631367493546.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;http30&#34;&gt;HTTP/3.0&lt;/h2&gt;
+&lt;p&gt;HTTP3.0可以看做HTTP协议的一次大版本的更新，HTTP3.0将传输层的协议由TCP更换成了QUIC协议
+为什么会更换掉传输层的协议呢，因为在HTTP2.0中大家已经将HTTP队头阻塞的问题通过多路复用解决了，应用层的优化做尽了，没地方卷了，就开上了TCP队头阻塞的问题，打算从传输层下手。
+哪有为什么选择UDP呢，传输层的协议替换是需要硬件层面运营商支持的，大规模的普及人力物力成本较大ROI较低，就很IPV6一样24年前的东西到现在也没普及多少，所以这帮人就盯上了UDP，UDP和TCP一样被大部分硬件支持，而且基于UDP的QUIC协议提供了可靠性的保证。
+那么QUIC是怎么解决TCP队头问题的呢， 为了解决传输级别的队头阻塞问题，通过 QUIC 连接传输的数据被分为一些流。流是持久性 QUIC 连接中短暂、独立的“子连接”。每个流都处理自己的错误纠正和传递保证，但使用连接全局压缩和加密属性。每个客户端发起的 HTTP 请求都在单独的流上运行，因此丢失数据包不会影响其他流/请求的数据传输。&lt;/p&gt;
+&lt;h2 id=&#34;补充&#34;&gt;补充&lt;/h2&gt;
+&lt;h3 id=&#34;数字证书&#34;&gt;数字证书&lt;/h3&gt;
+&lt;p&gt;证书生成规则&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CA机构拥有非对称加密的私钥和公钥。&lt;/li&gt;
+&lt;li&gt;CA机构对证书明文数据T进行hash。&lt;/li&gt;
+&lt;li&gt;对hash后的值用私钥加密，得到数字签名S。 明文和数字签名共同组成了数字证书，这样一份数字证书就可以颁发给网站了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16631369991025.jpg&#34; alt=&#34;&#34;  /&gt;
+
+从上面的图也可以看出数字证书就是证书的明文信息+证书明文信息用hash签名再用CA的私钥加密后的签名&lt;/p&gt;
+&lt;h3 id=&#34;证书验证规则&#34;&gt;证书验证规则&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;拿到证书，得到明文T1，数字签名S1。&lt;/li&gt;
+&lt;li&gt;用CA机构的公钥对S1解密，得到S2。&lt;/li&gt;
+&lt;li&gt;用证书里说明的hash算法对明文T1进行hash得到T2。 比较S2是否等于T2，等于则表明证书可信。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;队头阻塞&#34;&gt;队头阻塞&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;TCP队头阻塞
+TCP队头阻塞是因为TCP协议要求我们在每收到一个SYN包的时候就需要发送一个ACK作为回复，但是在
+网络不好的情况下有可能发生丢包的现象，TCP的做法是在发送方将丢失的数据包重传之前，接受方是不
+能将已经接受的数据包做回复的(已经接受的数据包将丢弃)。TCP的队头阻塞问题在移动网络上更加明
+显。&lt;/li&gt;
+&lt;li&gt;HTTP队头阻塞
+HTTP在1.1后默认开启了管线化，HTTP 管线化的意思就是客户端无需在发送后续 HTTP 请求之前等待
+服务器响应请求。此功能可以更有效地利用带宽并减少延迟，但它的改进空间甚至更大。HTTP 管线化
+仍要求服务器按照接收到的请求顺序进行响应，因此，如果管线化中的单个请求执行得很慢，则对客户
+端的所有后续响应都将相应地延迟下去。这个问题被称为队头阻塞。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;从 http/0.9 到 http/2 的发展，有了很多的优化点如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;二进制分帧：HTTP/2 的所有帧都采用二进制编码&lt;/li&gt;
+&lt;li&gt;多路复用 (Multiplexing)&lt;/li&gt;
+&lt;li&gt;请求优先级&lt;/li&gt;
+&lt;li&gt;header 压缩&lt;/li&gt;
+&lt;li&gt;服务端推送
+到了HTTP3.0更是有了长足的进步直接把传输层的协议改了不再依靠应用层去做一些花活了&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTTP发展史浅析</title>
+      <link>https://akashark.github.io/docs/network/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</link>
+      <pubDate>Mon, 26 Sep 2022 11:46:19 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/docs/network/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>为什么要有虚拟内存</title>
       <link>https://akashark.github.io/posts/read/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</link>
