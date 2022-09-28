@@ -6,7 +6,67 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 26 Sep 2022 15:26:29 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Sep 2022 21:20:22 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Xcode14新功能</title>
+      <link>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
+      <pubDate>Wed, 28 Sep 2022 21:20:22 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
+      <description>&lt;h1 id=&#34;whats-new-in-xcode-14&#34;&gt;What’s New in Xcode 14&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://medium.com/better-programming/whats-new-in-xcode-14-f6b56c33a8b3&#34;&gt;What’s New in Xcode 14&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;single-size-app-icon&#34;&gt;Single Size App Icon&lt;/h2&gt;
+&lt;p&gt;在WWDC22, Apple发布了最新的Xcode14，Xcode14中带来了大量的功能和性能的提高，包括了在源码编辑器和其他方面上很多比较Cool的东西，我将和你一起分享下你要知道的。&lt;/p&gt;
+&lt;p&gt;让我们来一起过下这些主题&lt;/p&gt;
+&lt;h2 id=&#34;code-structure-when-scrolling&#34;&gt;Code Structure When Scrolling&lt;/h2&gt;
+&lt;p&gt;单尺寸App icon对于开发者是一个非常好的功能，你再也不需要App Icon生成工具，你能使用单一的一个1024x1024px的App Icon 资源。
+不但如此，这将减少你App的尺寸，你可以尝试下使用1024x1024px的App Icon资源，然后导入到Xcode的Assets中从右边的工具条上选择单尺寸，一旦你导出IPA，你将看出来不同
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643692829307.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;下面的图是一个app归档后的结果，他展示了选择App icon 单图片和多图片的不同
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643695060013.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;code-structure-when-scrolling-1&#34;&gt;Code Structure When Scrolling&lt;/h2&gt;
+&lt;p&gt;我第一次看到这个功能很是吃惊，我想起来了成组的table View的样式，我确信这个是一个有价值的功能，为我们在编辑器滑动的时候展示我们在那个方法。
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643697173427.jpg&#34; alt=&#34;&#34;  /&gt;
+
+你当然可以禁止或者开启这个功能在Setting中如下展示
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643697849218.jpg&#34; alt=&#34;&#34;  /&gt;
+
+同样的对于标记导航也有修改，你能通过标记导航看到你在代码前写的标记标签。
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643698812118.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;memberwise-initializer-completion&#34;&gt;Memberwise Initializer Completion&lt;/h2&gt;
+&lt;p&gt;完成成员变量的初始化，在之前版本的Xcode，你需要去右击成员变量初始化
+在Xcode 14 提供了高效的方式, 创建成员变量初始化，你只需要写下init，然后你将看到最接近的成员变量初始化的方法
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643705837020.jpg&#34; alt=&#34;&#34;  /&gt;
+
+还有更多代码补全的提高，这些补全也更加精确
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643706443539.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;optiuonal-unwrapping&#34;&gt;Optiuonal Unwrapping&lt;/h2&gt;
+&lt;p&gt;我看到的一大进步是你不需要通过 if let 设置来创建不可变变量来检查可选变量。
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643709591771.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;xcode-build-timeline&#34;&gt;Xcode Build TimeLine&lt;/h2&gt;
+&lt;p&gt;在之前版本的 Xcode 中，我们将构建日志视为一个列表，就像您在左侧看到的以下列表一样。我们还知道正在构建哪个步骤以及需要多少时间。现在，使用 Xcode 14，我们可以将这些日志视为时间线。
+&lt;img loading=&#34;lazy&#34; src=&#34;http://media.wjbbf.cn/mweb/16643709994138.jpg&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;highlighted-other-features-and-improvements-in-the-release-notes&#34;&gt;Highlighted Other Features and Improvements in the Release Notes&lt;/h2&gt;
+&lt;p&gt;还有很多高光的其他能力和提高在release文档中被提到&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Simulator now supports remote notifications in iOS 16 when running in macOS 13 on Mac computers with Apple silicon or T2 processors.&lt;/li&gt;
+&lt;li&gt;Xcode 14 can now compile targets in parallel with their Swift target dependencies.&lt;/li&gt;
+&lt;li&gt;You can now enable sandboxing for shell script build phases using the ENABLE_USER_SCRIPT_SANDBOXING build setting.&lt;/li&gt;
+&lt;li&gt;Xcode now provides RECOMMENDED_MACOSX_DEPLOYMENT_TARGET, RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET, RECOMMENDED_TVOS_DEPLOYMENT_TARGET, RECOMMENDED_WATCHOS_DEPLOYMENT_TARGET, and RECOMMENDED_DRIVERKIT_DEPLOYMENT_TARGET build settings that indicate the recommended minimum deployment versions for each supported Xcode platform.&lt;/li&gt;
+&lt;li&gt;Because bitcode is now deprecated, builds for iOS, tvOS, and watchOS no longer include bitcode by default.&lt;/li&gt;
+&lt;li&gt;The Thread Performance Checker shows runtime performance issues in the Issue Navigator and the source editor while debugging an app.&lt;/li&gt;
+&lt;li&gt;Interface Builder now updates scenes asynchronously.&lt;/li&gt;
+&lt;li&gt;Wrapping code with an if statement now automatically reindents the block.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
     <item>
       <title>工厂模式</title>
       <link>https://akashark.github.io/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
