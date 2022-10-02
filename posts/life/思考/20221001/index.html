@@ -312,6 +312,24 @@
 
   </footer>
 </article>
+
+
+<div id="git-comments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+  var gitment = new Gitment({
+    id: '',  
+    owner: 'AkaShark',
+    repo: 'git@github.com:AkaShark/Blog-comment.git',
+    oauth: {
+      client_id: '879518103b0e46992c01',
+      client_secret: '045c5d996bdf1af250b61b53bf70dcb2b6fe38b7',
+    }
+  })
+  gitment.render('git-comments')
+</script>
+
     </main>
     
 <footer class="footer">
