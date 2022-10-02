@@ -9,10 +9,10 @@
     <lastBuildDate>Sat, 01 Oct 2022 23:26:29 +0800</lastBuildDate><atom:link href="https://akashark.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>最近的一些感悟 (20221001)</title>
-      <link>https://akashark.github.io/posts/%E6%80%9D%E8%80%83/20221001/</link>
+      <link>https://akashark.github.io/posts/life/%E6%80%9D%E8%80%83/20221001/</link>
       <pubDate>Sat, 01 Oct 2022 23:26:29 +0800</pubDate>
       
-      <guid>https://akashark.github.io/posts/%E6%80%9D%E8%80%83/20221001/</guid>
+      <guid>https://akashark.github.io/posts/life/%E6%80%9D%E8%80%83/20221001/</guid>
       <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
 &lt;p&gt;最近有两件事情对我感触还是挺大的，第一件是在字节的转正实习转正，第二件是转正后2天的研究生导师组会。为啥这两件事情会对我感触比较大呢，总的来说这两件事情的本质其实是相同的，都是完成一部分任务，对于现在完成的情况遇到的问题细节等作输出汇报，汇报的对象一个是+1 +2的领导，一个是自己的研究生导师，在汇报的工程中，发现他们的思考方式竟然是一致的。这是有点颠覆我的认知的，我之前一直以为，大学的教授大部分是学院派，搞理论的那一套会比较厉害，企业中的领导更多的思考点是如何创造更大的价值。&lt;/p&gt;
 &lt;h2 id=&#34;一些想法&#34;&gt;一些想法&lt;/h2&gt;
@@ -64,10 +64,10 @@
     
     <item>
       <title>Xcode14新功能</title>
-      <link>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
+      <link>https://akashark.github.io/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
       <pubDate>Wed, 28 Sep 2022 21:20:22 +0800</pubDate>
       
-      <guid>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
+      <guid>https://akashark.github.io/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
       <description>&lt;h1 id=&#34;whats-new-in-xcode-14&#34;&gt;What’s New in Xcode 14&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://medium.com/better-programming/whats-new-in-xcode-14-f6b56c33a8b3&#34;&gt;What’s New in Xcode 14&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;single-size-app-icon&#34;&gt;Single Size App Icon&lt;/h2&gt;

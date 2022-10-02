@@ -14,7 +14,7 @@
     <loc>https://akashark.github.io/categories/%E6%80%9D%E8%80%83/</loc>
     <lastmod>2022-10-01T23:26:29+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/posts/%E6%80%9D%E8%80%83/</loc>
+    <loc>https://akashark.github.io/posts/life/%E6%80%9D%E8%80%83/</loc>
     <lastmod>2022-10-01T23:26:29+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/tags/%E6%80%9D%E8%80%83%E6%A8%A1%E5%BC%8F-5w2h/</loc>
@@ -23,19 +23,25 @@
     <loc>https://akashark.github.io/posts/</loc>
     <lastmod>2022-10-01T23:26:29+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/posts/%E6%80%9D%E8%80%83/20221001/</loc>
+    <loc>https://akashark.github.io/posts/life/%E6%80%9D%E8%80%83/20221001/</loc>
+    <lastmod>2022-10-01T23:26:29+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/posts/life/</loc>
     <lastmod>2022-10-01T23:26:29+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/tags/xcode/</loc>
     <lastmod>2022-09-28T21:20:22+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</loc>
+    <loc>https://akashark.github.io/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</loc>
+    <lastmod>2022-09-28T21:20:22+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/posts/tech/</loc>
     <lastmod>2022-09-28T21:20:22+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/categories/%E7%BF%BB%E8%AF%91/</loc>
     <lastmod>2022-09-28T21:20:22+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/posts/%E7%BF%BB%E8%AF%91/</loc>
+    <loc>https://akashark.github.io/posts/tech/%E7%BF%BB%E8%AF%91/</loc>
     <lastmod>2022-09-28T21:20:22+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
@@ -44,13 +50,10 @@
     <loc>https://akashark.github.io/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/posts/tech/</loc>
+    <loc>https://akashark.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2022-09-26T15:26:29+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/tags/http1.0-http2.0-http3.0/</loc>
@@ -100,7 +103,5 @@
     <loc>https://akashark.github.io/search/</loc>
   </url><url>
     <loc>https://akashark.github.io/series/</loc>
-  </url><url>
-    <loc>https://akashark.github.io/posts/life/</loc>
   </url>
 </urlset>
