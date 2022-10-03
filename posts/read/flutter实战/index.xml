@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Flutter实战 on SharkerBlog</title>
+    <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/</link>
+    <description>Recent content in Flutter实战 on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 03 Oct 2022 18:32:17 +0800</lastBuildDate><atom:link href="https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>起步</title>
+      <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/</link>
+      <pubDate>Mon, 03 Oct 2022 18:32:17 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/</guid>
+      <description>第一章 起步 弹射起步 变量声明 var 声明变量，但是类型后面不可以改变了，根据第一次赋值数据的类型来推断其类型，编译结束后其类型就已经被确定 dynamic 和 Object 声明</description>
+    </item>
+    
+  </channel>
+</rss>
