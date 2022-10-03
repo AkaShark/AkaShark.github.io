@@ -472,12 +472,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;});
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;输出如下:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;I/flutter (17666): hello 1
+&lt;/div&gt;&lt;p&gt;输出如下:
+I/flutter (17666): hello 1
 I/flutter (17666): Error
 I/flutter (17666): hello 3&lt;/p&gt;
-&lt;/blockquote&gt;
 </description>
     </item>
     
