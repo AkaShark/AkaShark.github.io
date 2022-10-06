@@ -6,7 +6,25 @@
     <description>Recent content in Flutter on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 03 Oct 2022 18:32:17 +0800</lastBuildDate><atom:link href="https://akashark.github.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Oct 2022 21:21:51 +0800</lastBuildDate><atom:link href="https://akashark.github.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>第一个Flutter应用 一</title>
+      <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/</link>
+      <pubDate>Wed, 05 Oct 2022 21:21:51 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/</guid>
+      <description>第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi</description>
+    </item>
+    
+    <item>
+      <title>第一个Flutter应用 二</title>
+      <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</link>
+      <pubDate>Wed, 05 Oct 2022 21:21:33 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</guid>
+      <description>第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi</description>
+    </item>
+    
     <item>
       <title>起步</title>
       <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/</link>

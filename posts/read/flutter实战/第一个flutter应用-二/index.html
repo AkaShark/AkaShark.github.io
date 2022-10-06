@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>第一个Flutter应用 二 | SharkerBlog</title>
-<meta name="keywords" content="标签1">
-<meta name="description" content="第一个Flutter应用 二 - SharkerBlog">
+<meta name="keywords" content="">
+<meta name="description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -57,7 +57,7 @@
 
     </style>
 </noscript><meta property="og:title" content="第一个Flutter应用 二" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-05T21:21:33&#43;08:00" />
@@ -65,7 +65,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第一个Flutter应用 二"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi"/>
 
 
 <script type="application/ld+json">
@@ -100,12 +100,12 @@
   "@type": "BlogPosting",
   "headline": "第一个Flutter应用 二",
   "name": "第一个Flutter应用 二",
-  "description": "",
+  "description": "第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi",
   "keywords": [
-    "标签1"
+    
   ],
-  "articleBody": "",
-  "wordCount" : "0",
+  "articleBody": "第二章\n状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式\nWidget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Widget和子Widget都管理状态) 如何决定使用哪种管理方式 如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。 如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。 如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。 在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时 候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显 得更重要一些）。 Widget管理自身状态 _TapboxAState 类:\n管理TapboxA的状态。 定义_active：确定盒子的当前颜色的布尔值。 定义_handleTap()函数，该函数在点击该盒子时更新_active，并调用setState()更新UI。 实现widget的所有交互式行为 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 // TapboxA 管理自身状态. //------------------------- TapboxA ---------------------------------- class TapboxA extends StatefulWidget { TapboxA({Key? key}) : super(key: key); @override _TapboxAState createState() =\u003e _TapboxAState(); } class _TapboxAState extends State { bool _active = false; void _handleTap() { setState(() { _active = !_active; }); } Widget build(BuildContext context) { return GestureDetector( onTap: _handleTap, child: Container( child: Center( child: Text( _active ? 'Active' : 'Inactive', style: TextStyle(fontSize: 32.0, color: Colors.white), ), ), width: 200.0, height: 200.0, decoration: BoxDecoration( color: _active ? Colors.lightGreen[700] : Colors.grey[600], ), ), ); } } 父Widget管理子Widget的状态 在以下示例中，TapboxB通过回调将其状态导出到其父组件，状态由父组件管理，因此它的父组件为StatefulWidget。但是由于TapboxB不管理任何状态，所以TapboxB为StatelessWidget。 ParentWidgetState 类:\n为TapboxB 管理_active状态。 实现_handleTapboxChanged()，当盒子被点击时调用的方法。 当状态改变时，调用setState()更新UI。 TapboxB 类: 继承StatelessWidget类，因为所有状态都由其父组件处理。 当检测到点击时，它会通知父组件。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 // ParentWidget 为 TapboxB 管理状态. //------------------------ ParentWidget -------------------------------- class ParentWidget extends StatefulWidget { @override _ParentWidgetState createState() =\u003e _ParentWidgetState(); } class _ParentWidgetState extends State { bool _active = false; void _handleTapboxChanged(bool newValue) { setState(() { _active = newValue; }); } @override Widget build(BuildContext context) { return Container( child: TapboxB( active: _active, onChanged: _handleTapboxChanged, ), ); } } //------------------------- TapboxB ---------------------------------- class TapboxB extends StatelessWidget { TapboxB({Key? key, this.active: false, required this.onChanged}) : super(key: key); final bool active; final ValueChanged\u003cbool\u003e onChanged; void _handleTap() { onChanged(!active); } Widget build(BuildContext context) { return GestureDetector( onTap: _handleTap, child: Container( child: Center( child: Text( active ? 'Active' : 'Inactive', style: TextStyle(fontSize: 32.0, color: Colors.white), ), ), width: 200.0, height: 200.0, decoration: BoxDecoration( color: active ? Colors.lightGreen[700] : Colors.grey[600], ), ), ); } } 混合状态管理 对于一些组件来说，混合管理的方式会非常有用。在这种情况下，组件自身管理一些内部状态，而父组件管理一些其他外部状态。 在下面 TapboxC 示例中，手指按下时，盒子的周围会出现一个深绿色的边框，抬起时，边框消失。点击完成后，盒子的颜色改变。 TapboxC 将其_active状态导出到其父组件中，但在内部管理其_highlight状态。这个例子有两个状态对象_ParentWidgetState和_TapboxCState。 _ParentWidgetStateC类:\n管理_active 状态。 实现 _handleTapboxChanged() ，当盒子被点击时调用。 当点击盒子并且_active状态改变时调用setState()更新UI。 _TapboxCState 对象:\n管理_highlight 状态。 GestureDetector监听所有tap事件。当用户点下时，它添加高亮（深绿色边框）；当用户释放时，会移除高亮。 当按下、抬起、或者取消点击时更新_highlight状态，调用setState()更新UI。 当点击时，将状态的改变传递给父组件。 整体Demo代码如下\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 //---------------------------- ParentWidget ---------------------------- class ParentWidgetC extends StatefulWidget { @override _ParentWidgetCState createState() =\u003e _ParentWidgetCState(); } class _ParentWidgetCState extends State { bool _active = false; void _handleTapboxChanged(bool newValue) { setState(() { _active = newValue; }); } @override Widget build(BuildContext context) { return Container( child: TapboxC( active: _active, onChanged: _handleTapboxChanged, ), ); } } //----------------------------- TapboxC ------------------------------ class TapboxC extends StatefulWidget { TapboxC({Key? key, this.active: false, required this.onChanged}) : super(key: key); final bool active; final ValueChanged\u003cbool\u003e onChanged; @override _TapboxCState createState() =\u003e _TapboxCState(); } class _TapboxCState extends State { bool _highlight = false; void _handleTapDown(TapDownDetails details) { setState(() { _highlight = true; }); } void _handleTapUp(TapUpDetails details) { setState(() { _highlight = false; }); } void _handleTapCancel() { setState(() { _highlight = false; }); } void _handleTap() { widget.onChanged(!widget.active); } @override Widget build(BuildContext context) { // 在按下时添加绿色边框，当抬起时，取消高亮 return GestureDetector( onTapDown: _handleTapDown, // 处理按下事件 onTapUp: _handleTapUp, // 处理抬起事件 onTap: _handleTap, onTapCancel: _handleTapCancel, child: Container( child: Center( child: Text( widget.active ? 'Active' : 'Inactive', style: TextStyle(fontSize: 32.0, color: Colors.white), ), ), width: 200.0, height: 200.0, decoration: BoxDecoration( color: widget.active ? Colors.lightGreen[700] : Colors.grey[600], border: _highlight ? Border.all( color: Colors.teal[700], width: 10.0, ) : null, ), ), ); } } 全局状态管理 实现一个全局的事件总线，将语言状态改变对应为一个事件，然后在APP中依赖应用语言的组件的initState 方法中订阅语言改变的事件。当用户在设置页切换语言后，我们发布语言改变事件，而订阅了此事件的组件就会收到通知，收到通知后调用setState(…)方法重新build一下自身即可。 使用一些专门用于状态管理的包，如 Provider、Redux，读者可以在 pub 上查看其详细信息。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 import 'package:flutter/material.dart'; void main() { runApp(const MyApp()); } class MyApp extends StatelessWidget { const MyApp({super.key}); // This widget is the root of your application. @override Widget build(BuildContext context) { return MaterialApp( title: 'Flutter Demo', theme: ThemeData( // This is the theme of your application. // // Try running your application with \"flutter run\". You'll see the // application has a blue toolbar. Then, without quitting the app, try // changing the primarySwatch below to Colors.green and then invoke // \"hot reload\" (press \"r\" in the console where you ran \"flutter run\", // or simply save your changes to \"hot reload\" in a Flutter IDE). // Notice that the counter didn't reset back to zero; the application // is not restarted. primarySwatch: Colors.blue, ), home: const MyHomePage(title: 'Flutter Demo Home Page'), ); } } class MyHomePage extends StatefulWidget { const MyHomePage({super.key, required this.title}); // This widget is the home page of your application. It is stateful, meaning // that it has a State object (defined below) that contains fields that affect // how it looks. // This class is the configuration for the state. It holds the values (in this // case the title) provided by the parent (in this case the App widget) and // used by the build method of the State. Fields in a Widget subclass are // always marked \"final\". final String title; // 对于StatefulWidget自动会执行creatState 但在生命周期的那个时刻呢 @override State createState() =\u003e _MyHomePageState(); } class _MyHomePageState extends State { int _counter = 0; void _incrementCounter() { setState(() { // This call to setState tells the Flutter framework that something has // changed in this State, which causes it to rerun the build method below // so that the display can reflect the updated values. If we changed // _counter without calling setState(), then the build method would not be // called again, and so nothing would appear to happen. _counter++; }); } @override Widget build(BuildContext context) { // This method is rerun every time setState is called, for instance as done // by the _incrementCounter method above. // // The Flutter framework has been optimized to make rerunning build methods // fast, so that you can just rebuild anything that needs updating rather // than having to individually change instances of widgets. return Scaffold( appBar: AppBar( // Here we take the value from the MyHomePage object that was created by // the App.build method, and use it to set our appbar title. title: Text(widget.title), ), body: Center( // Center is a layout widget. It takes a single child and positions it // in the middle of the parent. child: Column( // Column is also a layout widget. It takes a list of children and // arranges them vertically. By default, it sizes itself to fit its // children horizontally, and tries to be as tall as its parent. // // Invoke \"debug painting\" (press \"p\" in the console, choose the // \"Toggle Debug Paint\" action from the Flutter Inspector in Android // Studio, or the \"Toggle Debug Paint\" command in Visual Studio Code) // to see the wireframe for each widget. // // Column has various properties to control how it sizes itself and // how it positions its children. Here we use mainAxisAlignment to // center the children vertically; the main axis here is the vertical // axis because Columns are vertical (the cross axis would be // horizontal). mainAxisAlignment: MainAxisAlignment.center, children: [ TaboxA(), ParentWidget(), ParentWidgetC(), ], ), ), floatingActionButton: FloatingActionButton( onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add), ), ); } } class TaboxA extends StatefulWidget { const TaboxA({Key? key}) : super(key: key); @override State createState() =\u003e _TaboxAState(); } class _TaboxAState extends State { bool _active = false; // Widget自己管理状态 _handleTap() { setState(() { _active = !_active; }); } @override Widget build(BuildContext context) { return GestureDetector( onTap: _handleTap, child: Container( width: 200.0, height: 200.0, decoration: BoxDecoration( color: _active ? Colors.lightGreen[700] : Colors.grey[600], ), child: Center( child: Text( _active ? \"Active\" : \"Inactive\", style: const TextStyle( fontSize: 32.0, color: Colors.white, ), ), ), ), ); } } // 交给父类管理状态 class ParentWidget extends StatefulWidget { const ParentWidget({Key? key}) : super(key: key); @override State createState() =\u003e _ParentWidgetState(); } class _ParentWidgetState extends State { bool _active = false; _handleTapboxChanged(bool newValue) { if (newValue == _active) return; setState(() { _active = newValue; }); } @override Widget build(BuildContext context) { return Container( child: TapBoxB( active: _active, onChanged: _handleTapboxChanged, ), ); } } class TapBoxB extends StatelessWidget { const TapBoxB({Key? key, required this.active, required this.onChanged}) : super(key: key); final bool active; final ValueChanged\u003cbool\u003e onChanged; _handleTap() { onChanged(!active); } @override Widget build(BuildContext context) { return GestureDetector( onTap: _handleTap, child: Container( width: 200.0, height: 200.0, decoration: BoxDecoration( color: active ? Colors.lightGreen[700] : Colors.grey[600], ), child: Center( child: Text( active ? \"Active\" : \"Inactive\", style: const TextStyle( fontSize: 32.0, color: Colors.white, ), ), ), ), ); } } // 混合管理模式 class ParentWidgetC extends StatefulWidget { @override State createState() =\u003e _ParentWidgetCState(); } // 管理active状态 class _ParentWidgetCState extends State { bool _active = false; _handleTapboxChanged(bool newValue) { if (newValue == _active) return ; setState(() { _active = newValue; }); } @override Widget build(BuildContext context) { return Container( child: TapBoxC( active: _active, activeOnChanged: _handleTapboxChanged, ), ); } } class TapBoxC extends StatefulWidget { const TapBoxC({Key? key, required this.active, required this.activeOnChanged}) : super(key: key); // 父widget管理的状态 final bool active; final ValueChanged\u003cbool\u003e activeOnChanged; @override State createState() =\u003e _TapBoxCState(); } // 管理highlight状态 class _TapBoxCState extends State { bool _highlight = false; void _handleTapDown(TapDownDetails details) { setState(() { _highlight = true; }); } void _handleTapUp(TapUpDetails details) { setState(() { _highlight = false; }); } void _handleTapCancel() { setState(() { _highlight = false; }); } void _handleTap() { // 回调active状态 widget.activeOnChanged(!widget.active); } @override Widget build(BuildContext context) { return GestureDetector( onTapDown: _handleTapDown, // 处理按下事件 onTapUp: _handleTapUp, // 处理抬起事件 onTap: _handleTap, onTapCancel: _handleTapCancel, child: Container( width: 200.0, height: 200.0, decoration: BoxDecoration( color: widget.active ? Colors.lightGreen[700] : Colors.grey[600], border: _highlight ? Border.all( color: Colors.teal, width: 10.0 ): null, ), child: Center( child: Text( widget.active ? 'Active' : 'Inactive', style: const TextStyle(fontSize: 32.0, color: Colors.white), ), ), ), ); } } ",
+  "wordCount" : "3361",
   "inLanguage": "en",
   "datePublished": "2022-10-05T21:21:33+08:00",
   "dateModified": "2022-10-05T21:21:33+08:00",
@@ -221,15 +221,1121 @@
     <h1 class="post-title">
       第一个Flutter应用 二
     </h1>
-    <div class="post-meta"><span title='2022-10-05 21:21:33 +0800 CST'>2022-10-05</span>&nbsp;·&nbsp;0 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta"><span title='2022-10-05 21:21:33 +0800 CST'>2022-10-05</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Sharker
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
 
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86" aria-label="状态管理">状态管理</a><ul>
+                        
+                <li>
+                    <a href="#widget%e7%ae%a1%e7%90%86%e8%87%aa%e8%ba%ab%e7%8a%b6%e6%80%81" aria-label="Widget管理自身状态">Widget管理自身状态</a></li>
+                <li>
+                    <a href="#%e7%88%b6widget%e7%ae%a1%e7%90%86%e5%ad%90widget%e7%9a%84%e7%8a%b6%e6%80%81" aria-label="父Widget管理子Widget的状态">父Widget管理子Widget的状态</a></li>
+                <li>
+                    <a href="#%e6%b7%b7%e5%90%88%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86" aria-label="混合状态管理">混合状态管理</a></li>
+                <li>
+                    <a href="#%e5%85%a8%e5%b1%80%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86" aria-label="全局状态管理">全局状态管理</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p><a href="https://book.flutterchina.club/chapter2/first_flutter_app.html#_2-1-1-%E5%88%9B%E5%BB%BAflutter%E5%BA%94%E7%94%A8%E6%A8%A1%E6%9D%BF">第二章</a></p>
+<h2 id="状态管理">状态管理<a hidden class="anchor" aria-hidden="true" href="#状态管理">#</a></h2>
+<p>StatefulWidget的状态管理视情况被管理，通常有一下几种方式</p>
+<ul>
+<li>Widget 管理自己的状态</li>
+<li>Widget 管理子widget状态</li>
+<li>混合管理 (父Widget和子Widget都管理状态)
+如何决定使用哪种管理方式</li>
+<li>如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。</li>
+<li>如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。</li>
+<li>如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。
+在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时
+候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显
+得更重要一些）。</li>
+</ul>
+<h3 id="widget管理自身状态">Widget管理自身状态<a hidden class="anchor" aria-hidden="true" href="#widget管理自身状态">#</a></h3>
+<p>_TapboxAState 类:</p>
+<ul>
+<li>管理TapboxA的状态。</li>
+<li>定义_active：确定盒子的当前颜色的布尔值。</li>
+<li>定义_handleTap()函数，该函数在点击该盒子时更新_active，并调用setState()更新UI。</li>
+<li>实现widget的所有交互式行为</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// TapboxA 管理自身状态.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------- TapboxA ----------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxA <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  TapboxA({Key? key}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  _TapboxAState createState() =&gt; _TapboxAState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _TapboxAState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TapboxA&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTap() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = !_active;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span><span style="display:flex;"><span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            _active ? <span style="color:#0ff;font-weight:bold">&#39;Active&#39;</span> : <span style="color:#0ff;font-weight:bold">&#39;Inactive&#39;</span>,
+</span></span><span style="display:flex;"><span>            style: TextStyle(fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>, color: Colors.white),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: _active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="父widget管理子widget的状态">父Widget管理子Widget的状态<a hidden class="anchor" aria-hidden="true" href="#父widget管理子widget的状态">#</a></h3>
+<p>在以下示例中，TapboxB通过回调将其状态导出到其父组件，状态由父组件管理，因此它的父组件为StatefulWidget。但是由于TapboxB不管理任何状态，所以TapboxB为StatelessWidget。
+ParentWidgetState 类:</p>
+<ul>
+<li>为TapboxB 管理_active状态。</li>
+<li>实现_handleTapboxChanged()，当盒子被点击时调用的方法。</li>
+<li>当状态改变时，调用setState()更新UI。
+TapboxB 类:</li>
+<li>继承StatelessWidget类，因为所有状态都由其父组件处理。</li>
+<li>当检测到点击时，它会通知父组件。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// ParentWidget 为 TapboxB 管理状态.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------ ParentWidget --------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidget <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  _ParentWidgetState createState() =&gt; _ParentWidgetState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidget&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapboxChanged(<span style="color:#fff;font-weight:bold">bool</span> newValue) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = newValue;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Container(
+</span></span><span style="display:flex;"><span>      child: TapboxB(
+</span></span><span style="display:flex;"><span>        active: _active,
+</span></span><span style="display:flex;"><span>        onChanged: _handleTapboxChanged,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------- TapboxB ----------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxB <span style="color:#fff;font-weight:bold">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  TapboxB({Key? key, <span style="color:#fff;font-weight:bold">this</span>.active: <span style="color:#fff;font-weight:bold">false</span>, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.onChanged})
+</span></span><span style="display:flex;"><span>      : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> ValueChanged&lt;<span style="color:#fff;font-weight:bold">bool</span>&gt; onChanged;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTap() {
+</span></span><span style="display:flex;"><span>    onChanged(!active);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span><span style="display:flex;"><span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            active ? <span style="color:#0ff;font-weight:bold">&#39;Active&#39;</span> : <span style="color:#0ff;font-weight:bold">&#39;Inactive&#39;</span>,
+</span></span><span style="display:flex;"><span>            style: TextStyle(fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>, color: Colors.white),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="混合状态管理">混合状态管理<a hidden class="anchor" aria-hidden="true" href="#混合状态管理">#</a></h3>
+<p>对于一些组件来说，混合管理的方式会非常有用。在这种情况下，组件自身管理一些内部状态，而父组件管理一些其他外部状态。
+在下面 TapboxC 示例中，手指按下时，盒子的周围会出现一个深绿色的边框，抬起时，边框消失。点击完成后，盒子的颜色改变。 TapboxC 将其_active状态导出到其父组件中，但在内部管理其_highlight状态。这个例子有两个状态对象_ParentWidgetState和_TapboxCState。
+_ParentWidgetStateC类:</p>
+<ul>
+<li>管理_active 状态。</li>
+<li>实现 _handleTapboxChanged() ，当盒子被点击时调用。</li>
+<li>当点击盒子并且_active状态改变时调用setState()更新UI。</li>
+</ul>
+<p>_TapboxCState 对象:</p>
+<ul>
+<li>管理_highlight 状态。</li>
+<li>GestureDetector监听所有tap事件。当用户点下时，它添加高亮（深绿色边框）；当用户释放时，会移除高亮。</li>
+<li>当按下、抬起、或者取消点击时更新_highlight状态，调用setState()更新UI。</li>
+<li>当点击时，将状态的改变传递给父组件。</li>
+</ul>
+<p>整体Demo代码如下</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">80
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">81
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">82
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">83
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">84
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">85
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">86
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">87
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">88
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">89
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">90
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">91
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">92
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">93
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">94
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">95
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">//---------------------------- ParentWidget ----------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidgetC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  _ParentWidgetCState createState() =&gt; _ParentWidgetCState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidgetC&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapboxChanged(<span style="color:#fff;font-weight:bold">bool</span> newValue) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = newValue;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Container(
+</span></span><span style="display:flex;"><span>      child: TapboxC(
+</span></span><span style="display:flex;"><span>        active: _active,
+</span></span><span style="display:flex;"><span>        onChanged: _handleTapboxChanged,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//----------------------------- TapboxC ------------------------------
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  TapboxC({Key? key, <span style="color:#fff;font-weight:bold">this</span>.active: <span style="color:#fff;font-weight:bold">false</span>, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.onChanged})
+</span></span><span style="display:flex;"><span>      : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> ValueChanged&lt;<span style="color:#fff;font-weight:bold">bool</span>&gt; onChanged;
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  _TapboxCState createState() =&gt; _TapboxCState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _TapboxCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TapboxC&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapDown(TapDownDetails details) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapUp(TapUpDetails details) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapCancel() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTap() {
+</span></span><span style="display:flex;"><span>    widget.onChanged(!widget.active);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 在按下时添加绿色边框，当抬起时，取消高亮  
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span><span style="display:flex;"><span>      onTapDown: _handleTapDown, <span style="color:#007f7f">// 处理按下事件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      onTapCancel: _handleTapCancel,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            widget.active ? <span style="color:#0ff;font-weight:bold">&#39;Active&#39;</span> : <span style="color:#0ff;font-weight:bold">&#39;Inactive&#39;</span>,
+</span></span><span style="display:flex;"><span>            style: TextStyle(fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>, color: Colors.white),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: widget.active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>          border: _highlight
+</span></span><span style="display:flex;"><span>              ? Border.all(
+</span></span><span style="display:flex;"><span>                  color: Colors.teal[<span style="color:#ff0;font-weight:bold">700</span>],
+</span></span><span style="display:flex;"><span>                  width: <span style="color:#ff0;font-weight:bold">10.0</span>,
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>              : <span style="color:#fff;font-weight:bold">null</span>,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="全局状态管理">全局状态管理<a hidden class="anchor" aria-hidden="true" href="#全局状态管理">#</a></h3>
+<ul>
+<li>实现一个全局的事件总线，将语言状态改变对应为一个事件，然后在APP中依赖应用语言的组件的initState 方法中订阅语言改变的事件。当用户在设置页切换语言后，我们发布语言改变事件，而订阅了此事件的组件就会收到通知，收到通知后调用setState(&hellip;)方法重新build一下自身即可。</li>
+<li>使用一些专门用于状态管理的包，如 Provider、Redux，读者可以在 pub 上查看其详细信息。</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">  9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">100
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">101
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">102
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">103
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">104
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">105
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">106
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">107
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">108
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">109
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">110
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">111
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">112
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">113
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">114
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">115
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">116
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">117
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">118
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">119
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">120
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">121
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">122
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">123
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">124
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">125
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">126
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">127
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">128
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">129
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">130
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">131
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">132
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">133
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">134
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">135
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">136
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">137
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">138
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">139
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">140
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">141
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">142
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">143
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">144
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">145
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">146
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">147
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">148
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">149
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">150
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">151
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">152
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">153
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">154
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">155
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">156
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">157
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">158
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">159
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">160
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">161
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">162
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">163
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">164
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">165
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">166
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">167
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">168
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">169
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">170
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">171
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">172
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">173
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">174
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">175
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">176
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">177
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">178
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">179
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">180
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">181
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">182
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">183
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">184
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">185
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">186
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">187
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">188
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">189
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">190
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">191
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">192
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">193
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">194
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">195
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">196
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">197
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">198
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">199
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">200
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">201
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">202
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">203
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">204
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">205
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">206
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">207
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">208
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">209
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">210
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">211
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">212
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">213
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">214
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">215
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">216
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">217
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">218
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">219
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">220
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">221
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">222
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">223
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">224
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">225
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">226
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">227
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">228
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">229
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">230
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">231
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">232
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">233
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">234
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">235
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">236
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">237
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">238
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">239
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">240
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">241
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">242
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">243
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">244
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">245
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">246
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">247
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">248
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">249
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">250
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">251
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">252
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">253
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">254
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">255
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">256
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">257
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">258
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">259
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">260
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">261
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">262
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">263
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">264
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">265
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">266
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">267
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">268
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">269
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">270
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">271
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">272
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">273
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">274
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">275
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">276
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">277
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">278
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">279
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">280
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">281
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">282
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">283
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">284
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">285
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">286
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">287
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">288
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">289
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">290
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">291
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">292
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">293
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">294
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">295
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">296
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">297
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">298
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">299
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">300
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">301
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">302
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">303
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">304
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">305
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;package:flutter/material.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">void</span> main() {
+</span></span><span style="display:flex;"><span>  runApp(<span style="color:#fff;font-weight:bold">const</span> MyApp());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> MyApp <span style="color:#fff;font-weight:bold">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> MyApp({<span style="color:#fff;font-weight:bold">super</span>.key});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This widget is the root of your application.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> MaterialApp(
+</span></span><span style="display:flex;"><span>      title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo&#39;</span>,
+</span></span><span style="display:flex;"><span>      theme: ThemeData(
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// This is the theme of your application.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// Try running your application with &#34;flutter run&#34;. You&#39;ll see the
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// application has a blue toolbar. Then, without quitting the app, try
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// changing the primarySwatch below to Colors.green and then invoke
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// &#34;hot reload&#34; (press &#34;r&#34; in the console where you ran &#34;flutter run&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// or simply save your changes to &#34;hot reload&#34; in a Flutter IDE).
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// Notice that the counter didn&#39;t reset back to zero; the application
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// is not restarted.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        primarySwatch: Colors.blue,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      home: <span style="color:#fff;font-weight:bold">const</span> MyHomePage(title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo Home Page&#39;</span>),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> MyHomePage <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> MyHomePage({<span style="color:#fff;font-weight:bold">super</span>.key, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.title});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This widget is the home page of your application. It is stateful, meaning
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// that it has a State object (defined below) that contains fields that affect
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// how it looks.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This class is the configuration for the state. It holds the values (in this
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// case the title) provided by the parent (in this case the App widget) and
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// used by the build method of the State. Fields in a Widget subclass are
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// always marked &#34;final&#34;.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">String</span> title;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 对于StatefulWidget自动会执行creatState 但在生命周期的那个时刻呢
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _MyHomePageState <span style="color:#fff;font-weight:bold">extends</span> State&lt;MyHomePage&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">int</span> _counter = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// This call to setState tells the Flutter framework that something has
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// changed in this State, which causes it to rerun the build method below
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// so that the display can reflect the updated values. If we changed
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// _counter without calling setState(), then the build method would not be
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// called again, and so nothing would appear to happen.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      _counter++;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// This method is rerun every time setState is called, for instance as done
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// by the _incrementCounter method above.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// The Flutter framework has been optimized to make rerunning build methods
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// fast, so that you can just rebuild anything that needs updating rather
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// than having to individually change instances of widgets.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Here we take the value from the MyHomePage object that was created by
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// the App.build method, and use it to set our appbar title.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        title: Text(widget.title),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: Center(
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Center is a layout widget. It takes a single child and positions it
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// in the middle of the parent.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        child: Column(
+</span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// Column is also a layout widget. It takes a list of children and
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// arranges them vertically. By default, it sizes itself to fit its
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// children horizontally, and tries to be as tall as its parent.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Invoke &#34;debug painting&#34; (press &#34;p&#34; in the console, choose the
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// &#34;Toggle Debug Paint&#34; action from the Flutter Inspector in Android
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Studio, or the &#34;Toggle Debug Paint&#34; command in Visual Studio Code)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// to see the wireframe for each widget.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Column has various properties to control how it sizes itself and
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// how it positions its children. Here we use mainAxisAlignment to
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// center the children vertically; the main axis here is the vertical
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// axis because Columns are vertical (the cross axis would be
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// horizontal).
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          mainAxisAlignment: MainAxisAlignment.center,
+</span></span><span style="display:flex;"><span>          children: &lt;Widget&gt;[
+</span></span><span style="display:flex;"><span>            TaboxA(),
+</span></span><span style="display:flex;"><span>            ParentWidget(),
+</span></span><span style="display:flex;"><span>            ParentWidgetC(),
+</span></span><span style="display:flex;"><span>          ],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      floatingActionButton: FloatingActionButton(
+</span></span><span style="display:flex;"><span>        onPressed: _incrementCounter,
+</span></span><span style="display:flex;"><span>        tooltip: <span style="color:#0ff;font-weight:bold">&#39;Increment&#39;</span>,
+</span></span><span style="display:flex;"><span>        child: <span style="color:#fff;font-weight:bold">const</span> Icon(Icons.add),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TaboxA <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> TaboxA({Key? key}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  State&lt;TaboxA&gt; createState() =&gt; _TaboxAState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _TaboxAState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TaboxA&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>; <span style="color:#007f7f">// Widget自己管理状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  _handleTap() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = !_active;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span><span style="display:flex;"><span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: _active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            _active ? <span style="color:#0ff;font-weight:bold">&#34;Active&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;Inactive&#34;</span>,
+</span></span><span style="display:flex;"><span>            style: <span style="color:#fff;font-weight:bold">const</span> TextStyle(
+</span></span><span style="display:flex;"><span>              fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>,
+</span></span><span style="display:flex;"><span>              color: Colors.white,
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 交给父类管理状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> ParentWidget <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> ParentWidget({Key? key}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  State&lt;ParentWidget&gt; createState() =&gt; _ParentWidgetState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidget&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>  _handleTapboxChanged(<span style="color:#fff;font-weight:bold">bool</span> newValue) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (newValue == _active) <span style="color:#fff;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = newValue;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Container(
+</span></span><span style="display:flex;"><span>      child: TapBoxB(
+</span></span><span style="display:flex;"><span>        active: _active,
+</span></span><span style="display:flex;"><span>        onChanged: _handleTapboxChanged,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapBoxB <span style="color:#fff;font-weight:bold">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> TapBoxB({Key? key, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.active, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.onChanged}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> ValueChanged&lt;<span style="color:#fff;font-weight:bold">bool</span>&gt; onChanged;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  _handleTap() {
+</span></span><span style="display:flex;"><span>    onChanged(!active);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span><span style="display:flex;"><span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            active ? <span style="color:#0ff;font-weight:bold">&#34;Active&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;Inactive&#34;</span>,
+</span></span><span style="display:flex;"><span>            style: <span style="color:#fff;font-weight:bold">const</span> TextStyle(
+</span></span><span style="display:flex;"><span>              fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>,
+</span></span><span style="display:flex;"><span>              color: Colors.white,
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 混合管理模式
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> ParentWidgetC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  State&lt;ParentWidgetC&gt; createState() =&gt; _ParentWidgetCState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 管理active状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidgetC&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  _handleTapboxChanged(<span style="color:#fff;font-weight:bold">bool</span> newValue) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (newValue == _active) <span style="color:#fff;font-weight:bold">return</span> ;
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _active = newValue;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Container(
+</span></span><span style="display:flex;"><span>      child: TapBoxC(
+</span></span><span style="display:flex;"><span>        active: _active,
+</span></span><span style="display:flex;"><span>        activeOnChanged: _handleTapboxChanged,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapBoxC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> TapBoxC({Key? key, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.active, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.activeOnChanged}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 父widget管理的状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> ValueChanged&lt;<span style="color:#fff;font-weight:bold">bool</span>&gt; activeOnChanged;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  State&lt;TapBoxC&gt; createState() =&gt; _TapBoxCState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 管理highlight状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> _TapBoxCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TapBoxC&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapDown(TapDownDetails details) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">true</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapUp(TapUpDetails details) {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapCancel() {
+</span></span><span style="display:flex;"><span>    setState(() {
+</span></span><span style="display:flex;"><span>      _highlight = <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTap() {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 回调active状态
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    widget.activeOnChanged(!widget.active);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span>  GestureDetector(
+</span></span><span style="display:flex;"><span>      onTapDown: _handleTapDown, <span style="color:#007f7f">// 处理按下事件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTap: _handleTap,
+</span></span><span style="display:flex;"><span>      onTapCancel: _handleTapCancel,
+</span></span><span style="display:flex;"><span>      child: Container(
+</span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ff0;font-weight:bold">200.0</span>,
+</span></span><span style="display:flex;"><span>        decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>          color: widget.active ? Colors.lightGreen[<span style="color:#ff0;font-weight:bold">700</span>] : Colors.grey[<span style="color:#ff0;font-weight:bold">600</span>],
+</span></span><span style="display:flex;"><span>          border: _highlight ? Border.all(
+</span></span><span style="display:flex;"><span>            color: Colors.teal,
+</span></span><span style="display:flex;"><span>            width: <span style="color:#ff0;font-weight:bold">10.0</span>
+</span></span><span style="display:flex;"><span>          ): <span style="color:#fff;font-weight:bold">null</span>,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        child: Center(
+</span></span><span style="display:flex;"><span>          child: Text(
+</span></span><span style="display:flex;"><span>            widget.active ? <span style="color:#0ff;font-weight:bold">&#39;Active&#39;</span> : <span style="color:#0ff;font-weight:bold">&#39;Inactive&#39;</span>,
+</span></span><span style="display:flex;"><span>            style: <span style="color:#fff;font-weight:bold">const</span> TextStyle(fontSize: <span style="color:#ff0;font-weight:bold">32.0</span>, color: Colors.white),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://akashark.github.io/tags/%E6%A0%87%E7%AD%BE1/">标签1</a></li>
     </ul>
 <nav class="paginav">
   <a class="prev" href="https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/">
@@ -247,7 +1353,7 @@
 
 <div class="share-buttons">
     <a target="_blank" rel="noopener noreferrer" aria-label="share 第一个Flutter应用 二 on twitter"
-        href="https://twitter.com/intent/tweet/?text=%e7%ac%ac%e4%b8%80%e4%b8%aaFlutter%e5%ba%94%e7%94%a8%20%e4%ba%8c&amp;url=https%3a%2f%2fakashark.github.io%2fposts%2fread%2fflutter%25E5%25AE%259E%25E6%2588%2598%2f%25E7%25AC%25AC%25E4%25B8%2580%25E4%25B8%25AAflutter%25E5%25BA%2594%25E7%2594%25A8-%25E4%25BA%258C%2f&amp;hashtags=%e6%a0%87%e7%ad%be1">
+        href="https://twitter.com/intent/tweet/?text=%e7%ac%ac%e4%b8%80%e4%b8%aaFlutter%e5%ba%94%e7%94%a8%20%e4%ba%8c&amp;url=https%3a%2f%2fakashark.github.io%2fposts%2fread%2fflutter%25E5%25AE%259E%25E6%2588%2598%2f%25E7%25AC%25AC%25E4%25B8%2580%25E4%25B8%25AAflutter%25E5%25BA%2594%25E7%2594%25A8-%25E4%25BA%258C%2f&amp;hashtags=">
         <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
             <path
                 d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
