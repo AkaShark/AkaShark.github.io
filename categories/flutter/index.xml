@@ -6,7 +6,16 @@
     <description>Recent content in Flutter on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 07 Oct 2022 23:36:30 +0800</lastBuildDate><atom:link href="https://akashark.github.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Oct 2022 10:35:30 +0800</lastBuildDate><atom:link href="https://akashark.github.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>第一个Flutter应用 四</title>
+      <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E5%9B%9B/</link>
+      <pubDate>Sun, 09 Oct 2022 10:35:30 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E5%9B%9B/</guid>
+      <description>第二章 调试Flutter应用 日志与断点 debugger() 声明 1 2 3 4 void someFunction(double offset) { debugger(when: offset &amp;gt; 30.0); // ... } print、debugPrint、flutter logs Dart print()</description>
+    </item>
+    
     <item>
       <title>第一个Flutter应用 三</title>
       <link>https://akashark.github.io/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/</link>
