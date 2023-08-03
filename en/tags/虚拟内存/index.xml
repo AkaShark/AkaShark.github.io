@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>虚拟内存 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</link>
+    <description>Recent content in 虚拟内存 on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 07 Aug 2022 22:11:58 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为什么要有虚拟内存</title>
+      <link>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</link>
+      <pubDate>Sun, 07 Aug 2022 22:11:58 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/</guid>
+      <description>为什么要有虚拟内存？ 虚拟内存 单道程序的操作系统直接引用的物理地址，无法同时运行两个程序，程序会因为内存地址错乱而崩溃，单道程序的操作系统使用</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Flutter实战 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/</link>
+    <description>Recent content in Flutter实战 on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 Oct 2022 23:11:39 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>第三章基础组件 一</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/</link>
+      <pubDate>Tue, 25 Oct 2022 23:11:39 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/</guid>
+      <description>文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点&amp;hellip;的用法 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居</description>
+    </item>
+    
+    <item>
+      <title>第一个Flutter应用 四</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E5%9B%9B/</link>
+      <pubDate>Sun, 09 Oct 2022 10:35:30 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E5%9B%9B/</guid>
+      <description>第二章 调试Flutter应用 日志与断点 debugger() 声明 1 2 3 4 void someFunction(double offset) { debugger(when: offset &amp;gt; 30.0); // ... } print、debugPrint、flutter logs Dart print()</description>
+    </item>
+    
+    <item>
+      <title>第一个Flutter应用 三</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/</link>
+      <pubDate>Fri, 07 Oct 2022 23:36:30 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/</guid>
+      <description>第二章 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类</description>
+    </item>
+    
+    <item>
+      <title>第一个Flutter应用 一</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/</link>
+      <pubDate>Wed, 05 Oct 2022 21:21:51 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/</guid>
+      <description>第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi</description>
+    </item>
+    
+    <item>
+      <title>第一个Flutter应用 二</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</link>
+      <pubDate>Wed, 05 Oct 2022 21:21:33 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</guid>
+      <description>第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi</description>
+    </item>
+    
+    <item>
+      <title>起步</title>
+      <link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/</link>
+      <pubDate>Mon, 03 Oct 2022 18:32:17 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/</guid>
+      <description>第一章 起步 弹射起步 变量声明 var 声明变量，但是类型后面不可以改变了，根据第一次赋值数据的类型来推断其类型，编译结束后其类型就已经被确定 dynamic 和 Object 声明</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>思考 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/categories/%E6%80%9D%E8%80%83/</link>
+    <description>Recent content in 思考 on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 01 Oct 2022 23:26:29 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/%E6%80%9D%E8%80%83/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>最近的一些感悟 (20221001)</title>
+      <link>https://akashark.github.io/en/posts/life/%E6%80%9D%E8%80%83/20221001/</link>
+      <pubDate>Sat, 01 Oct 2022 23:26:29 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/life/%E6%80%9D%E8%80%83/20221001/</guid>
+      <description>背景 最近有两件事情对我感触还是挺大的，第一件是在字节的转正实习转正，第二件是转正后2天的研究生导师组会。为啥这两件事情会对我感触比较大呢，总</description>
+    </item>
+    
+  </channel>
+</rss>

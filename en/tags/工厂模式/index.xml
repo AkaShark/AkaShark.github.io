@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>工厂模式 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 工厂模式 on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 26 Sep 2022 15:26:29 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>工厂模式</title>
+      <link>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 26 Sep 2022 15:26:29 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>工厂模式 浅析设计模式1 —— 工厂模式 设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范</description>
+    </item>
+    
+  </channel>
+</rss>
