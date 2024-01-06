@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>阅读 on SharkerBlog</title>
-    <link>https://akashark.github.io/en/posts/read/</link>
-    <description>Recent content in 阅读 on SharkerBlog</description>
+    <title>阅读笔记 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 阅读笔记 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 06 Jan 2024 15:36:09 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/posts/read/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Jan 2024 15:36:09 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>图解Http读后感</title>
       <link>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</link>

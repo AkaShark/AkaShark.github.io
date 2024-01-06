@@ -6,7 +6,16 @@
     <description>Recent content in Tags on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Aug 2023 13:42:19 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Jan 2024 15:36:09 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>阅读笔记</title>
+      <link>https://akashark.github.io/en/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 06 Jan 2024 15:36:09 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Foundation KVO KVC</title>
       <link>https://akashark.github.io/en/tags/foundation-kvo-kvc/</link>
@@ -58,6 +67,15 @@
       <pubDate>Mon, 26 Sep 2022 11:54:26 +0800</pubDate>
       
       <guid>https://akashark.github.io/en/tags/http1.0-http2.0-http3.0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>标签1</title>
+      <link>https://akashark.github.io/en/tags/%E6%A0%87%E7%AD%BE1/</link>
+      <pubDate>Mon, 26 Sep 2022 11:46:19 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/tags/%E6%A0%87%E7%AD%BE1/</guid>
       <description></description>
     </item>
     

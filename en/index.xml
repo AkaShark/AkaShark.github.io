@@ -6,7 +6,16 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Aug 2023 13:42:19 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Jan 2024 15:36:09 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>图解Http读后感</title>
+      <link>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</link>
+      <pubDate>Sat, 06 Jan 2024 15:36:09 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>KVO KVC复习</title>
       <link>https://akashark.github.io/en/posts/tech/ios/foundation/kvo-kvc%E5%A4%8D%E4%B9%A0/</link>
@@ -3982,6 +3991,15 @@ HTTP在1.1后默认开启了管线化，HTTP 管线化的意思就是客户端�
 到了HTTP3.0更是有了长足的进步直接把传输层的协议改了不再依靠应用层去做一些花活了&lt;/li&gt;
 &lt;/ul&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>HTTP发展史浅析</title>
+      <link>https://akashark.github.io/en/docs/network/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</link>
+      <pubDate>Mon, 26 Sep 2022 11:46:19 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/docs/network/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</guid>
+      <description></description>
     </item>
     
     <item>
