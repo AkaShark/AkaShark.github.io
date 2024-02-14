@@ -904,10 +904,306 @@ Go中的接口也是一种数据类型，不需要显示实现，只需要一个
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;接口定义的方法没有函数体，不需要给出具体的实现
-如果接口里面有方法的话，必须要通过结构体或者自定义类型实现这个接口，要实现这个接口的话必须要实现接口中的所有方法(实现这 结构体或者自定义类型)&lt;/p&gt;
+如果接口里面有方法的话，必须要通过结构体或者自定义类型实现这个接口，要实现这个接口的话必须要实现接口中的所有方法(实现这 结构体或者自定义类型)
+go 中接口就是一种数据类型 (interface)&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2022.19.53@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 22.19.53@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2022.31.35@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 22.31.35@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;外部调用是 computer.work(camera)
+等价于
+var usb Usber = camera
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2022.42.19@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 22.42.19@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;接口是规范 实现接口需要实现接口中的所有方法&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;空接口&#34;&gt;空接口&lt;/h3&gt;
+&lt;p&gt;GO中的接口可以不定义任何方法，没有任何方法的接口就是空接口，空接口表示没有任何约束，因此任何类型变量都可以实现空接口，空接口在实际使用的非常多，用空接口可以代表任意数据类型&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;空接口表示任意类型Any&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2022.52.46@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 22.52.46@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2022.55.08@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 22.55.08@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;go中空接口是可以直接当做类型来使用的， 可以表示任意类型&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;作为函数参数&#34;&gt;作为函数参数&lt;/h4&gt;
+&lt;p&gt;使用空接口实现可以接受任意类型的函数参数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 空接口作为函数参数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; show(a &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;interface&lt;/span&gt;{}) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	函数体
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;map的值实现空接口&#34;&gt;map的值实现空接口&lt;/h4&gt;
+&lt;p&gt;使用空接口实现可以保存任意值的字典&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; studentInfo = &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;interface&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;studentInfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;张三&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;studentInfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;age&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;18&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;studentInfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;married&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fmt.Println(studentInfo)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;切片实现空接口&#34;&gt;切片实现空接口&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; slice = []&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;interface&lt;/span&gt;{}{&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;张三&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;20&lt;/span&gt;, &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;32.9&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fmt.Println(slice)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;类型断言&#34;&gt;类型断言&lt;/h3&gt;
+&lt;p&gt;一个接口的值是由一个具体类型和具体类型的值两个部分组成的，这两部分分别被称为接口的动态类型和动态值。
+如果我们想要判断空接口中的值的类型，那么这个时候就可以使用类型断言
+&lt;code&gt;x.(T)&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;x 表示类型为interface{}的变量&lt;/li&gt;
+&lt;li&gt;T 表示断言x可能的类型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2023.18.27@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 23.18.27@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2023.18.51@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 23.18.51@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2023.29.47@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 23.29.47@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;定义一个方法可以传入任意数据类型，然后根据不同的类型实现不同的功能&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2023.29.25@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 23.29.25@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;只能在switch使用 x.(type)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;结构体值接收者和指针接收者实现接口的区别&#34;&gt;结构体值接收者和指针接收者实现接口的区别&lt;/h3&gt;
+&lt;h4 id=&#34;值接收者&#34;&gt;值接收者&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2022.40.33@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 22.40.33@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果结构体中的方法是值接收者，那么实例化后的结构体值类型和结构体指针都可以赋值给接口类型变量&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;指针接收者&#34;&gt;指针接收者&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2022.44.00@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 22.44.00@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果结构体中的方法是指针接收者，那么实例化后结构体指针类型可以赋值给接口变量 &amp;ndash; 只能是指针类型变量 值类型的变量不可以&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;一个结构体实现多个接口&#34;&gt;一个结构体实现多个接口&lt;/h3&gt;
+&lt;p&gt;两个接口Animal1， Animal2
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2022.53.14@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 22.53.14@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;接口嵌套&#34;&gt;接口嵌套&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2022.58.20@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 22.58.20@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;接口与接口之间可以通过嵌套创建出新的接口&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;空接口与类型断言的细节&#34;&gt;空接口与类型断言的细节&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; userinfo = &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;interface&lt;/span&gt;{})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;张三&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;age&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;hobby&amp;#34;&lt;/span&gt;] = []&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;{&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;睡觉&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;吃饭&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	fmt.Println(userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;age&amp;#34;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	fmt.Println(userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;hobby&amp;#34;&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	fmt.Println(userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;hobby&amp;#34;&lt;/span&gt;][&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;interface{} dose not support indexing 空接口不支持idnex&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2023.20.05@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 23.20.05@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;获取struct里面的属性获取不到 因为是interface{}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对于第一个切片的问题
+使用类型断言来给空接口一个具体的类型就可以实现访问了
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2023.23.13@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 23.23.13@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;对于struct是一样的
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-17%20at%2023.24.23@2x.png&#34; alt=&#34;CleanShot 2024-01-17 at 23.24.23@2x.png&#34;  /&gt;
+&lt;/p&gt;
 &lt;h2 id=&#34;go-指针&#34;&gt;Go 指针&lt;/h2&gt;
+&lt;p&gt;通过前面的教程我们知道变量是用来存储数据的，变量的本质是给存储数据的内存地址起了一个好记的名字，比如我们定义了一个变量&lt;code&gt;a := 10&lt;/code&gt;, 这个时候可以直接通过&lt;code&gt;a&lt;/code&gt;这个变量来读取内存中保存的10这个值，在计算机底层&lt;code&gt;a&lt;/code&gt;这个变量其实对应了一个内存地址。&lt;/p&gt;
+&lt;p&gt;指针也是一个变量，但是他是一种特殊的变量，他存储的数据不是一个普通的值，而是另一个变量的&lt;strong&gt;内存地址&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-13%20at%2023.44.26@2x.png&#34; alt=&#34;CleanShot 2024-01-13 at 23.44.26@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-13%20at%2023.44.58@2x.png&#34; alt=&#34;CleanShot 2024-01-13 at 23.44.58@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;通过地址取值&#34;&gt;通过地址取值&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	a := &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	p := &amp;amp;a &lt;span style=&#34;color:#007f7f&#34;&gt;// p是指针变量 类型为*int
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#007f7f&#34;&gt;// *p 表示取出p这个变量对应的内存地址的值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;将值类型变成了引用类型数据 取地址&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;new和make&#34;&gt;new和make&lt;/h3&gt;
+&lt;p&gt;指针需要创建内存后使用&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-14%20at%2000.04.50@2x.png&#34; alt=&#34;CleanShot 2024-01-14 at 00.04.50@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; userinfo = &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;userinfo[&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;] = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;张三&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fmt.Println(userinfo)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;map是引用类型数据 必须分配内存空间后才可以初始化&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; a *&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#007f7f&#34;&gt;// 指针也是引用类型数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;*a = &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;100&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fmt.Println(*a)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;执行上面的代码会引发&lt;code&gt;panic&lt;/code&gt;，这是因为在Go语言中对于引用类型的变量，在使用的时候不仅声明它，还要为他分配内存空间，否则值就没法鵆，对于值类型的声明不需要分配内存空间，是因为他在声明的时候已经默认分配好了存储空间，要分配内存就引出了new和make，Go语言中的new和make是内建的两个函数，主要用于分配内存。&lt;/p&gt;
+&lt;h4 id=&#34;new&#34;&gt;new&lt;/h4&gt;
+&lt;p&gt;new是一个内置的函数，它的签名如下
+&lt;code&gt;func new(Type) *Type&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Type 表示类型，new函数只接受一个参数，这个参数是一个类型&lt;/li&gt;
+&lt;li&gt;*Type表示类型指针，new函数返回一个指向该类型内存地址的指针
+实际开发中new并不常用，使用new函数得到的是一个类型指针，并且该指针对应的值为该类型的零值
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-14%20at%2000.09.54@2x.png&#34; alt=&#34;CleanShot 2024-01-14 at 00.09.54@2x.png&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;make&#34;&gt;make&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;var a = make(type)&lt;/code&gt;
+创建并分配内存空间, a的默认值为对应&lt;code&gt;type&lt;/code&gt;的零值&lt;/p&gt;
+&lt;h4 id=&#34;new-与-make-区别&#34;&gt;new 与 make 区别&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;两者都是用来做内存分配的&lt;/li&gt;
+&lt;li&gt;make只能用于slice、map以及channel的初始化，返回的还是这三个引用类型本身&lt;/li&gt;
+&lt;li&gt;而new用于类型的内存分配，并且内存对应的值为类型零值，返回的是指向类型的指针&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;go-time包以及日期函数&#34;&gt;Go time包以及日期函数&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.01.51@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.01.51@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.03.12@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.03.12@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可以使用Day Hour等来访问时间的具体字段&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;format格式化&#34;&gt;Format格式化&lt;/h3&gt;
+&lt;p&gt;时间类型有一个自带的方法Format进行格式化，需要注意的是Go语言中格式化时间模版不是常见的Y-m-d H:M:S而是使用了Go的诞生圣剑2006年1月2号15点04分(2006 1 2 3 4)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2006 年&lt;/li&gt;
+&lt;li&gt;01 月&lt;/li&gt;
+&lt;li&gt;02 日&lt;/li&gt;
+&lt;li&gt;03 时&lt;/li&gt;
+&lt;li&gt;04 分&lt;/li&gt;
+&lt;li&gt;05 秒&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.05.54@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.05.54@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.07.36@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.07.36@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;12进制和24进制的区别在于 15表示24小时制 03表示12小时制&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;时间戳&#34;&gt;时间戳&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.09.52@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.09.52@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.11.02@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.11.02@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;时间戳转日期&#34;&gt;时间戳转日期&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.12.58@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.12.58@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;日期转化时间戳&#34;&gt;日期转化时间戳&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.18.20@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.18.20@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;上面的两种转化&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;时间戳转日期 先将时间戳转化为时间对象，再将时间对象通过&lt;code&gt;Format&lt;/code&gt;转化为string&lt;/li&gt;
+&lt;li&gt;日期转化时间戳 先将日期通过&lt;code&gt;ParseInLocation&lt;/code&gt;转化为时间对象，在通过&lt;code&gt;Unix&lt;/code&gt;转化为时间戳&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;时间间隔&#34;&gt;时间间隔&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.20.12@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.20.12@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;单位是纳秒&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;时间操作函数&#34;&gt;时间操作函数&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.21.38@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.21.38@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.21.54@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.21.54@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.22.07@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.22.07@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.22.50@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.22.50@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;定时器&#34;&gt;定时器&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.25.38@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.25.38@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.28.31@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.28.31@2x.png&#34;  /&gt;
+&lt;/p&gt;
 &lt;h2 id=&#34;go-mod-与-go包详解&#34;&gt;Go mod 与 Go包详解&lt;/h2&gt;
 &lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;
 &lt;h2 id=&#34;go-反射&#34;&gt;Go 反射&lt;/h2&gt;
