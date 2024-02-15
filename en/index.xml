@@ -6,7 +6,20 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 10 Feb 2024 23:20:23 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Feb 2024 13:45:07 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基础语法速通③</title>
+      <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
+      <pubDate>Thu, 15 Feb 2024 13:45:07 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</guid>
+      <description>&lt;p&gt;继续前面的整理，这将是最后一部分的整理内容，包括了goroutine channel的使用以及Go反射的使用。&lt;/p&gt;
+&lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;
+&lt;h3 id=&#34;进程-线程-并行-并发&#34;&gt;进程 线程 并行 并发&lt;/h3&gt;
+&lt;h2 id=&#34;go-反射&#34;&gt;Go 反射&lt;/h2&gt;
+</description>
+    </item>
+    
     <item>
       <title>基础语法速通 二</title>
       <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
@@ -1205,9 +1218,239 @@ var usb Usber = camera
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-12%20at%2000.28.31@2x.png&#34; alt=&#34;CleanShot 2024-01-12 at 00.28.31@2x.png&#34;  /&gt;
 &lt;/p&gt;
 &lt;h2 id=&#34;go-mod-与-go包详解&#34;&gt;Go mod 与 Go包详解&lt;/h2&gt;
-&lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;
-&lt;h2 id=&#34;go-反射&#34;&gt;Go 反射&lt;/h2&gt;
-&lt;h2 id=&#34;go-文件目录操作&#34;&gt;Go 文件目录操作&lt;/h2&gt;
+&lt;h3 id=&#34;包的定义&#34;&gt;包的定义&lt;/h3&gt;
+&lt;p&gt;包是多个Go源码的集合，是一种高级的代码复用方案，Go语言为我们提供了很多内置包，如fmt、strconv、strings、sort、error等
+Go中的包可以分为三种&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;系统内置包 Go语言给我们提供了内置包，引用后可以直接使用，如fmt、strconv等&lt;/li&gt;
+&lt;li&gt;自定义包 开发者自己写的包&lt;/li&gt;
+&lt;li&gt;第三方包 属于自定义包的一种，需要下载安装到本地后才可以使用，如decimal包解决float精度丢失问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;包管理工具-go-mod&#34;&gt;包管理工具 go mod&lt;/h3&gt;
+&lt;p&gt;在Go1.11版本之前如果我们要自定义包的话必须把项目放在GOPATH目录下，GO1.11版本之后无需要手动配置环境变量，使用go mod管理项目，也不需要非得把项目放到GOPATH指定目录下，可以在磁盘的任意位置新建项目，GO1.13以后彻底不要GOPATH了。&lt;/p&gt;
+&lt;h4 id=&#34;init&#34;&gt;init&lt;/h4&gt;
+&lt;p&gt;在实际项目开发中我们首先需要在项目中用go mod命令生成一个go.mod文件管理我们的项目依赖
+&lt;code&gt;go mod init 包名&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;自定义包&#34;&gt;自定义包&lt;/h3&gt;
+&lt;p&gt;package是多个go源码的集合，一个包可以简单理解为一个存放多个.go文件的文件夹，该文件夹下面的所有go文件都要在代码的第一行添加如下代码，声明文件归属的包
+&lt;code&gt;package 包名&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个文件夹下面直接包含的文件只能归属一个package，同样一个package的文件不能再多个文件夹下面&lt;/li&gt;
+&lt;li&gt;包名可以不和文件夹的名字一样，包名不能包含&lt;code&gt;-&lt;/code&gt;符号&lt;/li&gt;
+&lt;li&gt;包名为main的包为程序的入口包，这种包编译后会得到一个可执行文件，而编译不包含main的包的源码文件则不会得到可执行文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;自定义包名&#34;&gt;自定义包名&lt;/h4&gt;
+&lt;p&gt;在导入包名的时候，可以为导入的包设置别名，通常用于导入的包名太长或者导入的包名冲突的情况
+&lt;code&gt;import 别名 &amp;quot;包的路径&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;import&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	别名 &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;包的路径&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;go-init函数&#34;&gt;Go init函数&lt;/h3&gt;
+&lt;p&gt;在Go程序执行时导入包语句会自动触发包内部的init函数，需要注意的是init()函数没有参数也没有返回值，init函数在程序运行时被自动调用执行，不能在代码中主动调用。
+包初始化的顺序如下图所示
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2000.45.16@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 00.45.16@2x.png&#34;  /&gt;
+
+程序初始化流程&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;全局声明&lt;/li&gt;
+&lt;li&gt;init()&lt;/li&gt;
+&lt;li&gt;main()&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;init函数执行顺序&#34;&gt;init函数执行顺序&lt;/h4&gt;
+&lt;p&gt;Go语言包会从main包开始检查其导入的所有包，每个包中又可能导入其他的包，Go编译器由此构建出一个树状的包引用关系，再根据引用顺序决定编译顺序，依次编译这些包的代码，在运行时被左后导入的包会在最初的时候调用其init函数&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2000.48.02@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 00.48.02@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;栈结构 先入后出&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;使用第三方包&#34;&gt;使用第三方包&lt;/h3&gt;
+&lt;p&gt;可以在&lt;a href=&#34;https://pkg.go.dev/&#34;&gt;包管理&lt;/a&gt;查找常见的go第三方包
+比如去上面的网址找到float精度丢失的包decimal
+然后查看其安装命令
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2014.04.41@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 14.04.41@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;使用命令
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2014.07.40@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 14.07.40@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;安装第三方包&#34;&gt;安装第三方包&lt;/h4&gt;
+&lt;h4 id=&#34;方式一&#34;&gt;方式一&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;go get github.com/xxxx&lt;/code&gt;
+全局&lt;/p&gt;
+&lt;h4 id=&#34;方式二&#34;&gt;方式二&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;go mod download&lt;/code&gt;
+全局&lt;/p&gt;
+&lt;h4 id=&#34;方式三&#34;&gt;方式三&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2014.11.27@2x.png&#34; alt=&#34;CleanShot 2024-01-16 at 14.11.27@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;依赖包会自动下载到GOPath/pkg/mod中多个项目可以共享缓存的mod注意使用go mod download的时候首先需要再你的项目中引入第三方包&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-16%20at%2014.16.00@2x.png&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;补充 Go mod 常见命令&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;go-文件-目录操作&#34;&gt;Go 文件 目录操作&lt;/h2&gt;
+&lt;h3 id=&#34;文件操作&#34;&gt;文件操作&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.33.39@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.33.39@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;读取文件&#34;&gt;读取文件&lt;/h4&gt;
+&lt;p&gt;方式一 file.Read()&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;只读方式打开文件 &lt;code&gt;file, err := os.Open()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;读取文件 &lt;code&gt;file.Read()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;关闭文件流 &lt;code&gt;defer file.Close()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2011.08.27@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 11.08.27@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2011.21.21@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 11.21.21@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一次读取128个字节，但是可能最后一个切片读取不满128个字节打印就会出现问题&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2011.23.39@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 11.23.39@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;file.Read返回的第一个参数为读取到的字节数，在将每个切片合入的时候通过tempSlice[:n] 在截取读取到的切片&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;方式二 bufio读取文件&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;只读方式打开文件 &lt;code&gt;file, err := os.Open()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;创建reader对象 &lt;code&gt;reader := bufio.NewReader(file)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ReadString读取文件 &lt;code&gt;line, err := reader.ReadString(&#39;\n&#39;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;关闭文件流 &lt;code&gt;defer file.Close()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.48.57@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.48.57@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;bufio读取方式 reader.ReadString 返回的第一个参数是读取到的字符串&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;方式三 读取文件 os.ReadFile
+打开关闭文件的方法都封装好了只需要一句话就可以读取 os.ReadFile&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	str, err := os.ReadFile(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;./main.go&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;if&lt;/span&gt; err == &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		fmt.Println(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;string&lt;/span&gt;(str))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	} &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		fmt.Println(err)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;写入文件&#34;&gt;写入文件&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.53.29@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.53.29@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.54.11@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.54.11@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.54.33@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.54.33@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;打开文件的权限设置
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.55.30@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.55.30@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;方式一 file.Write&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开文件 &lt;code&gt;file, err := os.OpenFile(&amp;quot;文件地址&amp;quot;, os.O_CREATE|os.O_RDWR, 0666)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;写入文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;file.Write([]&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;byte&lt;/span&gt;(str)) &lt;span style=&#34;color:#007f7f&#34;&gt;//  写入字节切片数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;file.WriteString(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;直接写入的字符串数据&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#007f7f&#34;&gt;// 直接写入字符串数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;关闭文件流 &lt;code&gt;defer file.Close()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2012.58.40@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 12.58.40@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;方式二 bufio 创建写入对象&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开文件 &lt;code&gt;file, err := os.OPenFile(&amp;quot;文件地址&amp;quot;, os.O_CREATE|os.O_RDWR, 0666)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;创建write对象 &lt;code&gt;write := bufio.NewWriter(file)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;将数据先写入缓存 &lt;code&gt;write.WriteString(&amp;quot;Hello\r\n&amp;quot;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;将缓存中的内容写入文件 &lt;code&gt;write.Flush()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;关闭文件流 &lt;code&gt;defer file.Close()&lt;/code&gt;
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.04.30@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.04.30@2x.png&#34;  /&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;记得要Flush写入数据&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;方式三 os.WriteFile()
+直接封装好的可以直接调用 os.WriteFile()&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	str := &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	os.WriteFile(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;./main.go&amp;#34;&lt;/span&gt;, []&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;byte&lt;/span&gt;(str), &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;0666&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;文件重命名&#34;&gt;文件重命名&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.29.51@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.29.51@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.30.48@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.30.48@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;复制文件&#34;&gt;复制文件&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.08.23@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.08.23@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;os.ReadFile&lt;/code&gt;与&lt;code&gt;os.WriteFile&lt;/code&gt; 完成文件的转移复制&lt;/p&gt;
+&lt;p&gt;使用file对象
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.20.15@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.20.15@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.19.55@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.19.55@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意要记得 关闭文件流！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;删除文件&#34;&gt;删除文件&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.27.46@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.27.46@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;remove 不但可以删除文件也可以删除目录
+删除多级目录使用removeAll
+删除文件remove 递归删除removeAll&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;目录操作&#34;&gt;目录操作&lt;/h3&gt;
+&lt;h4 id=&#34;创建目录&#34;&gt;创建目录&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.23.58@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.23.58@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;一次性创建多级目录&#34;&gt;一次性创建多级目录&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2013.26.36@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 13.26.36@2x.png&#34;  /&gt;
+&lt;/p&gt;
 </description>
     </item>
     
