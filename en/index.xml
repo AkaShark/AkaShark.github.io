@@ -16,7 +16,529 @@
       <description>&lt;p&gt;继续前面的整理，这将是最后一部分的整理内容，包括了goroutine channel的使用以及Go反射的使用。&lt;/p&gt;
 &lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;
 &lt;h3 id=&#34;进程-线程-并行-并发&#34;&gt;进程 线程 并行 并发&lt;/h3&gt;
-&lt;h2 id=&#34;go-反射&#34;&gt;Go 反射&lt;/h2&gt;
+&lt;h4 id=&#34;进程-线程&#34;&gt;进程 线程&lt;/h4&gt;
+&lt;p&gt;进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位，进程是一个动态概念，是程序在执行过程中分配和管理资源的基本单位，每一个进程都有自己的地址空间，一个进程中至少有5个基本状态，初始态、执行态、等待状态、就绪状态、终止状态。通俗的讲进程就是一个正在执行的程序。&lt;/p&gt;
+&lt;p&gt;线程是进程的一个执行实例，是程序执行的最小单元，它是比进程更小的能独立运行的基本单位，一个进程可以创建多个线程，同一个进程中的多个线程可以并发执行，一个程序要运行的话至少有一个进程&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.15.30@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.15.30@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;并发-并行&#34;&gt;并发 并行&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;并发 多个线程同时竞争一个位置，竞争到的才可以执行，同一个时间段内只有一个线程在执行&lt;/li&gt;
+&lt;li&gt;并行 多个线程可以同时执行，每个时间段内，可以有多个线程同时执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通俗的讲多线程程序在单核CPU上面运行就是并发，多线程程序在多核CPU上运行就是并行，如果线程数大于CPU数，则多线程程序在多核CPU上面运行既有并行又有并发。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.16.18@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.16.18@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.16.31@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.16.31@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;区别在于同一时刻是否有多个任务正在被执行&lt;/p&gt;
+&lt;h3 id=&#34;go中的协程goroutine以及主线程&#34;&gt;Go中的协程(goroutine)以及主线程&lt;/h3&gt;
+&lt;p&gt;Go主线程，在主线程上可以起多个协程，Go中多协程可以实现并行或并发。
+协程，可以理解为用户级别的线程，这是对于内核透明的，也就是系统并不知道有协程的存在，是完全由用户自己的程序进行调度的，Go的一个特色就是从语言层面原生支持协程，在函数或者方法前面加go关键字就可以创建一个协程，可以说go中的写成就是goroutine。&lt;/p&gt;
+&lt;p&gt;多协程与多线程，Go中每个Goroutine默认占用内存远比java、c中的线程少的多，OS线程一般都固定了栈内存(2m)，一个Goroutine占用的内存非常小只有2k左右，多协程Goroutine切换调度开销方面远比线程少的多，这也就是go更加适合并发场景的原因。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.18.23@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.18.23@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.21.25@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.21.25@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.19.00@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.19.00@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;多协程切换调度开销远比线程要少&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;goroutine的使用以及syncwaitgroup&#34;&gt;Goroutine的使用以及sync.WaitGroup&lt;/h3&gt;
+&lt;h4 id=&#34;goroutine的使用&#34;&gt;Goroutine的使用&lt;/h4&gt;
+&lt;p&gt;在主线程中，开启一个Goroutine，该协程每隔50毫秒输出“你好go”在主线程中也没个50毫秒输出“你好go”，输出10次后退出程序，要求主线程和Goroutine同时执行&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.29.28@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.29.28@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.27.29@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.27.29@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;主线程执行完毕后即使协程没有执行完毕程序也会退出，使用sync.WaitGroup来等待协程执行完毕&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;syncwaitgroup&#34;&gt;sync.WaitGroup&lt;/h4&gt;
+&lt;p&gt;实现等待协程执行完毕
+&lt;code&gt;var wg sync.WaitGroup&lt;/code&gt;
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.32.28@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.32.28@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;设置go中并行运行的时候占用cpu的数目&#34;&gt;设置Go中并行运行的时候占用CPU的数目&lt;/h3&gt;
+&lt;p&gt;Go运行时的调度器使用GOMAXPROCS参数来确定需要使用多少个OS线程来同时执行GO代码，默认值是机器上的CPU核心数，例如在一个8核心的机器上，调度器会把Go代码同时调度到8个OS线程上。&lt;/p&gt;
+&lt;p&gt;Go语言中可以通过&lt;code&gt;runtime.GOMAXPROCS()&lt;/code&gt;函数设置当前程序并发时占用的CPU核心数，Go1.5版本之前是单核心执行，1.5版本后默认使用全部的CPU核心数。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#007f7f&#34;&gt;// 获取当前计算机上面的cpu个数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;    cpuNum := runtime.NumCPU()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    fmt.Println(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;cpuNum=&amp;#34;&lt;/span&gt;, cpuNum)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    runtime.GOMAXPROCS(cpuNum - &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    fmt.Println(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;ok&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;goroutine-例子&#34;&gt;Goroutine 例子&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2012.39.17@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 12.39.17@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;统计1-10000000的数字中的素数&#34;&gt;统计1-10000000的数字中的素数&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;传统方法 通过一个for循环判断各个数是不是素数
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2016.29.42@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 16.29.42@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用并发或者并行的方式，将统计素数的任务分配给多个goroutine去完成，这个时候就用到了goroutine
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2016.31.29@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 16.31.29@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;start:(n-1)*30000+1&lt;/code&gt; &lt;code&gt;end: n*30000&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2016.36.31@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 16.36.31@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-21%20at%2016.36.14@2x.png&#34; alt=&#34;CleanShot 2024-01-21 at 16.36.14@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;开启四个goroutine 进行循环&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;协程之间的通信----channel管道&#34;&gt;协程之间的通信 &amp;ndash; Channel管道&lt;/h3&gt;
+&lt;p&gt;管道是Go在语言级别上提供的goroutine间的通信方式，可以使用channel在多个goroutine之间传递消息，如果goroutine是Go程序并发的执行体，channel就是他们之间的连接，channel是可以让一个goroutine发送特定值到另一个goroutine的通信机制。&lt;/p&gt;
+&lt;p&gt;Go并发模型是CSP，提倡通过通信共享内存而不是通过共享内存而实现通信。
+Go语言中的管道是一种特殊的类型，管道像一个传送带或者队列，总是遵从先入先出的规则，保证收发数据的顺序。每一个管道都是一个具体类型的导管，也就是声明channel的时候需要为其指定元素类型。&lt;/p&gt;
+&lt;h4 id=&#34;channel-类型&#34;&gt;channel 类型&lt;/h4&gt;
+&lt;p&gt;channel是一种类型，一种引用类型，声明管道类型的格式如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; 变量 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; 元素类型
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; ch1 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#007f7f&#34;&gt;// 声明一个传递整型的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; ch2 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;bool&lt;/span&gt; &lt;span style=&#34;color:#007f7f&#34;&gt;// 声明一个传递bool类型的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; ch3 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; []&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#007f7f&#34;&gt;// 声明一个切片int切片的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;创建channel&#34;&gt;创建channel&lt;/h4&gt;
+&lt;p&gt;声明的管道后需要使用make函数初始化之后才能使用
+&lt;code&gt;make(chan 元素类型, 容量)&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 创建一个能存储10个int类型数据的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;ch1 := &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 创建一个能存储4个 bool类型数据的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;ch2 := &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;bool&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;4&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 创建一个能存储3个[]int切片类型数据的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;ch3 := &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; []&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id=&#34;channel操作&#34;&gt;channel操作&lt;/h4&gt;
+&lt;p&gt;管道有发送、接受和关闭三种操作，发送和接收都是使用&amp;lt;-符号，现在我们先使用以下语句定义一个管道
+&lt;code&gt;ch := make(chan int, 3)&lt;/code&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;发送 将数据放在管道内
+将一个值发送到管道中
+&lt;code&gt;ch &amp;lt;- 10&lt;/code&gt; 把10发送到ch中&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;接受 (从管道内取值)
+从一个管道中接收值&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;x := &amp;lt;- ch &lt;span style=&#34;color:#007f7f&#34;&gt;// 从ch中接收值并赋值给变量x
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&amp;lt;- ch &lt;span style=&#34;color:#007f7f&#34;&gt;// 从ch中接收值，忽略结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;管道是引用数据类型 使用make初始化&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2000.38.18@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 00.38.18@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2000.40.43@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 00.40.43@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2000.47.40@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 00.47.40@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2000.49.08@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 00.49.08@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;放不下数据的时候会阻塞，已经取完了再取的时候会阻塞&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;管道循环&#34;&gt;管道循环&lt;/h3&gt;
+&lt;p&gt;当向管道中发送完数据时，我们可以通过close函数关闭管道，当管道被关闭时，再往管道发送值可能会引发panic，从改管道取值的操作会先取完管道中的值，然后取到的值一直都是对应类型的零值。那么该如何判断管道是否被关闭了呢？&lt;/p&gt;
+&lt;p&gt;使用for range遍历管道，当管道被关闭的时候就会退出for range，如果没有关闭管道就会报个错误fatal error all Goroutines are asleep - deadlock&lt;/p&gt;
+&lt;p&gt;通过for range来遍历管道数据，管道没有key&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;for&lt;/span&gt; val := &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;range&lt;/span&gt; ch1 {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    fmt.Println(val)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2012.37.19@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 12.37.19@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;要关闭管道不然的话会死锁 (写入完成后&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2012.38.18@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 12.38.18@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2012.39.53@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 12.39.53@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;通过for循环循环遍历管道的时候可以不关闭管道，不知道啥时候管道关闭的时候使用for循环来遍历管道 但是要知道数据有多少不然的话就一直读取了零值&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;goroutine-结合channel管道&#34;&gt;goroutine 结合Channel管道&lt;/h3&gt;
+&lt;p&gt;需求: 定义两个方法一个方法给管道里面写数据，一个给管道里面读取数据，要求同步进行&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开启一个fn1的协程给管道inChan中写入100条数据&lt;/li&gt;
+&lt;li&gt;开启一个fn2的协程读取inChan中写入的数据&lt;/li&gt;
+&lt;li&gt;注意fn1和fn2同时操作一个管道&lt;/li&gt;
+&lt;li&gt;主线程必须等待操作完成后才可以退出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-23%20at%2013.17.09@2x.png&#34; alt=&#34;CleanShot 2024-01-23 at 13.17.09@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用goroutine的时候管道没数据不会报错会等待 继续等待读取
+多个goroutine可以共享channel中的数据&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;goruntine-与-channel-统计素数例子&#34;&gt;Goruntine 与 Channel 统计素数例子&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;协程的个数&lt;/li&gt;
+&lt;li&gt;统计和打印并行执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2000.21.36@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 00.21.36@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;极致的并行&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;//TODO: 完善写下这个代码
+&lt;a href=&#34;https://www.bilibili.com/video/BV1XY4y1t76G/?p=44&amp;amp;spm_id_from=pageDriver&amp;amp;vd_source=1ce8f381eab5d06dd966abe30310ea9a&#34;&gt;视频地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;单向管道&#34;&gt;单向管道&lt;/h3&gt;
+&lt;p&gt;有时候我们会将管道作为参数在多个任务函数间传递，很多时候我们在不同的任务函数中使用管道会对其进行限制，比如限制管道在函数中只能发送或者只能接收。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 在默认情况下管道是双向的
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; chan1 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#007f7f&#34;&gt;// 可读可写
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 声明只写的管道
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; chan2 &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &amp;lt;- &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chan2 = &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt;, &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chan2 &amp;lt;- &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;20&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// num := &amp;lt;- chan2 // error
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 声明为只读
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; chan3 &amp;lt;- &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;num2 := &amp;lt;- chan3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// chan3 &amp;lt;- 30 // error
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;ch := make(chan int, 2)&lt;/code&gt;   读写管道
+&lt;code&gt;ch := make(chan&amp;lt;- int, 2)&lt;/code&gt; 只写管道
+&lt;code&gt;ch := make(&amp;lt;-chan int, 2)&lt;/code&gt; 只读管道&lt;/p&gt;
+&lt;h3 id=&#34;select多路复用&#34;&gt;select多路复用&lt;/h3&gt;
+&lt;p&gt;在某些场景下我们需要同时从多个通道接受数据，这个时候可以使用go中给我们提供的select多路复用，通常情况下载通道接受数据时，如果没有数据可以接收将会发生阻塞，比如下面的代码来实现从多个通道接收数据的时候就会发生阻塞。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2022.40.39@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 22.40.39@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2022.41.58@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 22.41.58@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用select多路复用来获取chan的数据的时候不需要将chan关闭&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;goroutine-recover-解决协程中出现的panic问题&#34;&gt;goroutine recover 解决协程中出现的panic问题&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2022.47.11@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 22.47.11@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2022.47.40@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 22.47.40@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;golang并发安全和锁&#34;&gt;Golang并发安全和锁&lt;/h3&gt;
+&lt;h4 id=&#34;互斥锁&#34;&gt;互斥锁&lt;/h4&gt;
+&lt;p&gt;互斥锁是传统并发编程中对于共享资源进行访问控制的主要手段，他是由标准库sync中的Mutex结构体类型表示，sync.Mutex类型只有两个公开的指针方法，Lock和Unlock。Lock锁定当前共享资源，Unlock进行解锁。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; mutex sync.Mutex
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mutex.Lock()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mutex.Unlock()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2022.56.51@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 22.56.51@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;顺序输出，不会由于加了go而数据错乱，因为添加了mutex.Lock()&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;读写互斥锁&#34;&gt;读写互斥锁&lt;/h4&gt;
+&lt;p&gt;互斥锁的本质是当一个goroutine访问的时候，其他的goroutine都不能访问，这样在资源同步，避免竞争的同时也降低了程序的并发性能，程序由原本的并行执行变成了串行执行&lt;/p&gt;
+&lt;p&gt;其实当对一个不会变化的数据只做读操作的话是不会存在资源竞争的问题，因为数据是不变的，不管怎么读取，多少goroutine同时读取，都是可以的。&lt;/p&gt;
+&lt;p&gt;所以问题不是出在读上，而是写上，修改的数据要同步，这样其他的goroutine才可以感知的到，所以真正的互斥应该是读取和修改，修改与修改之间的，读和读是没有互斥的必要性的。&lt;/p&gt;
+&lt;p&gt;所以对于互斥锁提出了一种性能更好的读写锁，读写锁可以让多个读操作并发执行同时读取，但是对于写操作是完全互斥的，也就是说，&lt;strong&gt;当一个goroutine进行写操作的时候，其他的goroutine既不能进行读操作，也不能进行写操作&lt;/strong&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;读写锁是 读与读操作不互斥，读与写操作互斥，写与写操作互斥&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2023.20.43@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 23.20.43@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2023.26.24@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 23.26.24@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-25%20at%2023.26.03@2x.png&#34; alt=&#34;CleanShot 2024-01-25 at 23.26.03@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;完整代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;30
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;31
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;32
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;var&lt;/span&gt; mutex sync.RWMutex
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; write() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mutex.Lock()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	fmt.Println(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;执行写操作&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	time.Sleep(time.Second * &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mutex.Unlock()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	wg.Done()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; read() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mutex.RLock()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	fmt.Println(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;执行读操作&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	time.Sleep(time.Second * &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mutex.RUnlock()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	wg.Done()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;; i++ {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		wg.Add(&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;go&lt;/span&gt; read()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;; i++ {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		wg.Add(&lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;go&lt;/span&gt; write()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	wg.Wait()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;go-反射&#34;&gt;Go 反射&lt;/h2&gt;
+&lt;p&gt;有时候我们需要一个函数，这个函数有能力统一处理各个值类型，而这些类型可能无法共享同一个接口，也可能是布局未知，也有可能这个类型在我们设计函数的时候还不存在，这个使用我们可以使用反射&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;空接口可以存储任意类型的变量，那我们如何知道这个空接口保存数据的类型是什么，值是什么呢&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;可以使用类型断言&lt;/li&gt;
+&lt;li&gt;可以使用反射实现，也就是在程序运行时动态获取一个变量的类型信息和值信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;把结构体序列化为json字符串，自定义结构体tab标签的时候就用到了反射&lt;/li&gt;
+&lt;li&gt;后期我们会给大家讲ORM框架，这个ORM框架就用到了反射技术
+ORM，对象关系映射是通过使用描述对象和数据库之间的映射的元数据，将面向对象语言中的对象自动持久化到关系数据库中。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;反射的基本概念&#34;&gt;反射的基本概念&lt;/h3&gt;
+&lt;p&gt;反射是指在程序运行期间对于程序本身进行访问和修改的能力，正常情况程序在编译时，变量被转化为内存地址，变量名不会被编译器写入到可执行部分，在运行程序时，程序无法获取自身的信息，支持反射的语言可以在程序编译期将变量的反射信息，如字段名称，类型信息、结构体信息等整合到可执行文件中，并给程序提供接口访问反射信息，这样就可以在程序运行期间获取类型的反射信息，并且有能力修改他们。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;动态获取变量的能力&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;使用反射可以实现的功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;反射可以在程序运行期间动态的获取变量的各种信息，比如变量的类型 类别&lt;/li&gt;
+&lt;li&gt;如果是结构体，通过反射还可以获取结构体本身的信息，比如结构体的字段、结构体的方法等&lt;/li&gt;
+&lt;li&gt;通过反射，可以修改变量的值，可以调用关联的方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;reflecttypeof&#34;&gt;reflect.typeOf&lt;/h3&gt;
+&lt;p&gt;使用reflect.typeOf获取任意值的类型对象,Go语言中的变量分为两个部分&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;类型信息 预先定义好的元信息&lt;/li&gt;
+&lt;li&gt;值信息 程序运行过程中可动态变化的
+在Go语言中的反射机制中，任意接口值都是由一个具体类型和具体类型的值两个部分组成的，在Go语言中反射的相关功能由内置的reflect包提供，任意接口值在反射中都可以理解为由reflect.Type和reflect.value两部分组成。并且reflect包提供了reflect.TypeOf和reflect.ValueOf两个重要函数来获取任意对象的Value 和Type。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; reflectFn(x &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;interface&lt;/span&gt;{}) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    v := reflect.TypeOf(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    fmt.Println(v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;func&lt;/span&gt; main() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a := &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b := &lt;span style=&#34;color:#ff0;font-weight:bold&#34;&gt;23.4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    c := &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    d := &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;你好go&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    reflectFn(a) &lt;span style=&#34;color:#007f7f&#34;&gt;// int
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;    reflectFn(b) &lt;span style=&#34;color:#007f7f&#34;&gt;// float64
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;    reflectFn(c) &lt;span style=&#34;color:#007f7f&#34;&gt;// bool 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;    reflectFn(d) &lt;span style=&#34;color:#007f7f&#34;&gt;// string
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;通过反射回去对象的具体信息 typeOf类型信息&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;type-name-和-type-kind&#34;&gt;type Name 和 type Kind&lt;/h3&gt;
+&lt;p&gt;在反射中关于类型还划分为类型Type和种类Kind，因为在go语言中我们可以使用type关键字构造很多自定义类型，而种类Kind就是指底层的类型，但是在反射中，当需要区分指针、结构体等大品种的类型时，就会用到种类Kind，举个例子，我们定义了两个指针类型和两个结构体类型，通过反射查看他们的类型和种类。
+&lt;strong&gt;Go语言的反射中像数组、切片、map、指针等类型的变量，他们的.Name()都是返回空。&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;返回的反射对象的有type和kind两种，其中种类kind是指向底层的类型&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-27%20at%2000.57.37@2x.png&#34; alt=&#34;CleanShot 2024-01-27 at 00.57.37@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-27%20at%2000.59.50@2x.png&#34; alt=&#34;CleanShot 2024-01-27 at 00.59.50@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;指针、数组、切片 没有类型名称&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;reflectvalueof&#34;&gt;reflect.ValueOf&lt;/h3&gt;
+&lt;p&gt;reflect.ValueOf返回的是reflect.Value类型，其中包含了原始值的值信息，reflect.Value与原始值之间可以相互转换。
+reflect.Value类型提供的获取原始值的方法如下
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2016.54.16@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 16.54.16@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;通过反射设置变量的值&#34;&gt;通过反射设置变量的值&lt;/h4&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2017.02.55@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 17.02.55@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2017.06.54@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 17.06.54@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2017.07.16@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 17.07.16@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2017.23.10@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 17.23.10@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Elem() 用来获取指针对应的值&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;结构体反射&#34;&gt;结构体反射&lt;/h3&gt;
+&lt;h4 id=&#34;获取结构体中的属性与值&#34;&gt;获取结构体中的属性与值&lt;/h4&gt;
+&lt;p&gt;任意值通过reflect.TypeOf()获得反射对象信息后，如果他的类型是结构体，可以通过反射值对象的NumField()和Field()方法获得结构体成员的详细信息。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2019.11.46@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 19.11.46@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2019.17.01@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 19.17.01@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2019.19.04@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 19.19.04@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2019.21.44@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 19.21.44@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2023.47.30@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 23.47.30@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;获取结构体中的方法&#34;&gt;获取结构体中的方法&lt;/h3&gt;
+&lt;p&gt;获取结构体中的方法并执行
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-30%20at%2023.50.44@2x.png&#34; alt=&#34;CleanShot 2024-01-30 at 23.50.44@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.22.10@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.22.10@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.22.56@2x.png&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;
+&lt;h3 id=&#34;修改结构体属性&#34;&gt;修改结构体属性&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.24.28@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.24.28@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.26.13@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.26.13@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由于要修改结构体属性，所以要传入结构体指针类型&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.28.39@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.28.39@2x.png&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;类型判断&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/CleanShot%202024-01-31%20at%2000.30.02@2x.png&#34; alt=&#34;CleanShot 2024-01-31 at 00.30.02@2x.png&#34;  /&gt;
+&lt;/p&gt;
 </description>
     </item>
     
