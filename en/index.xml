@@ -6,7 +6,192 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 15 Feb 2024 13:45:07 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Feb 2024 22:40:08 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UserAgent获取与修改</title>
+      <link>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</link>
+      <pubDate>Mon, 26 Feb 2024 22:40:08 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</guid>
+      <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See &lt;a href=&#34;https://developer.apple.com/documentation/uikit/uiwebview&#34;&gt;https://developer.apple.com/documentation/uikit/uiwebview&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;按照Apple2019年12月13日的&lt;a href=&#34;https://developer.apple.com/news/?id=12232019b&#34;&gt;文档&lt;/a&gt;,20年4月，新应用必须使用WKWebView替代UIWebView，20年12月，应用更新必须使用WKWebView替换UIWebView。具体的时间点可以看下面这张图(有点像是找历史的感觉..)
+&lt;img loading=&#34;lazy&#34; src=&#34;https%3A%2F%2Fsharkerhub.oss-cn-beijing.aliyuncs.com%2FObsidian%2FBlog%2FCleanShot%202024-03-25%20at%2022.37.36%402x-2024-03-25-22-41-19.png&#34; alt=&#34;CleanShot 2024-03-25 at 22.37.36@2x-2024-03-25-22-41-19&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;不过好像Apple觉得可能这样太苛责了，或者商店改动的App比较少的原因，后面将这个时间放的宽松了些&lt;a href=&#34;https://developer.apple.com/news/?id=edwud51q&#34;&gt;文档&lt;/a&gt;，会留给开发者更多的时间，后续具体的截止时间再通知，但是为了更多的时间兼容WKWebView，建议还是更早的替换，我们的App已经将内容展示的部分替换为了WKWebView，但是对于获取UserAgent的部分还使用的UIWebView的API，本篇文章就来讨论使用WKWebView获取并设置UA的实践。&lt;/p&gt;
+&lt;p&gt;查找项目是否包含UIWebView的代码&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;搜索项目代码，查找是否有&lt;code&gt;UIWebView&lt;/code&gt;的代码&lt;/li&gt;
+&lt;li&gt;检查SDK是否使用&lt;code&gt;UIWebView&lt;/code&gt;，在终端命令行下cd到项目目录，输入下面命令：
+&lt;code&gt;grep -r UIWebView .&lt;/code&gt; 找到所有包含UIWebView的SDK&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;uiwebview获取ua&#34;&gt;UIWebView获取UA&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-c&#34; data-lang=&#34;Objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;navigator.userAgent&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NSLog(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;userAgent :%@&amp;#34;&lt;/span&gt;, userAgent);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;wkwebview获取ua&#34;&gt;WKWebView获取UA&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-C&#34; data-lang=&#34;Objective-C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[wkWebView evaluateJavaScript:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;navigator.userAgent&amp;#34;&lt;/span&gt; completionHandler:^(&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;id&lt;/span&gt; result, NSError *error) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    NSLog(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;userAgent :%@&amp;#34;&lt;/span&gt;, result);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}];
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;如何修改ua&#34;&gt;如何修改UA&lt;/h2&gt;
+&lt;p&gt;这种需求太常见了，App内嵌的H5页面有时候需要判断App的版本，App的类型等等信息，这些信息在H5页面初始化的时候作为参数，通过UA来进行获取，于是就有了App修改UA的操作，当然这样的修改大部分是在默认的UA上添加所需要的元素。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;网上常见的一种最佳实践方式是通过UIWebView获取UA并修改，然后通过WKWebView来进行页面的真实加载，这种的不符合我们说的将UIWebView全部替换的思路，所以这里不展开研究，这是提一下这一种方式确实不错，UIWebView获取UA是同步的，这样获取修改比较方便，同时也不影响WKWebView加载主题内容，但是使用UIWebView的API不知道啥时候就可能被Apple封杀&amp;hellip;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;通过userdefaults修改&#34;&gt;通过UserDefaults修改&lt;/h3&gt;
+&lt;p&gt;由于WKWebView有一个特性，在初始化时会获取UserDefaults中“UserAgent”这个key的值，这需要我们在真正使用的WKWebView之前要创建一个WKWebView获取它默认的UA&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Swift&#34; data-lang=&#34;Swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;webView = WKWebView();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;webView?.evaluateJavaScript(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;navigator.userAgent&amp;#34;&lt;/span&gt;, completionHandler: { (obj: &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;Any&lt;/span&gt;?, error: Error?) &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;guard&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; ua = obj &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;as&lt;/span&gt;? &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; customUA = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;\(&lt;/span&gt;ua&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt; Custom User Agent&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    UserDefaults.standard.register(defaults: [&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;UserAgent&amp;#34;&lt;/span&gt;: customUA])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    UserDefaults.standard.synchronize()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;这种方式在特定版本会有问题 后面会具体说下这个问题&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;通过wkwebviewcustomuseragent设置&#34;&gt;通过WKWebView.customUserAgent设置&lt;/h3&gt;
+&lt;p&gt;这种方式其实和第一种方式并没有什么差别，而且还比较复杂，因为只对这一个WebView有效&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Swift&#34; data-lang=&#34;Swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; fakeWebView = WKWebView();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fakeWebView.evaluateJavaScript(&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;navigator.userAgent&amp;#34;&lt;/span&gt;, completionHandler: { (obj: &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;Any&lt;/span&gt;?, error: Error?) &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;guard&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; ua = obj &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;as&lt;/span&gt;? &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;return&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; customUA = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;\(&lt;/span&gt;ua&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt; Custom User Agent&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; realWebView = WKWebView()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    realWebView.customUserAgent = customUA
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; oldUserAgent = webView.value(forKey: &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;userAgent&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;as&lt;/span&gt;? &lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;String&lt;/span&gt; ?? &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;webView.customUserAgent = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;\(&lt;/span&gt;oldUserAgent&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt; xxx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;这里获取UA的webView和最终加载内容的WebView并不是同一个后面会说明原因&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;通过applicationnameforuseragent设置&#34;&gt;通过applicationNameForUserAgent设置&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;config的此属性与上一个属性(webview.customUserAgent)不同，不是将设置的字符串完全变成你所设置的值&lt;/li&gt;
+&lt;li&gt;它将字符串集添加到WebView的默认UserAgent并执行它。&lt;/li&gt;
+&lt;li&gt;这正好就是我们想要的，您所要做的就是设置要添加的字符串。&lt;/li&gt;
+&lt;li&gt;修改后的UserAgent，如：Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Custom UserAgent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Swift&#34; data-lang=&#34;Swift&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; config = WKWebViewConfiguration()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;config.applicationNameForUserAgent = &lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;&amp;#34;Custom User Agent&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;let&lt;/span&gt; webview = WKWebView(frame: .zero, configuration: config)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;还可以在WebView的base类里面添加&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-C&#34; data-lang=&#34;Objective-C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NSString *userAgent = [&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;self&lt;/span&gt; valueForKey:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;applicationNameForUserAgent&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;userAgent = [userAgent stringByAppendingString:[NSString stringWithFormat:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;/myapp/%@&amp;#34;&lt;/span&gt;, CURRENTAPPVERSION]];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;self&lt;/span&gt; setValue:userAgent forKey:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;applicationNameForUserAgent&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在base类的初始化中添加上面的代码，通过&lt;code&gt;applicationNameForUserAgent&lt;/code&gt;来获取的userAgent是不包含&lt;code&gt;Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko)&lt;/code&gt;的这是默认的一段，此时userAgent打印为&lt;code&gt;Mobile/13E230&lt;/code&gt;，而H5获取到的UA打印出来为完整的&lt;code&gt;Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E230/myapp/1.0.0&lt;/code&gt;
+但这个API是私有的使用的话要小心一些&lt;/p&gt;
+&lt;p&gt;以上三种方式系统采用的优先级&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;customUserAgent &amp;gt; UserDefault &amp;gt; applicationNameForUserAgent
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;左侧优先级高于右侧&lt;/li&gt;
+&lt;li&gt;如果设置了customUserAgent或UserDefaults方法，则applicationNameForUserAgent将被忽略。&lt;/li&gt;
+&lt;li&gt;applicationNameForUserAgent仅添加到了webview具有的默认UserAgent中。(applicationNameForUserAgent被赋得值就是UA自定义的部分)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;xcode15-ios-17-遇到的问题&#34;&gt;Xcode15 iOS 17 遇到的问题&lt;/h2&gt;
+&lt;p&gt;上面的通过NSUserDefault的方式修改UA的在iOS17，Xcode15打包的版本上用不啦，会发现这样设置之后前端获取到的UA并不包含我们自定义的部分，下一篇文章将会针对这个问题深入源码进行详细的分析，这里先知道这个结论就好啦，可以参考这篇&lt;a href=&#34;https://stackoverflow.com/questions/77305552/useragent-cannot-be-changed-from-userdefaults-only-ios-17-device-using-xcode-15&#34;&gt;文章&lt;/a&gt;
+遇到这个问题，我们就可以使用其他两种方式来设置修改UA。&lt;/p&gt;
+&lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;修改UA的步骤一定要在&lt;code&gt;loadRequest&lt;/code&gt;之前，不然的话可能会导致修改了但是第一次不生效的情况(使用WKWebView是异步的操作，一定要把这部分考虑进去)&lt;/li&gt;
+&lt;li&gt;获取并修改userAgent的webView对象跟加载网页的webView不是同一个对象 不然的话也会出现第一次设置不生效的情况，可以参考这片&lt;a href=&#34;https://cloud.tencent.com/developer/article/1158832&#34;&gt;文章&lt;/a&gt; 参考了下网上的文章这个问题出现貌似是在iOS8以后，执行&lt;code&gt;evaluateJavaScript&lt;/code&gt;后就设置不上了&lt;/li&gt;
+&lt;li&gt;WKWebView的创建以及执行JS的方法evaluateJavaScript都必须在主线程操作 WKWebView的渲染是在其他线程中，需要回调到主线程中进行相应的操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;ref&#34;&gt;Ref&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844904030980800519&#34;&gt;iOS修改WebView的UserAgent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/c630b2b64a10&#34;&gt;NSUserDefaults中的registerDefaults&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cloud.tencent.com/developer/article/1158832&#34;&gt;记使用WKWebView修改user-agent在iOS 12踩的一个坑&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.csdn.net/xo19882011/article/details/134031247&#34;&gt;WKWebView iOS17设置UserAgent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://stackoverflow.com/questions/77305552/useragent-cannot-be-changed-from-userdefaults-only-ios-17-device-using-xcode-15&#34;&gt;UserAgent cannot be changed from UserDefaults only iOS 17 Device using Xcode 15&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/f87709d1ca59&#34;&gt;iOS 设置userAgent&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
     <item>
       <title>基础语法速通三</title>
       <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
@@ -3540,10 +3725,10 @@ if的{}不能省略
     
     <item>
       <title>图解Http读后感</title>
-      <link>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</link>
+      <link>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</link>
       <pubDate>Sat, 06 Jan 2024 15:36:09 +0800</pubDate>
       
-      <guid>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</guid>
+      <guid>https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3http/%E5%9B%BE%E8%A7%A3http%E8%AF%BB%E5%90%8E%E6%84%9F/</guid>
       <description></description>
     </item>
     

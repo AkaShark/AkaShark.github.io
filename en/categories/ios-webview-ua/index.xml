@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>iOS WebView UA on SharkerBlog</title>
+    <link>https://akashark.github.io/en/categories/ios-webview-ua/</link>
+    <description>Recent content in iOS WebView UA on SharkerBlog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 26 Feb 2024 22:40:08 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/ios-webview-ua/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UserAgent获取与修改</title>
+      <link>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</link>
+      <pubDate>Mon, 26 Feb 2024 22:40:08 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</guid>
+      <description>背景 早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。 ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView</description>
+    </item>
+    
+  </channel>
+</rss>
