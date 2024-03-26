@@ -277,7 +277,7 @@
 <p>ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See <a href="https://developer.apple.com/documentation/uikit/uiwebview">https://developer.apple.com/documentation/uikit/uiwebview</a> for more information.</p>
 </blockquote>
 <p>按照Apple2019年12月13日的<a href="https://developer.apple.com/news/?id=12232019b">文档</a>,20年4月，新应用必须使用WKWebView替代UIWebView，20年12月，应用更新必须使用WKWebView替换UIWebView。具体的时间点可以看下面这张图(有点像是找历史的感觉..)
-<img loading="lazy" src="https%3A%2F%2Fsharkerhub.oss-cn-beijing.aliyuncs.com%2FObsidian%2FBlog%2FCleanShot%202024-03-25%20at%2022.37.36%402x-2024-03-25-22-41-19.png" alt="CleanShot 2024-03-25 at 22.37.36@2x-2024-03-25-22-41-19"  />
+<img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-03-25%20at%2022.37.36%402x-2024-03-25-22-41-19.png" alt="CleanShot 2024-03-25 at 22.37.36@2x-2024-03-25-22-41-19"  />
 </p>
 <p>不过好像Apple觉得可能这样太苛责了，或者商店改动的App比较少的原因，后面将这个时间放的宽松了些<a href="https://developer.apple.com/news/?id=edwud51q">文档</a>，会留给开发者更多的时间，后续具体的截止时间再通知，但是为了更多的时间兼容WKWebView，建议还是更早的替换，我们的App已经将内容展示的部分替换为了WKWebView，但是对于获取UserAgent的部分还使用的UIWebView的API，本篇文章就来讨论使用WKWebView获取并设置UA的实践。</p>
 <p>查找项目是否包含UIWebView的代码</p>
