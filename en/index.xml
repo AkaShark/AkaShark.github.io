@@ -6,7 +6,153 @@
     <description>Recent content on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 26 Feb 2024 22:40:08 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>iOS App间跳转</title>
+      <link>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</link>
+      <pubDate>Wed, 27 Mar 2024 20:41:10 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</guid>
+      <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如何实现App拉起&lt;/li&gt;
+&lt;li&gt;如何实现App之间的相互拉起&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;背景知识&#34;&gt;背景知识&lt;/h2&gt;
+&lt;p&gt;这里提前补充需要了解的知识点，下面是url的基本格式
+&lt;code&gt;protocol://hostname[:port]/path/[;parameters][?query]#fragment&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;protocol, 协议名称也叫做scheme，例如http、https当然这个地方也可以自定义&lt;/li&gt;
+&lt;li&gt;hostname：域名或ip地址，例如 www.baidu.com 就是域名；110.242.68.3就是IP地址。&lt;/li&gt;
+&lt;li&gt;port：端口号，例如 www.baidu.com:80后面的80就是端口号，80是默认端口号，一般不显示。&lt;/li&gt;
+&lt;li&gt;path：路径，表示主机上的目录或文件路径。例如：fanyi.baidu.com/translate。&lt;/li&gt;
+&lt;li&gt;query：可选项，用于传递参数，由?符号开始，&amp;amp;符号隔开，参数名和值用=符号相连。例如：www.baidu.com/s?ie=utf-8&amp;amp;…
+在使用App拉起的过程中需要使用到url的基本格式定义，在拉起的过程中定义的url格式如下
+&lt;code&gt;customAppScheme://xxxxx/path?params=xxx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;app拉起&#34;&gt;App拉起&lt;/h2&gt;
+&lt;p&gt;在iOS的系统中从A App打开B App，需要A App去找到B App，这就和我们邮寄信件一样我们需要写一个我们信件的目标地址，在系统中我们可以通过&lt;code&gt;UIApplication&lt;/code&gt;中的API来完成这件事&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-c&#34; data-lang=&#34;Objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt; 通过应用程序打开一个资源路径
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;@param url 资源路径的地址
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;@return 返回成功失败的信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;- (&lt;span style=&#34;color:#fff;font-weight:bold&#34;&gt;BOOL&lt;/span&gt;)openURL:(NSURL*)url;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;openURL:&lt;/code&gt;通过url来标识我们要跳转的App的位置，一个简单的例子&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-c&#34; data-lang=&#34;Objective-c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;// 跳转到打电话
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;NSURL *url = [NSURL URLWithString:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;tel://10086&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[[UIApplication sharedApplication] openURL:url];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;//发送系统短信
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#007f7f&#34;&gt;&lt;/span&gt;NSURL *url = [NSURL URLWithString:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;sms://1383838438&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[[UIApplication sharedApplication] openURL:url];
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;从上面的例子可以产出来拉起其他App核心关键点在url，以上面的打电话为例url的定义为&lt;code&gt;tel://10086&lt;/code&gt;结合上面的url格式定义，Scheme为tel，host为10086，可以才到10086就是要打的电话，那&lt;code&gt;tel&lt;/code&gt;自然就是标识这打电话App，&lt;code&gt;tel&lt;/code&gt;这个Scheme在系统的认知中就是标识着电话App，同样的如果我想要打开其他App只需要知道他的Scheme自然就可以打开该App。&lt;/p&gt;
+&lt;h2 id=&#34;app之间相互拉起&#34;&gt;App之间相互拉起&lt;/h2&gt;
+&lt;h3 id=&#34;注册url-scheme&#34;&gt;注册URL Scheme&lt;/h3&gt;
+&lt;p&gt;根据上面的App拉起可以得出只要知道了App的scheme就可以拉起这个App，那么如果我们有两个App A和B，现在要求我用A App打开B App，自然解决方法就是在A中open B的scheme就可以了，可是B的scheme是什么呢，这就需要我们自己来定义啦。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.36.05%402x-2024-04-14-18-36-19.png&#34; alt=&#34;CleanShot 2024-04-14 at 18.36.05@2x-2024-04-14-18-36-19&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;在Xcode的工程配置中点击info条目，在info下找到URL Types点击添加&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.38.08%402x-2024-04-14-18-38-17.png&#34; alt=&#34;CleanShot 2024-04-14 at 18.38.08@2x-2024-04-14-18-38-17&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;填写其中identifier和URL Schemes&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;identifier: URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性&lt;/li&gt;
+&lt;li&gt;URL Schemes: 为自己的app定义的schemes。使用另外的app调起自己的app时，使用这个参数
+identifier是可选的，定义identifier后会变成url的host，scheme会变成url的protocol，
+这么看来定义的时候identifier变成了打开url的host，scheme变成了协议，也就是说url的格式为
+&lt;code&gt;URL Scheme://URL identifier&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;scheme 定义需要注意
+url scheme必须能唯一标识一个App，如果你设置的scheme和其他的scheme相同，那么默认的表现是未知的
+URL Scheme的命名应该是只能纯英文字符，而不能含有下划线或者数字
+一个App可以同时拥有多个scheme&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;通过上面的方式就定义好了Scheme啦，假设我们定义A App的scheme为&lt;code&gt;customA&lt;/code&gt; B App的scheme为&lt;code&gt;customB&lt;/code&gt; 当然实际上scheme对应的url protocol为&lt;code&gt;customA://&lt;/code&gt;和&lt;code&gt;customB://&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;处理拉起请求&#34;&gt;处理拉起请求&lt;/h3&gt;
+&lt;p&gt;已经定义好了A和B的scheme，继续完成上面的需求，用A打开B，在A的任意位置我们调用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-Objective-C&#34; data-lang=&#34;Objective-C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NSURL *url = [NSURL URLWithString:&lt;span style=&#34;color:#0ff;font-weight:bold&#34;&gt;@&amp;#34;customB://idetifierB&amp;#34;&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[[UIApplication sharedApplication] openURL:url];
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以成功拉起B App那么如何将一些参数传递到B呢，如果使用的url为&lt;code&gt;customB://idetifierB?params1=xx&amp;amp;params2=yy&lt;/code&gt;，B App如何获取到这参数。&lt;/p&gt;
+&lt;p&gt;上面其实有提到过处理应用之间的跳转是通过&lt;code&gt;UIApplication&lt;/code&gt;来完成的，所以可以在B App中通过重写&lt;code&gt;- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&amp;lt;UIApplicationOpenURLOptionsKey,id&amp;gt; *)options&lt;/code&gt;来获取到对应的请求来完成相应逻辑的处理。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2019.14.43%402x-2024-04-14-19-15-08.png&#34; alt=&#34;CleanShot 2024-04-14 at 19.14.43@2x-2024-04-14-19-15-08&#34;  /&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;补充&#34;&gt;补充&lt;/h2&gt;
+&lt;h3 id=&#34;注册url-scheme-方式2&#34;&gt;注册URL Scheme 方式2&lt;/h3&gt;
+&lt;p&gt;注册URL Scheme的方式还有一种，在Info.plist中间中右击添加&lt;code&gt;URL types&lt;/code&gt;类型为&lt;code&gt;Array&lt;/code&gt;,&lt;br&gt;
+&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.44.49%402x-2024-04-14-20-45-05.png&#34; alt=&#34;CleanShot 2024-04-14 at 20.44.49@2x-2024-04-14-20-45-05&#34;  /&gt;
+
+添加的每个item的内容，这和上面介绍的注册URL Scheme的方式类似。&lt;/p&gt;
+&lt;h3 id=&#34;uiapplication-sharedapplication-canopenurlurl-使用&#34;&gt;&lt;code&gt;[[UIApplication sharedApplication] canOpenURL:url&lt;/code&gt; 使用&lt;/h3&gt;
+&lt;p&gt;在调用&lt;code&gt;[[UIApplication sharedApplication] openURL:url]&lt;/code&gt;前可以去判断下是否可以打开该应用&lt;code&gt;[[UIApplication sharedApplication] canOpenURL:url&lt;/code&gt;，但是在iOS9后判断&lt;code&gt;canOpenURL&lt;/code&gt;需要再info.plist文件中将目标Url定义进白名单，否则不能使用。
+在Info.plist文件中添加&lt;code&gt;LSApplicationQueriesSchemes&lt;/code&gt;字段，该字段对应的是数组类型，然后添加CustomA(要跳转的目标Scheme)&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.54.37%402x-2024-04-14-20-54-42.png&#34; alt=&#34;CleanShot 2024-04-14 at 20.54.37@2x-2024-04-14-20-54-42&#34;  /&gt;
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;LSApplicationQueriesSchemes&lt;/code&gt;对应的Array至多只能添加50个item，应该是Apple为了安全考虑不允许去扫描用户已经安装的App(可以跳转的前提是已经安装App且将scheme注册进系统)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;对于lsapplicationqueriesschemes白名单的理解&#34;&gt;对于&lt;code&gt;LSApplicationQueriesSchemes&lt;/code&gt;白名单的理解&lt;/h4&gt;
+&lt;p&gt;Apple文档的介绍如下
+&lt;img loading=&#34;lazy&#34; src=&#34;https://img-blog.csdnimg.cn/img_convert/7c0a6918c6eaf5f008738681ab91373c.png&#34; alt=&#34;&#34;  /&gt;
+
+说的是，在iOS9后，如果想要使用&lt;code&gt;canOpenURL&lt;/code&gt;方法检查是否可以打这个URL或可以处理该URL的App，需要在info.plist里添加LSApplicationQueriesSchemes字段来预设url，否则是否安装都会返回NO。&lt;/p&gt;
+&lt;p&gt;“白名单”的意义是要检查当前设备上是否安装了其他App，而不是打开其他App必须添加“白名单”，所以如果想要打开其他App，直接使用openURL即可。&lt;/p&gt;
+&lt;p&gt;==&lt;code&gt;canOpenURL：&lt;/code&gt;方法有限制，&lt;code&gt;openURL:&lt;/code&gt;方法是没有限制的。==&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2021.22.21%402x-2024-04-14-21-23-36.png&#34; alt=&#34;CleanShot 2024-04-14 at 21.22.21@2x-2024-04-14-21-23-36&#34;  /&gt;
+&lt;/p&gt;
+&lt;h4 id=&#34;如何回跳&#34;&gt;如何回跳&lt;/h4&gt;
+&lt;p&gt;上面已经知道了如何跳转到另一个App中，完成了最开始说的从A App跳转到B App的需求，但是如果要求跳转到B App后完成调回App的操作呢，根据上面的介绍其实这个需求也很简单，B App条回A App重点是拿到A App的scheme即可，可以将A App的scheme在第一次跳转到B App的时候作为参数传递给B App这样在B App完成逻辑处理后就可以使用该Scheme完成回跳。&lt;/p&gt;
+&lt;p&gt;具体来说就是
+A-&amp;gt;B-&amp;gt;A&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先要从B中的info.plist设置A注册的Scheme白名单&lt;/li&gt;
+&lt;li&gt;然后从A-&amp;gt;B的时候通过参数将A的scheme带过去&lt;/li&gt;
+&lt;li&gt;B处理完对应的业务后通过同样的方式返回A&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其实在微信SDK中我们也是这样做的，在跳转到微信的url中添加一个backurl然后传递自己的App Scheme 微信执行完成后会拉起自己的App。&lt;/p&gt;
+&lt;h2 id=&#34;ref&#34;&gt;Ref&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://jianshu.com/p/138b44833cda&#34;&gt;iOS scheme跳转机制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/u013712343/article/details/119244506&#34;&gt;关于iOS“白名单”的理解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
     <item>
       <title>UserAgent获取与修改</title>
       <link>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</link>

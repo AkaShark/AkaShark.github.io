@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>iOS on SharkerBlog</title>
-    <link>https://akashark.github.io/en/categories/ios/</link>
-    <description>Recent content in iOS on SharkerBlog</description>
+    <title>iOS Scheme 应用间跳转 on SharkerBlog</title>
+    <link>https://akashark.github.io/en/tags/ios-scheme-%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/</link>
+    <description>Recent content in iOS Scheme 应用间跳转 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/ios/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/ios-scheme-%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>iOS App间跳转</title>
       <link>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</link>
@@ -14,15 +14,6 @@
       
       <guid>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</guid>
       <description>背景 在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该</description>
-    </item>
-    
-    <item>
-      <title>KVO KVC复习</title>
-      <link>https://akashark.github.io/en/posts/tech/ios/foundation/kvo-kvc%E5%A4%8D%E4%B9%A0/</link>
-      <pubDate>Thu, 03 Aug 2023 13:42:19 +0800</pubDate>
-      
-      <guid>https://akashark.github.io/en/posts/tech/ios/foundation/kvo-kvc%E5%A4%8D%E4%B9%A0/</guid>
-      <description>测试</description>
     </item>
     
   </channel>

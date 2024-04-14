@@ -6,7 +6,16 @@
     <description>Recent content in Categories on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 26 Feb 2024 22:40:08 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>iOS</title>
+      <link>https://akashark.github.io/en/categories/ios/</link>
+      <pubDate>Wed, 27 Mar 2024 20:41:10 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/categories/ios/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>iOS WebView UA</title>
       <link>https://akashark.github.io/en/categories/ios-webview-ua/</link>
@@ -31,15 +40,6 @@
       <pubDate>Sat, 06 Jan 2024 15:36:09 +0800</pubDate>
       
       <guid>https://akashark.github.io/en/categories/http/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>iOS</title>
-      <link>https://akashark.github.io/en/categories/ios/</link>
-      <pubDate>Thu, 03 Aug 2023 13:42:19 +0800</pubDate>
-      
-      <guid>https://akashark.github.io/en/categories/ios/</guid>
       <description></description>
     </item>
     
