@@ -3,12 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://akashark.github.io/en/categories/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/tags/http1.0-http2.0-http3.0/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/tags/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/posts/tech/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/posts/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2025-12-21T23:40:26+08:00</lastmod>
+  </url><url>
+    <loc>https://akashark.github.io/en/posts/tech/ios/</loc>
     <lastmod>2024-03-27T20:41:10+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/categories/ios/</loc>
-    <lastmod>2024-03-27T20:41:10+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/posts/tech/ios/</loc>
     <lastmod>2024-03-27T20:41:10+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</loc>
@@ -18,18 +42,6 @@
     <lastmod>2024-03-27T20:41:10+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/</loc>
-    <lastmod>2024-03-27T20:41:10+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/</loc>
-    <lastmod>2024-03-27T20:41:10+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/tags/</loc>
-    <lastmod>2024-03-27T20:41:10+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/posts/tech/</loc>
-    <lastmod>2024-03-27T20:41:10+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/posts/</loc>
     <lastmod>2024-03-27T20:41:10+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/categories/ios-webview-ua/</loc>
@@ -44,10 +56,10 @@
     <loc>https://akashark.github.io/en/posts/tech/ios/webview/</loc>
     <lastmod>2024-02-26T22:40:08+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/en/tags/go/</loc>
+    <loc>https://akashark.github.io/en/posts/tech/go/</loc>
     <lastmod>2024-02-15T13:45:07+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/en/posts/tech/go/</loc>
+    <loc>https://akashark.github.io/en/tags/go/</loc>
     <lastmod>2024-02-15T13:45:07+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</loc>
@@ -149,10 +161,10 @@
     <loc>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/</loc>
     <lastmod>2022-09-28T21:20:22+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
@@ -161,16 +173,7 @@
     <loc>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2022-09-26T15:26:29+08:00</lastmod>
   </url><url>
-    <loc>https://akashark.github.io/en/tags/http1.0-http2.0-http3.0/</loc>
-    <lastmod>2022-09-26T11:54:26+08:00</lastmod>
-  </url><url>
     <loc>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</loc>
-    <lastmod>2022-09-26T11:54:26+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-09-26T11:54:26+08:00</lastmod>
-  </url><url>
-    <loc>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2022-09-26T11:54:26+08:00</lastmod>
   </url><url>
     <loc>https://akashark.github.io/en/docs/</loc>

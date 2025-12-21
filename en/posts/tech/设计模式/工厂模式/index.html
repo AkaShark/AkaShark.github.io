@@ -7,7 +7,14 @@
 <meta name="robots" content="index, follow">
 <title>工厂模式 | SharkerBlog</title>
 <meta name="keywords" content="工厂模式">
-<meta name="description" content="工厂模式 浅析设计模式1 —— 工厂模式 设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范">
+<meta name="description" content="工厂模式
+浅析设计模式1 —— 工厂模式
+设计模式分类
+
+
+创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范畴
+基本概念
+工厂模式的核心思想就是创建对象和使用对象的解耦，由工厂负责对象的创建，而用户只能通过接口来使用对象， 这样就可以灵活应对变化的业务需求，方便代码管理，避免代码重复">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -20,6 +27,7 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,15 +65,29 @@
 
     </style>
 </noscript><meta property="og:title" content="工厂模式" />
-<meta property="og:description" content="工厂模式 浅析设计模式1 —— 工厂模式 设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范" />
+<meta property="og:description" content="工厂模式
+浅析设计模式1 —— 工厂模式
+设计模式分类
+
+
+创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范畴
+基本概念
+工厂模式的核心思想就是创建对象和使用对象的解耦，由工厂负责对象的创建，而用户只能通过接口来使用对象， 这样就可以灵活应对变化的业务需求，方便代码管理，避免代码重复" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-26T15:26:29&#43;08:00" />
-<meta property="article:modified_time" content="2022-09-26T15:26:29&#43;08:00" />
+<meta property="article:modified_time" content="2022-09-26T15:26:29&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="工厂模式"/>
-<meta name="twitter:description" content="工厂模式 浅析设计模式1 —— 工厂模式 设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范"/>
+<meta name="twitter:description" content="工厂模式
+浅析设计模式1 —— 工厂模式
+设计模式分类
+
+
+创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范畴
+基本概念
+工厂模式的核心思想就是创建对象和使用对象的解耦，由工厂负责对象的创建，而用户只能通过接口来使用对象， 这样就可以灵活应对变化的业务需求，方便代码管理，避免代码重复"/>
 
 
 <script type="application/ld+json">
@@ -100,7 +122,7 @@
   "@type": "BlogPosting",
   "headline": "工厂模式",
   "name": "工厂模式",
-  "description": "工厂模式 浅析设计模式1 —— 工厂模式 设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范",
+  "description": "工厂模式 浅析设计模式1 —— 工厂模式\n设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范畴\n基本概念 工厂模式的核心思想就是创建对象和使用对象的解耦，由工厂负责对象的创建，而用户只能通过接口来使用对象， 这样就可以灵活应对变化的业务需求，方便代码管理，避免代码重复\n",
   "keywords": [
     "工厂模式"
   ],
@@ -177,6 +199,8 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
             </div>
         </div>
         <ul id="menu">
@@ -221,7 +245,7 @@
     <h1 class="post-title">
       工厂模式
     </h1>
-    <div class="post-meta"><span title='2022-09-26 15:26:29 +0800 CST'>2022-09-26</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2022-09-26 15:26:29 &#43;0800 CST&#39;&gt;2022-09-26&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -376,29 +400,29 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象产品类，定义具体产品的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt{
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象产品类，定义具体产品的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">void</span> Show();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建具体产品类（继承抽象产品类），定义生产的具体产品
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类A，女款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建具体产品类（继承抽象产品类），定义生产的具体产品</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类A，女款衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示女款衬衫&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类B，男款
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类B，男款</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示男款衬衫&#34;</span>)<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建工厂类，通过静态方法处理不同传入参数，从而创建不同具体产品类的实例
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建工厂类，通过静态方法处理不同传入参数，从而创建不同具体产品类的实例</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> Shirt Exhibit(String ShirtName){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">switch</span>(ShirtName){
 </span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">case</span> <span style="color:#0ff;font-weight:bold">&#34;女款衬衫&#34;</span>:
@@ -411,25 +435,25 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:外界调用工厂类的静态方法，传入不同参数创建不同具体产品类的实例
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> SimpleFactoryPattern{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:外界调用工厂类的静态方法，传入不同参数创建不同具体产品类的实例</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> SimpleFactoryPattern{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args){
 </span></span><span style="display:flex;"><span>        Factory exhibitFactory = <span style="color:#fff;font-weight:bold">new</span> Factory();
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索女款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">try</span>{
-</span></span><span style="display:flex;"><span>            <span style="color:#007f7f">//调用工厂类的静态方法，传入参数并创建实例
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>            exhibitFactory.<span style="color:#007f7f">Exhibit</span>(<span style="color:#0ff;font-weight:bold">&#34;女款衬衫&#34;</span>).<span style="color:#007f7f">Show</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索女款衬衫</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">try</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#007f7f">//调用工厂类的静态方法，传入参数并创建实例</span>
+</span></span><span style="display:flex;"><span>            exhibitFactory.<span style="color:#007f7f">Exhibit</span>(<span style="color:#0ff;font-weight:bold">&#34;女款衬衫&#34;</span>).<span style="color:#007f7f">Show</span>();
 </span></span><span style="display:flex;"><span>        }<span style="color:#fff;font-weight:bold">catch</span>(NullPointerException e){
 </span></span><span style="display:flex;"><span>            System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;没有找到商品&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索男款裤子
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">try</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索男款裤子</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">try</span>{
 </span></span><span style="display:flex;"><span>            exhibitFactory.<span style="color:#007f7f">Exhibit</span>(<span style="color:#0ff;font-weight:bold">&#34;男款裤子&#34;</span>).<span style="color:#007f7f">Show</span>();
 </span></span><span style="display:flex;"><span>        }<span style="color:#fff;font-weight:bold">catch</span>(NullPointerException e){
 </span></span><span style="display:flex;"><span>            System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;没有找到商品&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索男款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">try</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户搜索男款衬衫</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">try</span>{
 </span></span><span style="display:flex;"><span>            exhibitFactory.<span style="color:#007f7f">Exhibit</span>(<span style="color:#0ff;font-weight:bold">&#34;男款衬衫&#34;</span>).<span style="color:#007f7f">Show</span>();
 </span></span><span style="display:flex;"><span>        }<span style="color:#fff;font-weight:bold">catch</span>(NullPointerException e){
 </span></span><span style="display:flex;"><span>            System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;没有找到商品&#34;</span>);
@@ -528,57 +552,57 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象工厂类，定义具体工厂的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象工厂类，定义具体工厂的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> Shirt Exhibit();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建抽象产品类，定义具体产品的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建抽象产品类，定义具体产品的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">void</span> Show();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建具体产品类（继承抽象产品类），定义生产的具体产品
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类A，女款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建具体产品类（继承抽象产品类），定义生产的具体产品</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类A，女款衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示女款衬衫&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类B，男款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体产品类B，男款衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示男款衬衫&#34;</span>)<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:创建具体工厂类，定义创建具体产品实例的方法
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体工厂类A，展示女款衬衫类商品  
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirtFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:创建具体工厂类，定义创建具体产品实例的方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体工厂类A，展示女款衬衫类商品  </span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> WomenShirtFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
 </span></span><span style="display:flex;"><span>   @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Shirt Exhibit(){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span> WomenShirt()<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体工厂类B，展示男款衬衫类商品
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirtFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//具体工厂类B，展示男款衬衫类商品</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> MenShirtFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
 </span></span><span style="display:flex;"><span>   @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Shirt Exhibit(){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span> MenShirt()<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step5:外界调用具体工厂类的方法，创建不同具体产品类的实例
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> FactoryPattern{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step5:外界调用具体工厂类的方法，创建不同具体产品类的实例</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> FactoryPattern{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args){
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户在店铺搜索女款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        Factory exhibitWomenShirtFactory = <span style="color:#fff;font-weight:bold">new</span> WomenShirtFactory();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户在店铺搜索女款衬衫</span>
+</span></span><span style="display:flex;"><span>        Factory exhibitWomenShirtFactory = <span style="color:#fff;font-weight:bold">new</span> WomenShirtFactory();
 </span></span><span style="display:flex;"><span>        exhibitWomenShirtFactory.<span style="color:#007f7f">Exhibit</span>().<span style="color:#007f7f">Show</span>();
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户在店铺搜索男款衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        Factory exhibitMenShirtFactory = <span style="color:#fff;font-weight:bold">new</span> MenShirtFactory();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//用户在店铺搜索男款衬衫</span>
+</span></span><span style="display:flex;"><span>        Factory exhibitMenShirtFactory = <span style="color:#fff;font-weight:bold">new</span> MenShirtFactory();
 </span></span><span style="display:flex;"><span>        exhibitMenShirtFactory.<span style="color:#007f7f">Exhibit</span>().<span style="color:#007f7f">Show</span>();       
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
@@ -719,62 +743,62 @@
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">92
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象工厂类，定义具体工厂的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#007f7f">//step1:创建抽象工厂类，定义具体工厂的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Factory{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> Clothing ExhibitShirt();
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> Clothing ExhibitTrousers();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建抽象产品族类，定义抽象产品的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Clothing{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step2:创建抽象产品族类，定义抽象产品的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Clothing{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">void</span> Show();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建抽象产品类，定义具体产品的公共接口
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// 短袖抽象类
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt <span style="color:#fff;font-weight:bold">extends</span> Clothing{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step3:创建抽象产品类，定义具体产品的公共接口</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 短袖抽象类</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Shirt <span style="color:#fff;font-weight:bold">extends</span> Clothing{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">void</span> Show();
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 裤子抽象类
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Trousers <span style="color:#fff;font-weight:bold">extends</span> Clothing{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 裤子抽象类</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Trousers <span style="color:#fff;font-weight:bold">extends</span> Clothing{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">void</span> Show();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:创建具体产品类（继承抽象产品类），定义生产的具体产品
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//衬衫产品类A，淘宝衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step4:创建具体产品类（继承抽象产品类），定义生产的具体产品</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//衬衫产品类A，淘宝衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示淘宝店铺衬衫&#34;</span>);
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//衬衫产品类B，淘特衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//衬衫产品类B，淘特衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTShirt <span style="color:#fff;font-weight:bold">extends</span> Shirt{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示淘特店铺衬衫&#34;</span>)<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//裤子产品类A，淘宝裤子
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBTrousers <span style="color:#fff;font-weight:bold">extends</span> Trousers{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//裤子产品类A，淘宝裤子</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBTrousers <span style="color:#fff;font-weight:bold">extends</span> Trousers{
 </span></span><span style="display:flex;"><span>    @Override
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示淘宝店铺裤子&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//裤子产品类B，淘特裤子
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTTrousers <span style="color:#fff;font-weight:bold">extends</span> Trousers{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//裤子产品类B，淘特裤子</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTTrousers <span style="color:#fff;font-weight:bold">extends</span> Trousers{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">void</span> Show(){
 </span></span><span style="display:flex;"><span>        System.<span style="color:#007f7f">out</span>.<span style="color:#007f7f">println</span>(<span style="color:#0ff;font-weight:bold">&#34;展示陶特店铺裤子&#34;</span>)<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step5:创建具体工厂类，定义创建具体产品实例的方法
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//淘宝工厂类A，展示衬衫+裤子  
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step5:创建具体工厂类，定义创建具体产品实例的方法</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//淘宝工厂类A，展示衬衫+裤子  </span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TBFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Clothing ExhibitShirt(){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span> TBShirt()<span style="color:#f00">；</span>
@@ -784,8 +808,8 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span> TBTrousers()<span style="color:#f00">；</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//淘特工厂类B，展示裤子+衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//淘特工厂类B，展示裤子+衬衫</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> TTFactory <span style="color:#fff;font-weight:bold">extends</span> Factory{
 </span></span><span style="display:flex;"><span>    @Overside
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> Clothing ExhibitShirt(){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">new</span> TTShirt()<span style="color:#f00">；</span>
@@ -796,19 +820,19 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step6:外界实例化具体工厂类，调用工厂类中创建不同目标产品的方法，创建不同具体产品类的实例
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> AbstractFactoryPattern{
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//step6:外界实例化具体工厂类，调用工厂类中创建不同目标产品的方法，创建不同具体产品类的实例</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">class</span> AbstractFactoryPattern{
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">public</span> <span style="color:#fff;font-weight:bold">static</span> <span style="color:#fff;font-weight:bold">void</span> main(String[] args){
 </span></span><span style="display:flex;"><span>        TBFactory exhibitTBFactory = <span style="color:#fff;font-weight:bold">new</span> TBFactory();
 </span></span><span style="display:flex;"><span>        TTFactory exhibitTTFactory = <span style="color:#fff;font-weight:bold">new</span> TTFactory();
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘宝用户搜索衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        exhibitTBFactory.<span style="color:#007f7f">ExhibitShirt</span>().<span style="color:#007f7f">Show</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘宝用户搜索衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        exhibitTBFactory.<span style="color:#007f7f">ExhibitTrousers</span>().<span style="color:#007f7f">Show</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘特用户搜索衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        exhibitTTFactory.<span style="color:#007f7f">ExhibitShirt</span>().<span style="color:#007f7f">Show</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘特用户搜索衬衫
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        exhibitTTFactory.<span style="color:#007f7f">ExhibitTrousers</span>().<span style="color:#007f7f">Show</span>();     
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘宝用户搜索衬衫</span>
+</span></span><span style="display:flex;"><span>        exhibitTBFactory.<span style="color:#007f7f">ExhibitShirt</span>().<span style="color:#007f7f">Show</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘宝用户搜索衬衫</span>
+</span></span><span style="display:flex;"><span>        exhibitTBFactory.<span style="color:#007f7f">ExhibitTrousers</span>().<span style="color:#007f7f">Show</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘特用户搜索衬衫</span>
+</span></span><span style="display:flex;"><span>        exhibitTTFactory.<span style="color:#007f7f">ExhibitShirt</span>().<span style="color:#007f7f">Show</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//淘特用户搜索衬衫</span>
+</span></span><span style="display:flex;"><span>        exhibitTTFactory.<span style="color:#007f7f">ExhibitTrousers</span>().<span style="color:#007f7f">Show</span>();     
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>

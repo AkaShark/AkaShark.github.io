@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><meta charset="utf-8">
+<head>
+	<meta name="generator" content="Hugo 0.153.1"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Go | SharkerBlog</title>
-<meta name="keywords" content="">
-<meta name="description" content="Go - SharkerBlog">
+<title>SharkerBlog</title>
+
+<meta name="description" content="">
 <meta name="author" content="Sharker">
-<link rel="canonical" href="https://akashark.github.io/en/posts/tech/go/">
+<link rel="canonical" href="https://akashark.github.io/en/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
@@ -18,8 +19,9 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://akashark.github.io/en/posts/tech/go/index.xml">
-<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/tech/go/">
+<link rel="alternate" type="application/rss+xml" href="https://akashark.github.io/en/index.xml">
+<link rel="alternate" type="application/json" href="https://akashark.github.io/en/index.json">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/">
 <noscript>
     <style>
         #theme-toggle,
@@ -56,39 +58,25 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Go" />
+</noscript><meta property="og:title" content="SharkerBlog" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://akashark.github.io/en/posts/tech/go/" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
+<meta property="og:url" content="https://akashark.github.io/en/" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Go"/>
+<meta name="twitter:title" content="SharkerBlog"/>
 <meta name="twitter:description" content=""/>
-
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "文章",
-      "item": "https://akashark.github.io/en/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "技术",
-      "item": "https://akashark.github.io/en/posts/tech/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Go",
-      "item": "https://akashark.github.io/en/posts/tech/go/"
-    }
+  "@type": "Organization",
+  "name": "SharkerBlog",
+  "url": "https://akashark.github.io/",
+  "description": "",
+  "thumbnailUrl": "https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg",
+  "sameAs": [
+      "https://github.com/AkaShark", "mailto:1548742234@qq.com", "index.xml"
   ]
 }
 </script>
@@ -154,7 +142,7 @@
             </li>
             <li>
                 <a href="https://akashark.github.io/en/" title="🏠主页">
-                    <span>🏠主页</span>
+                    <span class="active">🏠主页</span>
                 </a>
             </li>
             <li>
@@ -181,22 +169,80 @@
     </nav>
 </header>
 <main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://akashark.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/">文章</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/tech/">技术</a></div>
-  <h1>
-    Go
-  </h1>
-</header>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>语法
+    <h2>最近的一些感悟 (20221001)
     </h2>
   </header>
   <div class="entry-content">
-    <p></p>
+    <p>背景 最近有两件事情对我感触还是挺大的，第一件是在字节的转正实习转正，第二件是转正后2天的研究生导师组会。为啥这两件事情会对我感触比较大呢，总的来说这两件事情的本质其实是相同的，都是完成一部分任务，对于现在完成的情况遇到的问题细节等作输出汇报，汇报的对象一个是&#43;1 &#43;2的领导，一个是自己的研究生导师，在汇报的工程中，发现他们的思考方式竟然是一致的。这是有点颠覆我的认知的，我之前一直以为，大学的教授大部分是学院派，搞理论的那一套会比较厉害，企业中的领导更多的思考点是如何创造更大的价值。
+...</p>
   </div>
-  <a class="entry-link" aria-label="post link to 语法" href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/"></a>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-01 23:26:29 &#43;0800 CST&#39;&gt;2022-10-01&lt;/span&gt;&amp;nbsp;·&amp;nbsp;3 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <a class="entry-link" aria-label="post link to 最近的一些感悟 (20221001)" href="https://akashark.github.io/en/posts/life/%E6%80%9D%E8%80%83/20221001/"></a>
 </article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Xcode14新功能
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>What’s New in Xcode 14 What’s New in Xcode 14
+Single Size App Icon 在WWDC22, Apple发布了最新的Xcode14，Xcode14中带来了大量的功能和性能的提高，包括了在源码编辑器和其他方面上很多比较Cool的东西，我将和你一起分享下你要知道的。
+...</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2022-09-28 21:20:22 &#43;0800 CST&#39;&gt;2022-09-28&lt;/span&gt;&amp;nbsp;·&amp;nbsp;2 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <a class="entry-link" aria-label="post link to Xcode14新功能" href="https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>工厂模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>工厂模式 浅析设计模式1 —— 工厂模式
+设计模式分类 创建型模式是对垒的实例化过程进行抽象，从而将对象的穿件和使用分离开，工厂模式属于创建型模式的范畴
+基本概念 工厂模式的核心思想就是创建对象和使用对象的解耦，由工厂负责对象的创建，而用户只能通过接口来使用对象， 这样就可以灵活应对变化的业务需求，方便代码管理，避免代码重复
+...</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2022-09-26 15:26:29 &#43;0800 CST&#39;&gt;2022-09-26&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <a class="entry-link" aria-label="post link to 工厂模式" href="https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>HTTP发展史浅析
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>HTTP发展历程 [TOC]
+HTTP协议版本 HTTP/0.9 HTTP/1.0 HTTP/1.1 HTTP/2.0 HTTP/3.0 HTTP/0.9 0.9版本的HTTP协议他不涉及数据包传输(仅仅是HTLM通过ASCII编码后传递)，主要是规定了客户端和服务端之间的通信格式，默认使用80端口，这个版本只有一条命令GET，而且不支持处理HTML以外任何的文件格式。 缺点
+...</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2022-09-26 11:54:26 &#43;0800 CST&#39;&gt;2022-09-26&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <a class="entry-link" aria-label="post link to HTTP发展史浅析" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>为什么要有虚拟内存
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>为什么要有虚拟内存？ 虚拟内存 单道程序的操作系统直接引用的物理地址，无法同时运行两个程序，程序会因为内存地址错乱而崩溃，单道程序的操作系统使用队列，做完一个任务开始下一个任务。
+...</p>
+  </div>
+  <footer class="entry-footer">&lt;span title=&#39;2022-08-07 22:11:58 &#43;0800 CST&#39;&gt;2022-08-07&lt;/span&gt;&amp;nbsp;·&amp;nbsp;8 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <a class="entry-link" aria-label="post link to 为什么要有虚拟内存" href="https://akashark.github.io/en/posts/read/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://akashark.github.io/en/">« Prev</a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

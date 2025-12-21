@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>iOS Scheme 应用间跳转 on SharkerBlog</title>
+    <title>IOS Scheme 应用间跳转 on SharkerBlog</title>
     <link>https://akashark.github.io/en/tags/ios-scheme-%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/</link>
-    <description>Recent content in iOS Scheme 应用间跳转 on SharkerBlog</description>
+    <description>Recent content in IOS Scheme 应用间跳转 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>zh-cn</language>
     <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/ios-scheme-%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>iOS App间跳转</title>
@@ -13,7 +13,8 @@
       <pubDate>Wed, 27 Mar 2024 20:41:10 +0800</pubDate>
       
       <guid>https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/</guid>
-      <description>背景 在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该</description>
+      <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面&lt;/p&gt;</description>
     </item>
     
   </channel>

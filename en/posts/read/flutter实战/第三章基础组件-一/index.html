@@ -7,7 +7,56 @@
 <meta name="robots" content="index, follow">
 <title>第三章基础组件 一 | SharkerBlog</title>
 <meta name="keywords" content="">
-<meta name="description" content="文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点&hellip;的用法 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居">
+<meta name="description" content="文本及样式
+Flutter.. 两个点语法含义
+Dart中两个点..和三个点&hellip;的用法
+文本及样式
+常见属性
+
+textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget 本身, 只有 Text 宽度大于文本内容长度时指定此属性才有意义
+maxLines、overflow: 指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“&hellip;”表示；TextOverflow 的其他截断方式请参考 SDK 文档。
+textScaleFactor: 代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。
+
+TextStyle
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+Text(&#34;Hello world&#34;,
+  style: TextStyle(
+    color: Colors.blue,
+    fontSize: 18.0,
+    height: 1.2,  
+    fontFamily: &#34;Courier&#34;,
+    background: Paint()..color=Colors.yellow,
+    decoration:TextDecoration.underline,
+    decorationStyle: TextDecorationStyle.dashed
+  ),
+);
+
+
+
+height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。
+fontSize：该属性和 Text 的textScaleFactor都用于控制字体大小。但是有两个主要区别：
+
+fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。
+textScaleFactor主要是用于系统字体大小设置改变时对 Flutter 应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。
+
+
+
+TextSpan
+有点像富文本的展示方式">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -20,6 +69,7 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,15 +107,113 @@
 
     </style>
 </noscript><meta property="og:title" content="第三章基础组件 一" />
-<meta property="og:description" content="文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点&hellip;的用法 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居" />
+<meta property="og:description" content="文本及样式
+Flutter.. 两个点语法含义
+Dart中两个点..和三个点&hellip;的用法
+文本及样式
+常见属性
+
+textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget 本身, 只有 Text 宽度大于文本内容长度时指定此属性才有意义
+maxLines、overflow: 指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“&hellip;”表示；TextOverflow 的其他截断方式请参考 SDK 文档。
+textScaleFactor: 代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。
+
+TextStyle
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+Text(&#34;Hello world&#34;,
+  style: TextStyle(
+    color: Colors.blue,
+    fontSize: 18.0,
+    height: 1.2,  
+    fontFamily: &#34;Courier&#34;,
+    background: Paint()..color=Colors.yellow,
+    decoration:TextDecoration.underline,
+    decorationStyle: TextDecorationStyle.dashed
+  ),
+);
+
+
+
+height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。
+fontSize：该属性和 Text 的textScaleFactor都用于控制字体大小。但是有两个主要区别：
+
+fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。
+textScaleFactor主要是用于系统字体大小设置改变时对 Flutter 应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。
+
+
+
+TextSpan
+有点像富文本的展示方式" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-25T23:11:39&#43;08:00" />
-<meta property="article:modified_time" content="2022-10-25T23:11:39&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-25T23:11:39&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第三章基础组件 一"/>
-<meta name="twitter:description" content="文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点&hellip;的用法 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居"/>
+<meta name="twitter:description" content="文本及样式
+Flutter.. 两个点语法含义
+Dart中两个点..和三个点&hellip;的用法
+文本及样式
+常见属性
+
+textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget 本身, 只有 Text 宽度大于文本内容长度时指定此属性才有意义
+maxLines、overflow: 指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“&hellip;”表示；TextOverflow 的其他截断方式请参考 SDK 文档。
+textScaleFactor: 代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。
+
+TextStyle
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+
+
+Text(&#34;Hello world&#34;,
+  style: TextStyle(
+    color: Colors.blue,
+    fontSize: 18.0,
+    height: 1.2,  
+    fontFamily: &#34;Courier&#34;,
+    background: Paint()..color=Colors.yellow,
+    decoration:TextDecoration.underline,
+    decorationStyle: TextDecorationStyle.dashed
+  ),
+);
+
+
+
+height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。
+fontSize：该属性和 Text 的textScaleFactor都用于控制字体大小。但是有两个主要区别：
+
+fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。
+textScaleFactor主要是用于系统字体大小设置改变时对 Flutter 应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。
+
+
+
+TextSpan
+有点像富文本的展示方式"/>
 
 
 <script type="application/ld+json">
@@ -100,7 +248,7 @@
   "@type": "BlogPosting",
   "headline": "第三章基础组件 一",
   "name": "第三章基础组件 一",
-  "description": "文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点\u0026hellip;的用法 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居",
+  "description": "文本及样式 Flutter.. 两个点语法含义 Dart中两个点..和三个点\u0026hellip;的用法\n文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget 本身, 只有 Text 宽度大于文本内容长度时指定此属性才有意义 maxLines、overflow: 指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“\u0026hellip;”表示；TextOverflow 的其他截断方式请参考 SDK 文档。 textScaleFactor: 代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。 TextStyle 1 2 3 4 5 6 7 8 9 10 11 Text(\u0026#34;Hello world\u0026#34;, style: TextStyle( color: Colors.blue, fontSize: 18.0, height: 1.2, fontFamily: \u0026#34;Courier\u0026#34;, background: Paint()..color=Colors.yellow, decoration:TextDecoration.underline, decorationStyle: TextDecorationStyle.dashed ), ); height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。 fontSize：该属性和 Text 的textScaleFactor都用于控制字体大小。但是有两个主要区别： fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。 textScaleFactor主要是用于系统字体大小设置改变时对 Flutter 应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。 TextSpan 有点像富文本的展示方式\n",
   "keywords": [
     
   ],
@@ -177,6 +325,8 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
             </div>
         </div>
         <ul id="menu">
@@ -221,7 +371,7 @@
     <h1 class="post-title">
       第三章基础组件 一
     </h1>
-    <div class="post-meta"><span title='2022-10-25 23:11:39 +0800 CST'>2022-10-25</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2022-10-25 23:11:39 &#43;0800 CST&#39;&gt;2022-10-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -406,10 +556,10 @@
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> Test {
 </span></span><span style="display:flex;"><span>  Test() {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//这里组合后 list就变成[ &#39;a&#39;, &#39;b&#39;, &#39;c&#39;,&#39;d&#39;, &#39;e&#39;, &#39;f&#39;]
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">var</span> list2 = [<span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;f&#39;</span>];
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> list2 = [<span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;f&#39;</span>];
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> list = [<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>, ...list2];
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//这里组合后map就变成{&#39;a&#39;: &#39;a&#39;, &#39;b&#39;: &#39;b&#39;,&#39;c&#39;: &#39;c&#39;, &#39;d&#39;: &#39;d&#39;}
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">var</span> map2 = {<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>};
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> map2 = {<span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;a&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;b&#39;</span>};
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> map = {...map2, <span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;c&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>};
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
@@ -471,12 +621,12 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// 声明文本样式
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">const</span> textStyle = <span style="color:#fff;font-weight:bold">const</span> TextStyle(
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> textStyle = <span style="color:#fff;font-weight:bold">const</span> TextStyle(
 </span></span><span style="display:flex;"><span>  fontFamily: <span style="color:#0ff;font-weight:bold">&#39;Raleway&#39;</span>,
 </span></span><span style="display:flex;"><span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 使用文本样式
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">var</span> buttonText = <span style="color:#fff;font-weight:bold">const</span> Text(
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> buttonText = <span style="color:#fff;font-weight:bold">const</span> Text(
 </span></span><span style="display:flex;"><span>  <span style="color:#0ff;font-weight:bold">&#34;Use the font for this text&#34;</span>,
 </span></span><span style="display:flex;"><span>  style: textStyle,
 </span></span><span style="display:flex;"><span>);
@@ -499,7 +649,7 @@ my_package包中。然后创建 TextStyle 的过程如下,如果在 package 包�
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> textStyle = <span style="color:#fff;font-weight:bold">const</span> TextStyle(
 </span></span><span style="display:flex;"><span>  fontFamily: <span style="color:#0ff;font-weight:bold">&#39;Raleway&#39;</span>,
 </span></span><span style="display:flex;"><span>  package: <span style="color:#0ff;font-weight:bold">&#39;my_package&#39;</span>, <span style="color:#007f7f">//指定包名
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>);
+</span></span></span><span style="display:flex;"><span>);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>一个包也可以只提供字体文件而不需要在 pubspec.yaml 中声明。 这些文件应该存放在包的lib/文件夹中。字体文件不会自动绑定到应用程序中，应用程序可以在声明字体时有选择地使用这些字体。假设一个名为my_package的包中有一个字体文件：

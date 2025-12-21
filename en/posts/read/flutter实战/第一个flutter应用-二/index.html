@@ -7,7 +7,23 @@
 <meta name="robots" content="index, follow">
 <title>第一个Flutter应用 二 | SharkerBlog</title>
 <meta name="keywords" content="">
-<meta name="description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi">
+<meta name="description" content="第二章
+状态管理
+StatefulWidget的状态管理视情况被管理，通常有一下几种方式
+
+Widget 管理自己的状态
+Widget 管理子widget状态
+混合管理 (父Widget和子Widget都管理状态)
+如何决定使用哪种管理方式
+如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。
+如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。
+如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。
+在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时
+候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显
+得更重要一些）。
+
+Widget管理自身状态
+_TapboxAState 类:">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -20,6 +36,7 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,15 +74,47 @@
 
     </style>
 </noscript><meta property="og:title" content="第一个Flutter应用 二" />
-<meta property="og:description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi" />
+<meta property="og:description" content="第二章
+状态管理
+StatefulWidget的状态管理视情况被管理，通常有一下几种方式
+
+Widget 管理自己的状态
+Widget 管理子widget状态
+混合管理 (父Widget和子Widget都管理状态)
+如何决定使用哪种管理方式
+如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。
+如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。
+如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。
+在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时
+候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显
+得更重要一些）。
+
+Widget管理自身状态
+_TapboxAState 类:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-05T21:21:33&#43;08:00" />
-<meta property="article:modified_time" content="2022-10-05T21:21:33&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-05T21:21:33&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第一个Flutter应用 二"/>
-<meta name="twitter:description" content="第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi"/>
+<meta name="twitter:description" content="第二章
+状态管理
+StatefulWidget的状态管理视情况被管理，通常有一下几种方式
+
+Widget 管理自己的状态
+Widget 管理子widget状态
+混合管理 (父Widget和子Widget都管理状态)
+如何决定使用哪种管理方式
+如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。
+如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。
+如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。
+在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时
+候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显
+得更重要一些）。
+
+Widget管理自身状态
+_TapboxAState 类:"/>
 
 
 <script type="application/ld+json">
@@ -100,7 +149,7 @@
   "@type": "BlogPosting",
   "headline": "第一个Flutter应用 二",
   "name": "第一个Flutter应用 二",
-  "description": "第二章 状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Wi",
+  "description": "第二章\n状态管理 StatefulWidget的状态管理视情况被管理，通常有一下几种方式\nWidget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Widget和子Widget都管理状态) 如何决定使用哪种管理方式 如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。 如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。 如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。 在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时 候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显 得更重要一些）。 Widget管理自身状态 _TapboxAState 类:\n",
   "keywords": [
     
   ],
@@ -177,6 +226,8 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
             </div>
         </div>
         <ul id="menu">
@@ -221,7 +272,7 @@
     <h1 class="post-title">
       第一个Flutter应用 二
     </h1>
-    <div class="post-meta"><span title='2022-10-05 21:21:33 +0800 CST'>2022-10-05</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2022-10-05 21:21:33 &#43;0800 CST&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -317,9 +368,9 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// TapboxA 管理自身状态.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------- TapboxA ----------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxA <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  TapboxA({Key? key}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
 </span></span><span style="display:flex;"><span>
@@ -434,9 +485,9 @@ TapboxB 类:</li>
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// ParentWidget 为 TapboxB 管理状态.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------ ParentWidget --------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidget <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  _ParentWidgetState createState() =&gt; _ParentWidgetState();
@@ -463,7 +514,7 @@ TapboxB 类:</li>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">//------------------------- TapboxB ----------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxB <span style="color:#fff;font-weight:bold">extends</span> StatelessWidget {
 </span></span><span style="display:flex;"><span>  TapboxB({Key? key, <span style="color:#fff;font-weight:bold">this</span>.active: <span style="color:#fff;font-weight:bold">false</span>, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.onChanged})
 </span></span><span style="display:flex;"><span>      : <span style="color:#fff;font-weight:bold">super</span>(key: key);
@@ -613,7 +664,7 @@ _ParentWidgetStateC类:</p>
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">//---------------------------- ParentWidget ----------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidgetC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  _ParentWidgetCState createState() =&gt; _ParentWidgetCState();
@@ -640,7 +691,7 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">//----------------------------- TapboxC ------------------------------
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapboxC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  TapboxC({Key? key, <span style="color:#fff;font-weight:bold">this</span>.active: <span style="color:#fff;font-weight:bold">false</span>, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.onChanged})
 </span></span><span style="display:flex;"><span>      : <span style="color:#fff;font-weight:bold">super</span>(key: key);
@@ -680,10 +731,10 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 在按下时添加绿色边框，当抬起时，取消高亮  
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> GestureDetector(
 </span></span><span style="display:flex;"><span>      onTapDown: _handleTapDown, <span style="color:#007f7f">// 处理按下事件
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTap: _handleTap,
+</span></span></span><span style="display:flex;"><span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
+</span></span></span><span style="display:flex;"><span>      onTap: _handleTap,
 </span></span><span style="display:flex;"><span>      onTapCancel: _handleTapCancel,
 </span></span><span style="display:flex;"><span>      child: Container(
 </span></span><span style="display:flex;"><span>        child: Center(
@@ -1033,21 +1084,21 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> MyApp({<span style="color:#fff;font-weight:bold">super</span>.key});
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This widget is the root of your application.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#f00">@</span>override
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> MaterialApp(
 </span></span><span style="display:flex;"><span>      title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo&#39;</span>,
 </span></span><span style="display:flex;"><span>      theme: ThemeData(
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// This is the theme of your application.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">//
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// Try running your application with &#34;flutter run&#34;. You&#39;ll see the
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// application has a blue toolbar. Then, without quitting the app, try
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// changing the primarySwatch below to Colors.green and then invoke
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// &#34;hot reload&#34; (press &#34;r&#34; in the console where you ran &#34;flutter run&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// or simply save your changes to &#34;hot reload&#34; in a Flutter IDE).
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// Notice that the counter didn&#39;t reset back to zero; the application
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// is not restarted.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        primarySwatch: Colors.blue,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Try running your application with &#34;flutter run&#34;. You&#39;ll see the
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// application has a blue toolbar. Then, without quitting the app, try
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// changing the primarySwatch below to Colors.green and then invoke
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// &#34;hot reload&#34; (press &#34;r&#34; in the console where you ran &#34;flutter run&#34;,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// or simply save your changes to &#34;hot reload&#34; in a Flutter IDE).
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Notice that the counter didn&#39;t reset back to zero; the application
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// is not restarted.
+</span></span></span><span style="display:flex;"><span>        primarySwatch: Colors.blue,
 </span></span><span style="display:flex;"><span>      ),
 </span></span><span style="display:flex;"><span>      home: <span style="color:#fff;font-weight:bold">const</span> MyHomePage(title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo Home Page&#39;</span>),
 </span></span><span style="display:flex;"><span>    );
@@ -1058,18 +1109,18 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> MyHomePage({<span style="color:#fff;font-weight:bold">super</span>.key, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.title});
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This widget is the home page of your application. It is stateful, meaning
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// that it has a State object (defined below) that contains fields that affect
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// how it looks.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// that it has a State object (defined below) that contains fields that affect
+</span></span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// how it looks.
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// This class is the configuration for the state. It holds the values (in this
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// case the title) provided by the parent (in this case the App widget) and
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// used by the build method of the State. Fields in a Widget subclass are
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#007f7f">// always marked &#34;final&#34;.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// case the title) provided by the parent (in this case the App widget) and
+</span></span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// used by the build method of the State. Fields in a Widget subclass are
+</span></span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// always marked &#34;final&#34;.
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">String</span> title;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 对于StatefulWidget自动会执行creatState 但在生命周期的那个时刻呢
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#f00">@</span>override
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1079,47 +1130,47 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _incrementCounter() {
 </span></span><span style="display:flex;"><span>    setState(() {
 </span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// This call to setState tells the Flutter framework that something has
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// changed in this State, which causes it to rerun the build method below
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// so that the display can reflect the updated values. If we changed
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// _counter without calling setState(), then the build method would not be
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#007f7f">// called again, and so nothing would appear to happen.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      _counter++;
+</span></span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// changed in this State, which causes it to rerun the build method below
+</span></span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// so that the display can reflect the updated values. If we changed
+</span></span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// _counter without calling setState(), then the build method would not be
+</span></span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// called again, and so nothing would appear to happen.
+</span></span></span><span style="display:flex;"><span>      _counter++;
 </span></span><span style="display:flex;"><span>    });
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// This method is rerun every time setState is called, for instance as done
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// by the _incrementCounter method above.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">//
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// The Flutter framework has been optimized to make rerunning build methods
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// fast, so that you can just rebuild anything that needs updating rather
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#007f7f">// than having to individually change instances of widgets.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
+</span></span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// by the _incrementCounter method above.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// The Flutter framework has been optimized to make rerunning build methods
+</span></span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// fast, so that you can just rebuild anything that needs updating rather
+</span></span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// than having to individually change instances of widgets.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> Scaffold(
 </span></span><span style="display:flex;"><span>      appBar: AppBar(
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Here we take the value from the MyHomePage object that was created by
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// the App.build method, and use it to set our appbar title.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        title: Text(widget.title),
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// the App.build method, and use it to set our appbar title.
+</span></span></span><span style="display:flex;"><span>        title: Text(widget.title),
 </span></span><span style="display:flex;"><span>      ),
 </span></span><span style="display:flex;"><span>      body: Center(
 </span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// Center is a layout widget. It takes a single child and positions it
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#007f7f">// in the middle of the parent.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        child: Column(
+</span></span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// in the middle of the parent.
+</span></span></span><span style="display:flex;"><span>        child: Column(
 </span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// Column is also a layout widget. It takes a list of children and
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// arranges them vertically. By default, it sizes itself to fit its
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// children horizontally, and tries to be as tall as its parent.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">//
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Invoke &#34;debug painting&#34; (press &#34;p&#34; in the console, choose the
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// &#34;Toggle Debug Paint&#34; action from the Flutter Inspector in Android
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Studio, or the &#34;Toggle Debug Paint&#34; command in Visual Studio Code)
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// to see the wireframe for each widget.
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">//
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// Column has various properties to control how it sizes itself and
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// how it positions its children. Here we use mainAxisAlignment to
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// center the children vertically; the main axis here is the vertical
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// axis because Columns are vertical (the cross axis would be
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#007f7f">// horizontal).
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          mainAxisAlignment: MainAxisAlignment.center,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// arranges them vertically. By default, it sizes itself to fit its
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// children horizontally, and tries to be as tall as its parent.
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// Invoke &#34;debug painting&#34; (press &#34;p&#34; in the console, choose the
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// &#34;Toggle Debug Paint&#34; action from the Flutter Inspector in Android
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// Studio, or the &#34;Toggle Debug Paint&#34; command in Visual Studio Code)
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// to see the wireframe for each widget.
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">//
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// Column has various properties to control how it sizes itself and
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// how it positions its children. Here we use mainAxisAlignment to
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// center the children vertically; the main axis here is the vertical
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// axis because Columns are vertical (the cross axis would be
+</span></span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// horizontal).
+</span></span></span><span style="display:flex;"><span>          mainAxisAlignment: MainAxisAlignment.center,
 </span></span><span style="display:flex;"><span>          children: &lt;Widget&gt;[
 </span></span><span style="display:flex;"><span>            TaboxA(),
 </span></span><span style="display:flex;"><span>            ParentWidget(),
@@ -1145,7 +1196,7 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _TaboxAState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TaboxA&gt; {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>; <span style="color:#007f7f">// Widget自己管理状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  _handleTap() {
+</span></span></span><span style="display:flex;"><span>  _handleTap() {
 </span></span><span style="display:flex;"><span>    setState(() {
 </span></span><span style="display:flex;"><span>      _active = !_active;
 </span></span><span style="display:flex;"><span>    });
@@ -1176,7 +1227,7 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 交给父类管理状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> ParentWidget <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidget <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> ParentWidget({Key? key}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
@@ -1238,12 +1289,12 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 混合管理模式
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> ParentWidgetC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> ParentWidgetC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  State&lt;ParentWidgetC&gt; createState() =&gt; _ParentWidgetCState();
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 管理active状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidgetC&gt; {
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _ParentWidgetCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;ParentWidgetC&gt; {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _active = <span style="color:#fff;font-weight:bold">false</span>;
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  _handleTapboxChanged(<span style="color:#fff;font-weight:bold">bool</span> newValue) {
@@ -1267,7 +1318,7 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> TapBoxC <span style="color:#fff;font-weight:bold">extends</span> StatefulWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> TapBoxC({Key? key, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.active, <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.activeOnChanged}) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">// 父widget管理的状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
+</span></span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">bool</span> active;
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> ValueChanged&lt;<span style="color:#fff;font-weight:bold">bool</span>&gt; activeOnChanged;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
@@ -1275,7 +1326,7 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#007f7f">// 管理highlight状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> _TapBoxCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TapBoxC&gt; {
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> _TapBoxCState <span style="color:#fff;font-weight:bold">extends</span> State&lt;TapBoxC&gt; {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">bool</span> _highlight = <span style="color:#fff;font-weight:bold">false</span>;
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTapDown(TapDownDetails details) {
@@ -1298,15 +1349,15 @@ _ParentWidgetStateC类:</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> _handleTap() {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 回调active状态
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    widget.activeOnChanged(!widget.active);
+</span></span></span><span style="display:flex;"><span>    widget.activeOnChanged(!widget.active);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span>  GestureDetector(
 </span></span><span style="display:flex;"><span>      onTapDown: _handleTapDown, <span style="color:#007f7f">// 处理按下事件
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      onTap: _handleTap,
+</span></span></span><span style="display:flex;"><span>      onTapUp: _handleTapUp, <span style="color:#007f7f">// 处理抬起事件
+</span></span></span><span style="display:flex;"><span>      onTap: _handleTap,
 </span></span><span style="display:flex;"><span>      onTapCancel: _handleTapCancel,
 </span></span><span style="display:flex;"><span>      child: Container(
 </span></span><span style="display:flex;"><span>        width: <span style="color:#ff0;font-weight:bold">200.0</span>,

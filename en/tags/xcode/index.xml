@@ -5,7 +5,7 @@
     <link>https://akashark.github.io/en/tags/xcode/</link>
     <description>Recent content in Xcode on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>zh-cn</language>
     <lastBuildDate>Wed, 28 Sep 2022 21:20:22 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/xcode/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Xcode14新功能</title>
@@ -13,7 +13,10 @@
       <pubDate>Wed, 28 Sep 2022 21:20:22 +0800</pubDate>
       
       <guid>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
-      <description>What’s New in Xcode 14 What’s New in Xcode 14 Single Size App Icon 在WWDC22, Apple发布了最新的Xcode14，Xcode14中带来了大量的功能和性能</description>
+      <description>&lt;h1 id=&#34;whats-new-in-xcode-14&#34;&gt;What’s New in Xcode 14&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://medium.com/better-programming/whats-new-in-xcode-14-f6b56c33a8b3&#34;&gt;What’s New in Xcode 14&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;single-size-app-icon&#34;&gt;Single Size App Icon&lt;/h2&gt;
+&lt;p&gt;在WWDC22, Apple发布了最新的Xcode14，Xcode14中带来了大量的功能和性能的提高，包括了在源码编辑器和其他方面上很多比较Cool的东西，我将和你一起分享下你要知道的。&lt;/p&gt;</description>
     </item>
     
   </channel>

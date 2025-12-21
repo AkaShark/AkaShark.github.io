@@ -5,10 +5,19 @@
     <link>https://akashark.github.io/en/categories/</link>
     <description>Recent content in Categories on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Wed, 27 Mar 2024 20:41:10 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 21 Dec 2025 23:40:26 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>iOS</title>
+      <title>计算机网络</title>
+      <link>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Sun, 21 Dec 2025 23:40:26 +0800</pubDate>
+      
+      <guid>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IOS</title>
       <link>https://akashark.github.io/en/categories/ios/</link>
       <pubDate>Wed, 27 Mar 2024 20:41:10 +0800</pubDate>
       
@@ -17,7 +26,7 @@
     </item>
     
     <item>
-      <title>iOS WebView UA</title>
+      <title>IOS WebView UA</title>
       <link>https://akashark.github.io/en/categories/ios-webview-ua/</link>
       <pubDate>Mon, 26 Feb 2024 22:40:08 +0800</pubDate>
       
@@ -85,15 +94,6 @@
       <pubDate>Mon, 26 Sep 2022 15:26:29 +0800</pubDate>
       
       <guid>https://akashark.github.io/en/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>计算机网络</title>
-      <link>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
-      <pubDate>Mon, 26 Sep 2022 11:54:26 +0800</pubDate>
-      
-      <guid>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
       <description></description>
     </item>
     

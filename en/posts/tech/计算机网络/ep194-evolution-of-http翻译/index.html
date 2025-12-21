@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>EP194: Evolution of HTTP[翻译] | SharkerBlog</title>
+<meta name="keywords" content="HTTP1.0 HTTP2.0 HTTP3.0">
+<meta name="description" content="HTTP演进">
+<meta name="author" content="Sharker">
+<link rel="canonical" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
+<link rel="apple-touch-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
+<link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="EP194: Evolution of HTTP[翻译]" />
+<meta property="og:description" content="HTTP演进" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-12-21T23:40:26&#43;08:00" />
+<meta property="article:modified_time" content="2025-12-21T23:40:26&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="EP194: Evolution of HTTP[翻译]"/>
+<meta name="twitter:description" content="HTTP演进"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "文章",
+      "item": "https://akashark.github.io/en/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "技术",
+      "item": "https://akashark.github.io/en/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "EP194: Evolution of HTTP[翻译]",
+      "item": "https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "EP194: Evolution of HTTP[翻译]",
+  "name": "EP194: Evolution of HTTP[翻译]",
+  "description": "HTTP演进",
+  "keywords": [
+    "HTTP1.0 HTTP2.0 HTTP3.0"
+  ],
+  "articleBody": "这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。\n超文本传输协议(HTTP)历经多年发展，已经从简单的文本传输演变成了为满足现代应用需求的高性能注重实时体验的协议。\nHTTP 演进历程 HTTP 的发展历程如下\nHTTP/0.9 设置用于通过单个 GET 获取简单的 HTML文档 HTTP/1.0 增加了头部信息和状态码以支持更丰富的交互，但每个请求任需要建立新的链接 (每次请求结束后关闭链接，再次请求时创建新链接) HTTP/1.1 引入了持久链接和更多的方法支持，让日常网页浏览变得更快、更高效 HTTP/2 通过多路复用技术解决了性能瓶颈，允许对个请求共享一个链接 HTTP/3 转向了基于 UDP 的 QUIC 协议，以降低延迟并提高可靠性，尤其是适用于移动和实时应用(移动的网络环境更加复杂) 系统性能指标 你的 API 运行缓慢。但究竟慢到什么程度？你需要具体数据。真实的指标能告诉你哪里出了问题，以及该从何处着手修复。\nQPS(Queries Per Second) 每秒请求数，指的是系统每秒处理的请求数量，你的服务器一秒收到 1000 个请求，那服务器的 QPS 就是 1000。 TPS(Transactions Per Second) 每秒事务数，指的是系统每秒能够处理完成交易的数量，一次交易包含完整的往返流程，即请求发出、访问数据库并返回响应。TPS反应的是实际完成的工作量而不仅仅是接收到的请求数。 Concurrency 并发数，指的是系统在任一给定时刻同时处理的活跃请求数量，即使每秒有 100 个请求，但是如果每个请求需要 5s 才能完成，那么实际上同时处理的并发请求数高达 500 个。高并发意味着需要更多的资源、更优的连接池管理以及更加智能的线程调度。 RT 响应时间，指的是从请求开始到收到响应所需要经过的时间，在客户端层面和服务器层面均可测量。 一个简单的公式将他们联系在一起： QPS = 并发数 / 平均响应时间 更高的并发数或者更低的响应时间 = 更高的吞吐量\nNginx 为什么如此流行 Nginx受欢迎原因如下:\n高性能服务器 反向代理与负载均衡器 缓存层 SSL 终端卸载 应该掌握的网络调试命令 帮助故障定位\nping：检查目标是否响应，并报告往返时间以确认基本可达性。 traceroute / tracert：显示路径上的每一跳，以便您查看数据包在何处变慢或停止。 mtr / pathping：持续测量每一跳的延迟和丢包，以发现间歇性问题。 ip addr, ip link / ipconfig /all：打印本地 IP 地址、MAC 地址和接口状态，以便您验证机器的网络身份。 ip route：显示路由表，以确认系统将使用哪个网关和下一跳。 ip neigh：显示 IP 到 MAC 的条目，以检测局域网中的重复或过时 ARP 记录。 ss -tulpn：列出监听套接字和进程 ID，以便确认服务是否确实绑定到预期端口。 dig：解析 DNS 记录以验证客户端将连接的确切 IP 地址。 curl -I：仅获取 HTTP(S)头信息，以检查状态码、重定向和缓存设置。 tcpdump / tshark：捕获数据包，以便您能检查真实流量，并验证发送与接收的内容。 iperf3：测量两台主机之间的端到端吞吐量，以区分带宽限制与应用问题。 ssh：在远程机器上打开一个安全外壳，以便直接运行检查并应用修复。 sftp：安全地传输文件，以便在事件期间拉取日志或推送工件。 nmap：扫描开放端口并探测版本，以确认哪些服务已暴露并正在响应。 上述命令有些 Mac 需要单独安装 brew 包\n集线器、交换机与路由 每个家庭或者办公网络都离不开这三种设备，集线器、交换机和路由器，但它们的角色常常被混淆。\n集线器工作在物理层（第一层）。它是三者中最简单的设备，无法识别地址或数据类型。当数据包到达时，它只是简单地将其广播给所有连接的设备，形成一个大的冲突域。这意味着所有设备会竞争相同的带宽，使得集线器在现代网络中效率低下。 交换机工作在第二层（数据链路层）。它能够知道MAC 地址，并将数据帧仅转发至正确的目标设备。交换机的每个端口都构成独立的冲突域，从而提升效率并加速局域网内的通信。 路由器工作在网络层（第三层）。它根据 IP 地址路由数据包，并将不同网络连接在一起，例如将家庭网络连接到互联网。每个路由器接口构成一个独立的广播域，从而隔离本地流量和外部流量。 ",
+  "wordCount" : "1678",
+  "inLanguage": "en",
+  "datePublished": "2025-12-21T23:40:26+08:00",
+  "dateModified": "2025-12-21T23:40:26+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Sharker"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SharkerBlog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HY6JW1HYRV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HY6JW1HYRV');
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://akashark.github.io/en/" accesskey="h" title="Sharker’s Blog (Alt + H)">
+                <img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg" alt="" aria-label="logo"
+                    height="35">Sharker’s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://akashark.github.io/en/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://akashark.github.io/en/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://akashark.github.io/en/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://akashark.github.io/en/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://akashark.github.io/en/tags" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://akashark.github.io/en/about" title="🙋🏻‍♂️关于">
+                    <span>🙋🏻‍♂️关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://akashark.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/">文章</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/tech/">技术</a></div>
+    <h1 class="post-title">
+      EP194: Evolution of HTTP[翻译]
+    </h1>
+    <div class="post-description">
+      HTTP演进
+    </div>
+    <div class="post-meta">&lt;span title=&#39;2025-12-21 23:40:26 &#43;0800 CST&#39;&gt;2025-12-21&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#http-%e6%bc%94%e8%bf%9b%e5%8e%86%e7%a8%8b" aria-label="HTTP 演进历程">HTTP 演进历程</a></li>
+                <li>
+                    <a href="#%e7%b3%bb%e7%bb%9f%e6%80%a7%e8%83%bd%e6%8c%87%e6%a0%87" aria-label="系统性能指标">系统性能指标</a></li>
+                <li>
+                    <a href="#nginx-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%a6%82%e6%ad%a4%e6%b5%81%e8%a1%8c" aria-label="Nginx 为什么如此流行">Nginx 为什么如此流行</a></li>
+                <li>
+                    <a href="#%e5%ba%94%e8%af%a5%e6%8e%8c%e6%8f%a1%e7%9a%84%e7%bd%91%e7%bb%9c%e8%b0%83%e8%af%95%e5%91%bd%e4%bb%a4" aria-label="应该掌握的网络调试命令">应该掌握的网络调试命令</a></li>
+                <li>
+                    <a href="#%e9%9b%86%e7%ba%bf%e5%99%a8%e4%ba%a4%e6%8d%a2%e6%9c%ba%e4%b8%8e%e8%b7%af%e7%94%b1" aria-label="集线器、交换机与路由">集线器、交换机与路由</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。</p>
+<p>超文本传输协议(HTTP)历经多年发展，已经从简单的文本传输演变成了为满足现代应用需求的高性能注重实时体验的协议。</p>
+<h2 id="http-演进历程">HTTP 演进历程<a hidden class="anchor" aria-hidden="true" href="#http-演进历程">#</a></h2>
+<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!3GQA!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F82f1e76a-8fbf-4e8f-b030-e20037c66f70_3000x3900.png" alt="Image"  title="Image"  />
+</p>
+<p>HTTP 的发展历程如下</p>
+<ol>
+<li>HTTP/0.9 设置用于通过单个 GET 获取简单的 HTML文档</li>
+<li>HTTP/1.0 增加了头部信息和状态码以支持更丰富的交互，但每个请求任需要建立新的链接 (每次请求结束后关闭链接，再次请求时创建新链接)</li>
+<li>HTTP/1.1 引入了持久链接和更多的方法支持，让日常网页浏览变得更快、更高效</li>
+<li>HTTP/2 通过多路复用技术解决了性能瓶颈，允许对个请求共享一个链接</li>
+<li>HTTP/3 转向了基于 UDP 的 QUIC 协议，以降低延迟并提高可靠性，尤其是适用于移动和实时应用(移动的网络环境更加复杂)</li>
+</ol>
+<h2 id="系统性能指标">系统性能指标<a hidden class="anchor" aria-hidden="true" href="#系统性能指标">#</a></h2>
+<p>你的 API 运行缓慢。但究竟慢到什么程度？你需要具体数据。真实的指标能告诉你哪里出了问题，以及该从何处着手修复。</p>
+<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Zyn0!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F063ae714-8714-4695-8b0e-16a765c5c1a8_2360x2960.png" alt="Image"  title="Image"  />
+</p>
+<ul>
+<li>QPS(Queries Per Second) 每秒请求数，指的是系统每秒处理的请求数量，你的服务器一秒收到 1000 个请求，那服务器的 QPS 就是 1000。</li>
+<li>TPS(Transactions Per Second) 每秒事务数，指的是系统每秒能够处理完成交易的数量，一次交易包含完整的往返流程，即请求发出、访问数据库并返回响应。TPS反应的是实际完成的工作量而不仅仅是接收到的请求数。</li>
+<li>Concurrency 并发数，指的是系统在任一给定时刻同时处理的活跃请求数量，即使每秒有 100 个请求，但是如果每个请求需要 5s 才能完成，那么实际上同时处理的并发请求数高达 500 个。高并发意味着需要更多的资源、更优的连接池管理以及更加智能的线程调度。</li>
+<li>RT 响应时间，指的是从请求开始到收到响应所需要经过的时间，在客户端层面和服务器层面均可测量。</li>
+</ul>
+<p>一个简单的公式将他们联系在一起： QPS = 并发数 / 平均响应时间
+更高的并发数或者更低的响应时间 = 更高的吞吐量</p>
+<h2 id="nginx-为什么如此流行">Nginx 为什么如此流行<a hidden class="anchor" aria-hidden="true" href="#nginx-为什么如此流行">#</a></h2>
+<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ta7a!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe42382d5-9be5-443a-9f75-56ecfa22569c_2360x2960.png" alt="Image"  title="Image"  />
+</p>
+<p>Nginx受欢迎原因如下:</p>
+<ul>
+<li>高性能服务器</li>
+<li>反向代理与负载均衡器</li>
+<li>缓存层</li>
+<li>SSL 终端卸载</li>
+</ul>
+<h2 id="应该掌握的网络调试命令">应该掌握的网络调试命令<a hidden class="anchor" aria-hidden="true" href="#应该掌握的网络调试命令">#</a></h2>
+<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!sXIK!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa25e1401-cc6f-49f1-9ed1-6f093a01ac6c_2360x2664.png" alt="Image"  title="Image"  />
+</p>
+<blockquote>
+<p>帮助故障定位</p>
+</blockquote>
+<ul>
+<li>ping：检查目标是否响应，并报告往返时间以确认基本可达性。</li>
+<li>traceroute / tracert：显示路径上的每一跳，以便您查看数据包在何处变慢或停止。</li>
+<li>mtr / pathping：持续测量每一跳的延迟和丢包，以发现间歇性问题。</li>
+<li>ip addr, ip link / ipconfig /all：打印本地 IP 地址、MAC 地址和接口状态，以便您验证机器的网络身份。</li>
+<li>ip route：显示路由表，以确认系统将使用哪个网关和下一跳。</li>
+<li>ip neigh：显示 IP 到 MAC 的条目，以检测局域网中的重复或过时 ARP 记录。</li>
+<li>ss -tulpn：列出监听套接字和进程 ID，以便确认服务是否确实绑定到预期端口。</li>
+<li>dig：解析 DNS 记录以验证客户端将连接的确切 IP 地址。</li>
+<li>curl -I：仅获取 HTTP(S)头信息，以检查状态码、重定向和缓存设置。</li>
+<li>tcpdump / tshark：捕获数据包，以便您能检查真实流量，并验证发送与接收的内容。</li>
+<li>iperf3：测量两台主机之间的端到端吞吐量，以区分带宽限制与应用问题。</li>
+<li>ssh：在远程机器上打开一个安全外壳，以便直接运行检查并应用修复。</li>
+<li>sftp：安全地传输文件，以便在事件期间拉取日志或推送工件。</li>
+<li>nmap：扫描开放端口并探测版本，以确认哪些服务已暴露并正在响应。</li>
+</ul>
+<blockquote>
+<p>上述命令有些 Mac 需要单独安装 brew 包</p>
+</blockquote>
+<h2 id="集线器交换机与路由">集线器、交换机与路由<a hidden class="anchor" aria-hidden="true" href="#集线器交换机与路由">#</a></h2>
+<p>每个家庭或者办公网络都离不开这三种设备，集线器、交换机和路由器，但它们的角色常常被混淆。</p>
+<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!BXWB!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09a8b52f-2b80-4762-92cd-c5d18d5a7a3c_2360x2960.png" alt="Image"  title="Image"  />
+</p>
+<ul>
+<li>集线器工作在物理层（第一层）。它是三者中最简单的设备，无法识别地址或数据类型。当数据包到达时，它只是简单地将其广播给所有连接的设备，形成一个大的冲突域。这意味着所有设备会竞争相同的带宽，使得集线器在现代网络中效率低下。</li>
+<li>交换机工作在第二层（数据链路层）。它能够知道MAC 地址，并将数据帧仅转发至正确的目标设备。交换机的每个端口都构成独立的冲突域，从而提升效率并加速局域网内的通信。</li>
+<li>路由器工作在网络层（第三层）。它根据 IP 地址路由数据包，并将不同网络连接在一起，例如将家庭网络连接到互联网。每个路由器接口构成一个独立的广播域，从而隔离本地流量和外部流量。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://akashark.github.io/en/tags/http1.0-http2.0-http3.0/">HTTP1.0 HTTP2.0 HTTP3.0</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
+    <span class="title">Next »</span>
+    <br>
+    <span>iOS App间跳转</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    
+        
+    
+    <span id="sitetime">载入运行时间...</span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script>
+    function siteTime() {
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var startYear = 2022;
+        var startMonth = 7;
+        var startDate = 27;
+        var startHour = 15;
+        var startMinute = 0;
+        var startSecond = 0;
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+            minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+            diffMinutes * minutes) / seconds);
+        if (startYear == todayYear) {
+            
+            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffDays + " 天 " + diffHours +
+                " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+        } else {
+            
+            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffYears + " 年 " + diffDays +
+                " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+        }
+    }
+    setInterval(siteTime, 1000);
+</script>
+</body>
+
+</html>

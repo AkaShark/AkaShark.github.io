@@ -7,7 +7,30 @@
 <meta name="robots" content="index, follow">
 <title>第一个Flutter应用 三 | SharkerBlog</title>
 <meta name="keywords" content="">
-<meta name="description" content="第二章 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类">
+<meta name="description" content="第二章
+路由管理
+MaterialPageRoute
+
+
+1
+2
+3
+4
+5
+6
+7
+
+
+// 路由跳转
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context){
+        return const NewRoute();
+      })
+    );
+
+
+MaterialPageRoute继承自PageRoute类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是 Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -20,6 +43,7 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,15 +81,61 @@
 
     </style>
 </noscript><meta property="og:title" content="第一个Flutter应用 三" />
-<meta property="og:description" content="第二章 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类" />
+<meta property="og:description" content="第二章
+路由管理
+MaterialPageRoute
+
+
+1
+2
+3
+4
+5
+6
+7
+
+
+// 路由跳转
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context){
+        return const NewRoute();
+      })
+    );
+
+
+MaterialPageRoute继承自PageRoute类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是 Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-07T23:36:30&#43;08:00" />
-<meta property="article:modified_time" content="2022-10-07T23:36:30&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-07T23:36:30&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第一个Flutter应用 三"/>
-<meta name="twitter:description" content="第二章 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类"/>
+<meta name="twitter:description" content="第二章
+路由管理
+MaterialPageRoute
+
+
+1
+2
+3
+4
+5
+6
+7
+
+
+// 路由跳转
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context){
+        return const NewRoute();
+      })
+    );
+
+
+MaterialPageRoute继承自PageRoute类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是 Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画"/>
 
 
 <script type="application/ld+json">
@@ -100,7 +170,7 @@
   "@type": "BlogPosting",
   "headline": "第一个Flutter应用 三",
   "name": "第一个Flutter应用 三",
-  "description": "第二章 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类",
+  "description": "第二章\n路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是 Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画\n",
   "keywords": [
     
   ],
@@ -177,6 +247,8 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
             </div>
         </div>
         <ul id="menu">
@@ -221,7 +293,7 @@
     <h1 class="post-title">
       第一个Flutter应用 三
     </h1>
-    <div class="post-meta"><span title='2022-10-07 23:36:30 +0800 CST'>2022-10-07</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2022-10-07 23:36:30 &#43;0800 CST&#39;&gt;2022-10-07&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -299,7 +371,7 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#007f7f">// 路由跳转
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    Navigator.push(
+</span></span></span><span style="display:flex;"><span>    Navigator.push(
 </span></span><span style="display:flex;"><span>      context,
 </span></span><span style="display:flex;"><span>      MaterialPageRoute(builder: (context){
 </span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">const</span> NewRoute();
@@ -415,7 +487,7 @@ API文档或SDK 源码注释，在此不再赘述。</p>
 </span></span><span style="display:flex;"><span>  TipRoute({
 </span></span><span style="display:flex;"><span>    Key key,
 </span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">required</span> <span style="color:#fff;font-weight:bold">this</span>.text,  <span style="color:#007f7f">// 接收一个text参数
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  }) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
+</span></span></span><span style="display:flex;"><span>  }) : <span style="color:#fff;font-weight:bold">super</span>(key: key);
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> <span style="color:#fff;font-weight:bold">String</span> text;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
@@ -449,19 +521,19 @@ API文档或SDK 源码注释，在此不再赘述。</p>
 </span></span><span style="display:flex;"><span>      child: ElevatedButton(
 </span></span><span style="display:flex;"><span>        onPressed: () <span style="color:#fff;font-weight:bold">async</span> {
 </span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// 打开`TipRoute`，并等待返回结果
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#fff;font-weight:bold">var</span> result = <span style="color:#fff;font-weight:bold">await</span> Navigator.push(
+</span></span></span><span style="display:flex;"><span>          <span style="color:#fff;font-weight:bold">var</span> result = <span style="color:#fff;font-weight:bold">await</span> Navigator.push(
 </span></span><span style="display:flex;"><span>            context,
 </span></span><span style="display:flex;"><span>            MaterialPageRoute(
 </span></span><span style="display:flex;"><span>              builder: (context) {
 </span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> TipRoute(
 </span></span><span style="display:flex;"><span>                  <span style="color:#007f7f">// 路由参数
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                  text: <span style="color:#0ff;font-weight:bold">&#34;我是提示xxxx&#34;</span>,
+</span></span></span><span style="display:flex;"><span>                  text: <span style="color:#0ff;font-weight:bold">&#34;我是提示xxxx&#34;</span>,
 </span></span><span style="display:flex;"><span>                );
 </span></span><span style="display:flex;"><span>              },
 </span></span><span style="display:flex;"><span>            ),
 </span></span><span style="display:flex;"><span>          );
 </span></span><span style="display:flex;"><span>          <span style="color:#007f7f">//输出`TipRoute`路由返回结果
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          print(<span style="color:#0ff;font-weight:bold">&#34;路由返回值: </span><span style="color:#0ff;font-weight:bold">$</span>result<span style="color:#0ff;font-weight:bold">&#34;</span>);
+</span></span></span><span style="display:flex;"><span>          print(<span style="color:#0ff;font-weight:bold">&#34;路由返回值: </span><span style="color:#0ff;font-weight:bold">$</span>result<span style="color:#0ff;font-weight:bold">&#34;</span>);
 </span></span><span style="display:flex;"><span>        },
 </span></span><span style="display:flex;"><span>        child: Text(<span style="color:#0ff;font-weight:bold">&#34;打开提示页&#34;</span>),
 </span></span><span style="display:flex;"><span>      ),
@@ -494,14 +566,14 @@ API文档或SDK 源码注释，在此不再赘述。</p>
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>MaterialApp(
 </span></span><span style="display:flex;"><span>  title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo&#39;</span>,
 </span></span><span style="display:flex;"><span>  initialRoute:<span style="color:#0ff;font-weight:bold">&#34;/&#34;</span>, <span style="color:#007f7f">//名为&#34;/&#34;的路由作为应用的home(首页)
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  theme: ThemeData(
+</span></span></span><span style="display:flex;"><span>  theme: ThemeData(
 </span></span><span style="display:flex;"><span>    primarySwatch: Colors.blue,
 </span></span><span style="display:flex;"><span>  ),
 </span></span><span style="display:flex;"><span>  <span style="color:#007f7f">//注册路由表
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  routes:{
+</span></span></span><span style="display:flex;"><span>  routes:{
 </span></span><span style="display:flex;"><span>   <span style="color:#0ff;font-weight:bold">&#34;new_page&#34;</span>:(context) =&gt; NewRoute(),
 </span></span><span style="display:flex;"><span>   <span style="color:#0ff;font-weight:bold">&#34;/&#34;</span>:(context) =&gt; MyHomePage(title: <span style="color:#0ff;font-weight:bold">&#39;Flutter Demo Home Page&#39;</span>), <span style="color:#007f7f">//注册首页路由
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  } 
+</span></span></span><span style="display:flex;"><span>  } 
 </span></span><span style="display:flex;"><span>);
 </span></span></code></pre></td></tr></table>
 </div>
@@ -528,9 +600,9 @@ API文档或SDK 源码注释，在此不再赘述。</p>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//获取路由参数  
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">var</span> args=ModalRoute.of(context).settings.arguments;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> args=ModalRoute.of(context).settings.arguments;
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">//...省略无关代码
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  }
+</span></span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Navigator.of(context).pushNamed(<span style="color:#0ff;font-weight:bold">&#34;new_page&#34;</span>, arguments: <span style="color:#0ff;font-weight:bold">&#34;hi&#34;</span>);
@@ -551,7 +623,7 @@ API文档或SDK 源码注释，在此不再赘述。</p>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>MaterialApp(
 </span></span><span style="display:flex;"><span>  ... <span style="color:#007f7f">//省略无关代码
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  routes: {
+</span></span></span><span style="display:flex;"><span>  routes: {
 </span></span><span style="display:flex;"><span>   <span style="color:#0ff;font-weight:bold">&#34;tip2&#34;</span>: (context){
 </span></span><span style="display:flex;"><span>     <span style="color:#fff;font-weight:bold">return</span> TipRoute(text: ModalRoute.of(context)!.settings.arguments);
 </span></span><span style="display:flex;"><span>   },

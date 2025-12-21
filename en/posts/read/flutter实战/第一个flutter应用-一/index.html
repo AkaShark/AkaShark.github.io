@@ -7,7 +7,19 @@
 <meta name="robots" content="index, follow">
 <title>第一个Flutter应用 一 | SharkerBlog</title>
 <meta name="keywords" content="">
-<meta name="description" content="第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi">
+<meta name="description" content="第二章
+有状态与无状态组件
+
+Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。
+Stateful widget 至少由两个类组成：
+
+一个StatefulWidget类。
+一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在 widget 生命周期中可能会发生变化。
+
+
+
+Widget 接口
+Widget定义">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
@@ -20,6 +32,7 @@
 <link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/">
 <noscript>
     <style>
         #theme-toggle,
@@ -57,15 +70,39 @@
 
     </style>
 </noscript><meta property="og:title" content="第一个Flutter应用 一" />
-<meta property="og:description" content="第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi" />
+<meta property="og:description" content="第二章
+有状态与无状态组件
+
+Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。
+Stateful widget 至少由两个类组成：
+
+一个StatefulWidget类。
+一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在 widget 生命周期中可能会发生变化。
+
+
+
+Widget 接口
+Widget定义" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-10-05T21:21:51&#43;08:00" />
-<meta property="article:modified_time" content="2022-10-05T21:21:51&#43;08:00" />
+<meta property="article:modified_time" content="2022-10-05T21:21:51&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="第一个Flutter应用 一"/>
-<meta name="twitter:description" content="第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi"/>
+<meta name="twitter:description" content="第二章
+有状态与无状态组件
+
+Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。
+Stateful widget 至少由两个类组成：
+
+一个StatefulWidget类。
+一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在 widget 生命周期中可能会发生变化。
+
+
+
+Widget 接口
+Widget定义"/>
 
 
 <script type="application/ld+json">
@@ -100,7 +137,7 @@
   "@type": "BlogPosting",
   "headline": "第一个Flutter应用 一",
   "name": "第一个Flutter应用 一",
-  "description": "第二章 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWi",
+  "description": "第二章\n有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWidget类。 一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在 widget 生命周期中可能会发生变化。 Widget 接口 Widget定义\n",
   "keywords": [
     
   ],
@@ -177,6 +214,8 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
             </div>
         </div>
         <ul id="menu">
@@ -221,7 +260,7 @@
     <h1 class="post-title">
       第一个Flutter应用 一
     </h1>
-    <div class="post-meta"><span title='2022-10-05 21:21:51 +0800 CST'>2022-10-05</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2022-10-05 21:21:51 &#43;0800 CST&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -324,7 +363,7 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#f00">@</span>immutable <span style="color:#007f7f">// 不可变的
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Widget <span style="color:#fff;font-weight:bold">extends</span> DiagnosticableTree {
+</span></span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">abstract</span> <span style="color:#fff;font-weight:bold">class</span> Widget <span style="color:#fff;font-weight:bold">extends</span> DiagnosticableTree {
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">const</span> Widget({ <span style="color:#fff;font-weight:bold">this</span>.key });
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">final</span> Key? key;
@@ -391,11 +430,11 @@
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Container( <span style="color:#007f7f">// 一个容器 widget
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  color: Colors.blue, <span style="color:#007f7f">// 设置容器背景色
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  child: Row( <span style="color:#007f7f">// 可以将子widget沿水平方向排列
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    children: [
+</span></span></span><span style="display:flex;"><span>  color: Colors.blue, <span style="color:#007f7f">// 设置容器背景色
+</span></span></span><span style="display:flex;"><span>  child: Row( <span style="color:#007f7f">// 可以将子widget沿水平方向排列
+</span></span></span><span style="display:flex;"><span>    children: [
 </span></span><span style="display:flex;"><span>      Image.network(<span style="color:#0ff;font-weight:bold">&#39;https://www.example.com/1.png&#39;</span>), <span style="color:#007f7f">// 显示图片的 widget
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      <span style="color:#fff;font-weight:bold">const</span> Text(<span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>),
+</span></span></span><span style="display:flex;"><span>      <span style="color:#fff;font-weight:bold">const</span> Text(<span style="color:#0ff;font-weight:bold">&#39;A&#39;</span>),
 </span></span><span style="display:flex;"><span>    ],
 </span></span><span style="display:flex;"><span>  ),
 </span></span><span style="display:flex;"><span>);
@@ -442,9 +481,9 @@
 </span></span><span style="display:flex;"><span>      body: Container(
 </span></span><span style="display:flex;"><span>        child: Builder(builder: (context) {
 </span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// 在 widget 树中向上查找最近的父级`Scaffold`  widget 
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          Scaffold scaffold = context.findAncestorWidgetOfExactType&lt;Scaffold&gt;();
+</span></span></span><span style="display:flex;"><span>          Scaffold scaffold = context.findAncestorWidgetOfExactType&lt;Scaffold&gt;();
 </span></span><span style="display:flex;"><span>          <span style="color:#007f7f">// 直接返回 AppBar的title， 此处实际上是Text(&#34;Context测试&#34;)
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>          <span style="color:#fff;font-weight:bold">return</span> (scaffold.appBar as AppBar).title;
+</span></span></span><span style="display:flex;"><span>          <span style="color:#fff;font-weight:bold">return</span> (scaffold.appBar as AppBar).title;
 </span></span><span style="display:flex;"><span>        }),
 </span></span><span style="display:flex;"><span>      ),
 </span></span><span style="display:flex;"><span>    );
@@ -580,9 +619,9 @@ widget 树向上查找指定类型的 StatefulWidget 对应的 State 对象。�
 </span></span><span style="display:flex;"><span>              <span style="color:#fff;font-weight:bold">return</span> ElevatedButton(
 </span></span><span style="display:flex;"><span>                onPressed: () {
 </span></span><span style="display:flex;"><span>                  <span style="color:#007f7f">// 查找父级最近的Scaffold对应的ScaffoldState对象
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                  ScaffoldState _state = context.findAncestorStateOfType&lt;ScaffoldState&gt;()!;
+</span></span></span><span style="display:flex;"><span>                  ScaffoldState _state = context.findAncestorStateOfType&lt;ScaffoldState&gt;()!;
 </span></span><span style="display:flex;"><span>                  <span style="color:#007f7f">// 打开抽屉菜单
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                  _state.openDrawer();
+</span></span></span><span style="display:flex;"><span>                  _state.openDrawer();
 </span></span><span style="display:flex;"><span>                },
 </span></span><span style="display:flex;"><span>                child: Text(<span style="color:#0ff;font-weight:bold">&#39;打开抽屉菜单1&#39;</span>),
 </span></span><span style="display:flex;"><span>              );
@@ -618,9 +657,9 @@ widget 树向上查找指定类型的 StatefulWidget 对应的 State 对象。�
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> ElevatedButton(
 </span></span><span style="display:flex;"><span>    onPressed: () {
 </span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// 直接通过of静态方法来获取ScaffoldState
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      ScaffoldState _state=Scaffold.of(context);
+</span></span></span><span style="display:flex;"><span>      ScaffoldState _state=Scaffold.of(context);
 </span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// 打开抽屉菜单
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      _state.openDrawer();
+</span></span></span><span style="display:flex;"><span>      _state.openDrawer();
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    child: Text(<span style="color:#0ff;font-weight:bold">&#39;打开抽屉菜单2&#39;</span>),
 </span></span><span style="display:flex;"><span>  );
@@ -671,12 +710,12 @@ ps: 使用 GlobalKey 开销较大，如果有其他可选方案，应尽量避�
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  RenderObject createRenderObject(BuildContext context) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 创建 RenderObject
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">return</span> RenderCustomObject();
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> RenderCustomObject();
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> updateRenderObject(BuildContext context, RenderCustomObject  renderObject) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 更新 RenderObject
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">super</span>.updateRenderObject(context, renderObject);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">super</span>.updateRenderObject(context, renderObject);
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -685,12 +724,12 @@ ps: 使用 GlobalKey 开销较大，如果有其他可选方案，应尽量避�
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> performLayout() {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 实现布局逻辑
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  }
+</span></span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f00">@</span>override
 </span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">void</span> paint(PaintingContext context, Offset offset) {
 </span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 实现绘制
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>  }
+</span></span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
 </div>
