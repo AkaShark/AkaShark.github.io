@@ -11,7 +11,7 @@
 在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
@@ -233,7 +233,7 @@
     <h1 class="post-title">
       iOS App间跳转
     </h1>
-    <div class="post-meta">&lt;span title=&#39;2024-03-27 20:41:10 &#43;0800 CST&#39;&gt;2024-03-27&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 min&amp;nbsp;·&amp;nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2024-03-27 20:41:10 &#43;0800 &#43;0800&#39;&gt;2024-03-27&lt;/span&gt;&amp;nbsp;·&amp;nbsp;6 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -299,42 +299,42 @@
 </ul>
 <h2 id="app拉起">App拉起<a hidden class="anchor" aria-hidden="true" href="#app拉起">#</a></h2>
 <p>在iOS的系统中从A App打开B App，需要A App去找到B App，这就和我们邮寄信件一样我们需要写一个我们信件的目标地址，在系统中我们可以通过<code>UIApplication</code>中的API来完成这件事</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#007f7f">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> 通过应用程序打开一个资源路径
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">@param url 资源路径的地址
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">@return 返回成功失败的信息
-</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"> */</span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#fff;font-weight:bold">BOOL</span>)openURL:(NSURL*)url;
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#808080">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#808080"> 通过应用程序打开一个资源路径
+</span></span></span><span style="display:flex;"><span><span style="color:#808080">@param url 资源路径的地址
+</span></span></span><span style="display:flex;"><span><span style="color:#808080">@return 返回成功失败的信息
+</span></span></span><span style="display:flex;"><span><span style="color:#808080"> */</span>
+</span></span><span style="display:flex;"><span>- (<span style="color:#cc7832">BOOL</span>)<span style="color:#ffc66d">openURL:</span>(NSURL*)url;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>openURL:</code>通过url来标识我们要跳转的App的位置，一个简单的例子</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#007f7f">// 跳转到打电话
-</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#0ff;font-weight:bold">@&#34;tel://10086&#34;</span>];
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#808080">// 跳转到打电话
+</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;tel://10086&#34;</span>];
 </span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#007f7f">//发送系统短信
-</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#0ff;font-weight:bold">@&#34;sms://1383838438&#34;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#808080">//发送系统短信
+</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;sms://1383838438&#34;</span>];
 </span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
 </span></span></code></pre></td></tr></table>
 </div>
@@ -364,13 +364,13 @@ URL Scheme的命名应该是只能纯英文字符，而不能含有下划线或�
 <p>通过上面的方式就定义好了Scheme啦，假设我们定义A App的scheme为<code>customA</code> B App的scheme为<code>customB</code> 当然实际上scheme对应的url protocol为<code>customA://</code>和<code>customB://</code></p>
 <h3 id="处理拉起请求">处理拉起请求<a hidden class="anchor" aria-hidden="true" href="#处理拉起请求">#</a></h3>
 <p>已经定义好了A和B的scheme，继续完成上面的需求，用A打开B，在A的任意位置我们调用</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#0ff;font-weight:bold">@&#34;customB://idetifierB&#34;</span>];
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;customB://idetifierB&#34;</span>];
 </span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
 </span></span></code></pre></td></tr></table>
 </div>

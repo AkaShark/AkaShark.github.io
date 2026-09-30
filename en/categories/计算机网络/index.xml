@@ -5,13 +5,15 @@
     <link>https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
     <description>Recent content in 计算机网络 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
+    <language>zh-CN</language>
+    <managingEditor>1548742234@qq.com (Sharker)</managingEditor>
+    <webMaster>1548742234@qq.com (Sharker)</webMaster>
     <lastBuildDate>Sun, 21 Dec 2025 11:40:26 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>EP194: Evolution of HTTP[翻译]</title>
       <link>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</link>
       <pubDate>Sun, 21 Dec 2025 11:40:26 +0800</pubDate>
-      
+      <author>1548742234@qq.com (Sharker)</author>
       <guid>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</guid>
       <description>HTTP演进</description>
     </item>
@@ -20,7 +22,7 @@
       <title>HTTP发展史浅析</title>
       <link>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</link>
       <pubDate>Mon, 26 Sep 2022 11:54:26 +0800</pubDate>
-      
+      <author>1548742234@qq.com (Sharker)</author>
       <guid>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</guid>
       <description>HTTP发展史浅析</description>
     </item>

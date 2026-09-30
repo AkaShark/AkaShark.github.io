@@ -5,6 +5,8 @@
     <link>https://akashark.github.io/en/series/</link>
     <description>Recent content in Series on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://akashark.github.io/en/series/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-CN</language>
+    <managingEditor>1548742234@qq.com (Sharker)</managingEditor>
+    <webMaster>1548742234@qq.com (Sharker)</webMaster><atom:link href="https://akashark.github.io/en/series/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

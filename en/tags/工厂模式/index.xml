@@ -5,13 +5,15 @@
     <link>https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
     <description>Recent content in 工厂模式 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
+    <language>zh-CN</language>
+    <managingEditor>1548742234@qq.com (Sharker)</managingEditor>
+    <webMaster>1548742234@qq.com (Sharker)</webMaster>
     <lastBuildDate>Mon, 26 Sep 2022 15:26:29 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>工厂模式</title>
       <link>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
       <pubDate>Mon, 26 Sep 2022 15:26:29 +0800</pubDate>
-      
+      <author>1548742234@qq.com (Sharker)</author>
       <guid>https://akashark.github.io/en/posts/tech/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;h1 id=&#34;工厂模式&#34;&gt;工厂模式&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/PEDR88G30w4rvlV66zElYw&#34;&gt;浅析设计模式1 —— 工厂模式&lt;/a&gt;&lt;/p&gt;

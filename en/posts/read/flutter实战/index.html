@@ -10,7 +10,7 @@
 <meta name="description" content="Flutter实战 - SharkerBlog">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
 <link rel="icon" type="image/png" sizes="32x32" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
@@ -197,7 +197,7 @@
 文本及样式 常见属性 textAlign: 文本的对齐方式；可以选择左对齐、右对齐还是居中。注意，对齐的参考系是Text widget 本身, 只有 Text 宽度大于文本内容长度时指定此属性才有意义 maxLines、overflow: 指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过overflow来指定截断方式，默认是直接截断，本例中指定的截断方式TextOverflow.ellipsis，它会将多余文本截断后以省略符“…”表示；TextOverflow 的其他截断方式请参考 SDK 文档。 textScaleFactor: 代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式style属性的fontSize，它是调整字体大小的一个快捷方式。该属性的默认值可以通过MediaQueryData.textScaleFactor获得，如果没有MediaQuery，那么会默认值将为1.0。 TextStyle 1 2 3 4 5 6 7 8 9 10 11 Text(&#34;Hello world&#34;, style: TextStyle( color: Colors.blue, fontSize: 18.0, height: 1.2, fontFamily: &#34;Courier&#34;, background: Paint()..color=Colors.yellow, decoration:TextDecoration.underline, decorationStyle: TextDecorationStyle.dashed ), ); height：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于fontSize*height。 fontSize：该属性和 Text 的textScaleFactor都用于控制字体大小。但是有两个主要区别： fontSize可以精确指定字体大小，而textScaleFactor只能通过缩放比例来控制。 textScaleFactor主要是用于系统字体大小设置改变时对 Flutter 应用字体进行全局调整，而fontSize通常用于单个文本，字体大小不会跟随系统字体大小变化。 TextSpan 有点像富文本的展示方式
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-25 23:11:39 &#43;0800 CST&#39;&gt;2022-10-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-25 23:11:39 &#43;0800 &#43;0800&#39;&gt;2022-10-25&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 第三章基础组件 一" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6-%E4%B8%80/"></a>
 </article>
 
@@ -211,7 +211,7 @@
 调试Flutter应用 日志与断点 debugger() 声明 1 2 3 4 void someFunction(double offset) { debugger(when: offset &gt; 30.0); // ... } print、debugPrint、flutter logs Dart print()功能将输出到系统控制台，我们可以使用flutter logs来查看它（基本上是一个包装adb logcat）。
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-09 10:35:30 &#43;0800 CST&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-09 10:35:30 &#43;0800 &#43;0800&#39;&gt;2022-10-09&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 第一个Flutter应用 四" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E5%9B%9B/"></a>
 </article>
 
@@ -225,7 +225,7 @@
 路由管理 MaterialPageRoute 1 2 3 4 5 6 7 // 路由跳转 Navigator.push( context, MaterialPageRoute(builder: (context){ return const NewRoute(); }) ); MaterialPageRoute继承自PageRoute类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute 是 Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-07 23:36:30 &#43;0800 CST&#39;&gt;2022-10-07&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-07 23:36:30 &#43;0800 &#43;0800&#39;&gt;2022-10-07&lt;/span&gt;&amp;nbsp;·&amp;nbsp;9 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 第一个Flutter应用 三" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%89/"></a>
 </article>
 
@@ -239,7 +239,7 @@
 有状态与无状态组件 Stateful widget 可以拥有状态，这些状态在 widget 生命周期中是可以变的，而 Stateless widget 是不可变的。 Stateful widget 至少由两个类组成： 一个StatefulWidget类。 一个 State类； StatefulWidget类本身是不变的，但是State类中持有的状态在 widget 生命周期中可能会发生变化。 Widget 接口 Widget定义
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-05 21:21:51 &#43;0800 CST&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-05 21:21:51 &#43;0800 &#43;0800&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;10 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 第一个Flutter应用 一" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%B8%80/"></a>
 </article>
 
@@ -254,7 +254,7 @@
 Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Widget和子Widget都管理状态) 如何决定使用哪种管理方式 如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。 如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。 如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。 在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时 候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显 得更重要一些）。 Widget管理自身状态 _TapboxAState 类:
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-05 21:21:33 &#43;0800 CST&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-05 21:21:33 &#43;0800 &#43;0800&#39;&gt;2022-10-05&lt;/span&gt;&amp;nbsp;·&amp;nbsp;7 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 第一个Flutter应用 二" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/"></a>
 </article>
 
@@ -267,7 +267,7 @@ Widget 管理自己的状态 Widget 管理子widget状态 混合管理 (父Widge
     <p>第一章 起步 弹射起步 变量声明 var 声明变量，但是类型后面不可以改变了，根据第一次赋值数据的类型来推断其类型，编译结束后其类型就已经被确定 dynamic 和 Object 声明动态变量，后面类型也可以改变，不同点在于dynamic可以调用可以用的属性(有运行时风险)，Object 只能调用Object提供的属性 final const final是运行时常量，const是编译时常量，同时用final或者const修饰的变量可以不加类型 空类型 安全 1 2 3 4 5 6 7 int i = 8; //默认为不可空，必须在定义时初始化。 int? j; // 定义为可空类型，对于可空变量，我们在使用前必须判空。 // 如果我们预期变量不能为空，但在定义时不能确定其初始值，则可以加上late关键字， // 表示会稍后初始化，但是在正式使用它之前必须得保证初始化过了，否则会报错 late int k; k=9; 函数 函数式编程 Dart函数声明如果没有显式声明返回值类型时会默认当做dynamic处理，返回值没有类型推断 支持箭头函数，只有一个语句的函数，使用箭头函数简写 函数做为变量 1 2 3 4 var say = (str){ print(str); }; say(&#34;hi world&#34;); 函数作为参数传递 1 2 3 4 void execute(var callback) { callback(); } execute(() =&gt; print(&#34;xxx&#34;)) 可选的位置参数 包装一组函数参数，用[]标记为可选的位置参数，并放在参数列表的最后面： 1 2 3 4 5 6 7 String say(String from, String msg, [String? device]) { var result = &#39;$from says $msg&#39;; if (device != null) { result = &#39;$result with a $device&#39;; } return result; } 可选的命名参数 定义函数时，使用{param1, param2, …}，放在参数列表的最后面，用于指定命名参数。例如： 1 2 3 4 //设置[bold]和[hidden]标志 void enableFlags({bool bold, bool hidden}) { // ... } mixin Dart 是不支持多继承的，但是它支持 mixin，简单来讲 mixin 可以 “组合” 多个类，我们通过一个例子来理解。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 class Person { say() { print(&#39;say&#39;); } } mixin Eat { eat() { print(&#39;eat&#39;); } } mixin Walk { walk() { print(&#39;walk&#39;); } } mixin Code { code() { print(&#39;key&#39;); } } class Dog with Eat, Walk{} class Man extends Person with Eat, Walk, Code{} ps：
 ...</p>
   </div>
-  <footer class="entry-footer">&lt;span title=&#39;2022-10-03 18:32:17 &#43;0800 CST&#39;&gt;2022-10-03&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
+  <footer class="entry-footer">&lt;span title=&#39;2022-10-03 18:32:17 &#43;0800 &#43;0800&#39;&gt;2022-10-03&lt;/span&gt;&amp;nbsp;·&amp;nbsp;4 min&amp;nbsp;·&amp;nbsp;Sharker</footer>
   <a class="entry-link" aria-label="post link to 起步" href="https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E8%B5%B7%E6%AD%A5/"></a>
 </article>
     </main>

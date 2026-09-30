@@ -5,13 +5,15 @@
     <link>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/</link>
     <description>Recent content in 翻译 on SharkerBlog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
+    <language>zh-CN</language>
+    <managingEditor>1548742234@qq.com (Sharker)</managingEditor>
+    <webMaster>1548742234@qq.com (Sharker)</webMaster>
     <lastBuildDate>Wed, 28 Sep 2022 21:20:22 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Xcode14新功能</title>
       <link>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
       <pubDate>Wed, 28 Sep 2022 21:20:22 +0800</pubDate>
-      
+      <author>1548742234@qq.com (Sharker)</author>
       <guid>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
       <description>&lt;h1 id=&#34;whats-new-in-xcode-14&#34;&gt;What’s New in Xcode 14&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://medium.com/better-programming/whats-new-in-xcode-14-f6b56c33a8b3&#34;&gt;What’s New in Xcode 14&lt;/a&gt;&lt;/p&gt;

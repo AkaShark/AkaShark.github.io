@@ -10,10 +10,11 @@
 <meta name="description" content="背景
 早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。
 
-ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information.">
+ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information.
+">
 <meta name="author" content="Sharker">
 <link rel="canonical" href="https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.2ba854927add582a9b5ae79380c487946e5a9a9c1ba43bbe713af2508e07c061.css" integrity="sha256-K6hUknrdWCqbWueTgMSHlG5ampwbpDu&#43;cTryUI4HwGE=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
@@ -64,7 +65,8 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 <meta property="og:description" content="背景
 早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。
 
-ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information." />
+ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information.
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-02-26T22:40:08&#43;08:00" />
@@ -75,7 +77,8 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 <meta name="twitter:description" content="背景
 早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。
 
-ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information."/>
+ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See https://developer.apple.com/documentation/uikit/uiwebview for more information.
+"/>
 
 
 <script type="application/ld+json">
@@ -245,7 +248,7 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
     <h1 class="post-title">
       UserAgent获取与修改
     </h1>
-    <div class="post-meta">&lt;span title=&#39;2024-02-26 22:40:08 &#43;0800 CST&#39;&gt;2024-02-26&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 min&amp;nbsp;·&amp;nbsp;Sharker
+    <div class="post-meta">&lt;span title=&#39;2024-02-26 22:40:08 &#43;0800 &#43;0800&#39;&gt;2024-02-26&lt;/span&gt;&amp;nbsp;·&amp;nbsp;5 min&amp;nbsp;·&amp;nbsp;Sharker
 
 </div>
   </header> <div class="toc">
@@ -299,30 +302,30 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 <code>grep -r UIWebView .</code> 找到所有包含UIWebView的SDK</li>
 </ol>
 <h2 id="uiwebview获取ua">UIWebView获取UA<a hidden class="anchor" aria-hidden="true" href="#uiwebview获取ua">#</a></h2>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span>UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-</span></span><span style="display:flex;"><span>NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:<span style="color:#0ff;font-weight:bold">@&#34;navigator.userAgent&#34;</span>];
-</span></span><span style="display:flex;"><span>NSLog(<span style="color:#0ff;font-weight:bold">@&#34;userAgent :%@&#34;</span>, userAgent);
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span>UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+</span></span><span style="display:flex;"><span>NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:<span style="color:#6a8759">@&#34;navigator.userAgent&#34;</span>];
+</span></span><span style="display:flex;"><span>NSLog(<span style="color:#6a8759">@&#34;userAgent :%@&#34;</span>, userAgent);
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="wkwebview获取ua">WKWebView获取UA<a hidden class="anchor" aria-hidden="true" href="#wkwebview获取ua">#</a></h2>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-</span></span><span style="display:flex;"><span>[wkWebView evaluateJavaScript:<span style="color:#0ff;font-weight:bold">@&#34;navigator.userAgent&#34;</span> completionHandler:^(<span style="color:#fff;font-weight:bold">id</span> result, NSError *error) {
-</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#0ff;font-weight:bold">@&#34;userAgent :%@&#34;</span>, result);
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+</span></span><span style="display:flex;"><span>[wkWebView evaluateJavaScript:<span style="color:#6a8759">@&#34;navigator.userAgent&#34;</span> completionHandler:^(<span style="color:#cc7832">id</span> result, NSError *error) {
+</span></span><span style="display:flex;"><span>    NSLog(<span style="color:#6a8759">@&#34;userAgent :%@&#34;</span>, result);
 </span></span><span style="display:flex;"><span>}];
 </span></span></code></pre></td></tr></table>
 </div>
@@ -333,26 +336,26 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 </blockquote>
 <h3 id="通过userdefaults修改">通过UserDefaults修改<a hidden class="anchor" aria-hidden="true" href="#通过userdefaults修改">#</a></h3>
 <p>由于WKWebView有一个特性，在初始化时会获取UserDefaults中“UserAgent”这个key的值，这需要我们在真正使用的WKWebView之前要创建一个WKWebView获取它默认的UA</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span>webView = WKWebView();
-</span></span><span style="display:flex;"><span>webView?.evaluateJavaScript(<span style="color:#0ff;font-weight:bold">&#34;navigator.userAgent&#34;</span>, completionHandler: { (obj: <span style="color:#fff;font-weight:bold">Any</span>?, error: Error?) <span style="color:#fff;font-weight:bold">in</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#fff;font-weight:bold">guard</span> <span style="color:#fff;font-weight:bold">let</span> ua = obj <span style="color:#fff;font-weight:bold">as</span>? <span style="color:#fff;font-weight:bold">String</span> <span style="color:#fff;font-weight:bold">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span>
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span>webView = WKWebView();
+</span></span><span style="display:flex;"><span>webView?.evaluateJavaScript(<span style="color:#6a8759">&#34;navigator.userAgent&#34;</span>, completionHandler: { (obj: Any?, error: Error?) <span style="color:#cc7832">in</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#cc7832">guard</span> <span style="color:#cc7832">let</span> ua = obj <span style="color:#cc7832">as</span>? String <span style="color:#cc7832">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#cc7832">return</span>
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> customUA = <span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">\(</span>ua<span style="color:#0ff;font-weight:bold">)</span><span style="color:#0ff;font-weight:bold"> Custom User Agent&#34;</span>
-</span></span><span style="display:flex;"><span>    UserDefaults.standard.register(defaults: [<span style="color:#0ff;font-weight:bold">&#34;UserAgent&#34;</span>: customUA])
+</span></span><span style="display:flex;"><span>    <span style="color:#cc7832">let</span> customUA = <span style="color:#6a8759">&#34;</span><span style="color:#6a8759">\(</span>ua<span style="color:#6a8759">)</span><span style="color:#6a8759"> Custom User Agent&#34;</span>
+</span></span><span style="display:flex;"><span>    UserDefaults.standard.register(defaults: [<span style="color:#6a8759">&#34;UserAgent&#34;</span>: customUA])
 </span></span><span style="display:flex;"><span>    UserDefaults.standard.synchronize()
 </span></span><span style="display:flex;"><span>})
 </span></span></code></pre></td></tr></table>
@@ -362,34 +365,34 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 </blockquote>
 <h3 id="通过wkwebviewcustomuseragent设置">通过WKWebView.customUserAgent设置<a hidden class="anchor" aria-hidden="true" href="#通过wkwebviewcustomuseragent设置">#</a></h3>
 <p>这种方式其实和第一种方式并没有什么差别，而且还比较复杂，因为只对这一个WebView有效</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> fakeWebView = WKWebView();
-</span></span><span style="display:flex;"><span>fakeWebView.evaluateJavaScript(<span style="color:#0ff;font-weight:bold">&#34;navigator.userAgent&#34;</span>, completionHandler: { (obj: <span style="color:#fff;font-weight:bold">Any</span>?, error: Error?) <span style="color:#fff;font-weight:bold">in</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">guard</span> <span style="color:#fff;font-weight:bold">let</span> ua = obj <span style="color:#fff;font-weight:bold">as</span>? <span style="color:#fff;font-weight:bold">String</span> <span style="color:#fff;font-weight:bold">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span>
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#cc7832">let</span> fakeWebView = WKWebView();
+</span></span><span style="display:flex;"><span>fakeWebView.evaluateJavaScript(<span style="color:#6a8759">&#34;navigator.userAgent&#34;</span>, completionHandler: { (obj: Any?, error: Error?) <span style="color:#cc7832">in</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cc7832">guard</span> <span style="color:#cc7832">let</span> ua = obj <span style="color:#cc7832">as</span>? String <span style="color:#cc7832">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#cc7832">return</span>
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> customUA = <span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">\(</span>ua<span style="color:#0ff;font-weight:bold">)</span><span style="color:#0ff;font-weight:bold"> Custom User Agent&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">let</span> realWebView = WKWebView()
+</span></span><span style="display:flex;"><span>    <span style="color:#cc7832">let</span> customUA = <span style="color:#6a8759">&#34;</span><span style="color:#6a8759">\(</span>ua<span style="color:#6a8759">)</span><span style="color:#6a8759"> Custom User Agent&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#cc7832">let</span> realWebView = WKWebView()
 </span></span><span style="display:flex;"><span>    realWebView.customUserAgent = customUA
 </span></span><span style="display:flex;"><span>})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> oldUserAgent = webView.value(forKey: <span style="color:#0ff;font-weight:bold">&#34;userAgent&#34;</span>) <span style="color:#fff;font-weight:bold">as</span>? <span style="color:#fff;font-weight:bold">String</span> ?? <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>webView.customUserAgent = <span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">\(</span>oldUserAgent<span style="color:#0ff;font-weight:bold">)</span><span style="color:#0ff;font-weight:bold"> xxx&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cc7832">let</span> oldUserAgent = webView.value(forKey: <span style="color:#6a8759">&#34;userAgent&#34;</span>) <span style="color:#cc7832">as</span>? String ?? <span style="color:#6a8759">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>webView.customUserAgent = <span style="color:#6a8759">&#34;</span><span style="color:#6a8759">\(</span>oldUserAgent<span style="color:#6a8759">)</span><span style="color:#6a8759"> xxx&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><blockquote>
@@ -402,40 +405,40 @@ ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps
 <li>这正好就是我们想要的，您所要做的就是设置要添加的字符串。</li>
 <li>修改后的UserAgent，如：Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Custom UserAgent</li>
 </ul>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> config = WKWebViewConfiguration()
-</span></span><span style="display:flex;"><span>config.applicationNameForUserAgent = <span style="color:#0ff;font-weight:bold">&#34;Custom User Agent&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> webview = WKWebView(frame: .zero, configuration: config)
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#cc7832">let</span> config = WKWebViewConfiguration()
+</span></span><span style="display:flex;"><span>config.applicationNameForUserAgent = <span style="color:#6a8759">&#34;Custom User Agent&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cc7832">let</span> webview = WKWebView(frame: .zero, configuration: config)
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>还可以在WebView的base类里面添加</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>NSString *userAgent = [<span style="color:#fff;font-weight:bold">self</span> valueForKey:<span style="color:#0ff;font-weight:bold">@&#34;applicationNameForUserAgent&#34;</span>];
-</span></span><span style="display:flex;"><span>userAgent = [userAgent stringByAppendingString:[NSString stringWithFormat:<span style="color:#0ff;font-weight:bold">@&#34;/myapp/%@&#34;</span>, CURRENTAPPVERSION]];
-</span></span><span style="display:flex;"><span>[<span style="color:#fff;font-weight:bold">self</span> setValue:userAgent forKey:<span style="color:#0ff;font-weight:bold">@&#34;applicationNameForUserAgent&#34;</span>];
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>NSString *userAgent = [self valueForKey:<span style="color:#6a8759">@&#34;applicationNameForUserAgent&#34;</span>];
+</span></span><span style="display:flex;"><span>userAgent = [userAgent stringByAppendingString:[NSString stringWithFormat:<span style="color:#6a8759">@&#34;/myapp/%@&#34;</span>, CURRENTAPPVERSION]];
+</span></span><span style="display:flex;"><span>[self setValue:userAgent forKey:<span style="color:#6a8759">@&#34;applicationNameForUserAgent&#34;</span>];
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>在base类的初始化中添加上面的代码，通过<code>applicationNameForUserAgent</code>来获取的userAgent是不包含<code>Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko)</code>的这是默认的一段，此时userAgent打印为<code>Mobile/13E230</code>，而H5获取到的UA打印出来为完整的<code>Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E230/myapp/1.0.0</code>
 但这个API是私有的使用的话要小心一些</p>
 <p>以上三种方式系统采用的优先级</p>
-<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>customUserAgent &gt; UserDefault &gt; applicationNameForUserAgent
+<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>customUserAgent &gt; UserDefault &gt; applicationNameForUserAgent
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
