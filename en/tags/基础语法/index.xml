@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>基础语法 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</link>
+		<description>Recent content in 基础语法 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 31 Jan 2024 23:55:37 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Go 语法速通（一）：基础语法</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-1/</link>
+				<pubDate>Wed, 31 Jan 2024 23:55:37 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-1/</guid>
+				<description>&lt;h1 id=&#34;go-语法速通&#34;&gt;Go 语法速通&lt;/h1&gt;&#xA;&lt;p&gt;以下为学习&lt;a href=&#34;https://www.bilibili.com/video/BV1XY4y1t76G/?p=3&amp;amp;spm_id_from=pageDriver&amp;amp;vd_source=1ce8f381eab5d06dd966abe30310ea9a&#34;&gt;B站大地Go课程&lt;/a&gt;Go语言基础部分的的笔记输出，作为平时查阅的资料，希望也可以帮助读者快速熟悉Go语言&lt;/p&gt;&#xA;&lt;h2 id=&#34;经典hello-world&#34;&gt;经典Hello World&lt;/h2&gt;&#xA;&lt;p&gt;首先是经典的输出Hello World，Go语言的fmt包中包含了输出函数Print、Println、Printf，如下代码输出Hello World&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

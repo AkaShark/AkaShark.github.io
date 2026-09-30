@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>并发 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E5%B9%B6%E5%8F%91/</link>
+		<description>Recent content in 并发 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 15 Feb 2024 13:45:07 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Go 语法速通（三）：并发与反射</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-3/</link>
+				<pubDate>Thu, 15 Feb 2024 13:45:07 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-3/</guid>
+				<description>&lt;p&gt;继续前面的整理，这将是最后一部分的整理内容，包括了goroutine channel的使用以及Go反射的使用。&lt;/p&gt;&#xA;&lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;&#xA;&lt;h3 id=&#34;进程-线程-并行-并发&#34;&gt;进程 线程 并行 并发&lt;/h3&gt;&#xA;&lt;h4 id=&#34;进程-线程&#34;&gt;进程 线程&lt;/h4&gt;&#xA;&lt;p&gt;进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位，进程是一个动态概念，是程序在执行过程中分配和管理资源的基本单位，每一个进程都有自己的地址空间，一个进程中至少有5个基本状态，初始态、执行态、等待状态、就绪状态、终止状态。通俗的讲进程就是一个正在执行的程序。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

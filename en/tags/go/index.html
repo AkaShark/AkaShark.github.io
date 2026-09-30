@@ -1,317 +1,890 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="language" content="zh-CN">
+<meta name="theme-color" content="#BD5FFF">
+<script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  
+  (function(){var t=sessionStorage.getItem('mana_pt');if(t){document.documentElement.setAttribute('data-page-enter',t);sessionStorage.removeItem('mana_pt');}})();
+  
+  window.MANA_SEARCH_INDEX_URL = '\/en\/index.json';
+  
+  window.MANA_LANG_PREFIXES = ['en'];
+</script>
+<title>Go | Sharker / Notes</title>
+<meta
+  name="description"
+  content="
+    
+  
+  ">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Go | SharkerBlog</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="Sharker">
+
+
+
+  <meta name="author" content="Sharker">
+
+
+
 <link rel="canonical" href="https://akashark.github.io/en/tags/go/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="32x32" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="apple-touch-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://akashark.github.io/en/tags/go/index.xml">
-<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/tags/go/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:title" content="Go" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://akashark.github.io/en/tags/go/" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Go"/>
-<meta name="twitter:description" content=""/>
-
-</head>
-
-<body class="list" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-</script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HY6JW1HYRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<link rel="alternate" hreflang="zh-CN" href="https://akashark.github.io/en/tags/go/"><link rel="alternate" hreflang="x-default" href="https://akashark.github.io/en/tags/go/">
 
-  gtag('config', 'G-HY6JW1HYRV');
-</script>
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://akashark.github.io/en/" accesskey="h" title="Sharker’s Blog (Alt + H)">
-                <img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg" alt="" aria-label="logo"
-                    height="35">Sharker’s Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <ul class="lang-switch"><li>|</li>
-                </ul>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://akashark.github.io/en/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
-                    <span>🔍搜索</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/" title="🏠主页">
-                    <span>🏠主页</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/posts" title="📚文章">
-                    <span>📚文章</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/archives/" title="⏱时间轴">
-                    <span>⏱时间轴</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/tags" title="🔖标签">
-                    <span>🔖标签</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/about" title="🙋🏻‍♂️关于">
-                    <span>🙋🏻‍♂️关于</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="https://akashark.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/tags/">Tags</a></div>
-  <h1>
-    Go
-  </h1>
-</header>
+<meta name="robots" content="index, follow">
 
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>基础语法速通三
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>继续前面的整理，这将是最后一部分的整理内容，包括了goroutine channel的使用以及Go反射的使用。
-Go goroutine channel 进程 线程 并行 并发 进程 线程 进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位，进程是一个动态概念，是程序在执行过程中分配和管理资源的基本单位，每一个进程都有自己的地址空间，一个进程中至少有5个基本状态，初始态、执行态、等待状态、就绪状态、终止状态。通俗的讲进程就是一个正在执行的程序。
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-02-15 13:45:07 +0800 +0800'>2024-02-15</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;Sharker</footer>
-  <a class="entry-link" aria-label="post link to 基础语法速通三" href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/"></a>
-</article>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="Go | Sharker / Notes">
+<meta property="og:description" content="">
+<meta property="og:url" content="https://akashark.github.io/en/tags/go/">
+<meta property="og:site_name" content="Sharker / Notes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Go | Sharker / Notes">
+<meta name="twitter:description" content="">
 
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>基础语法速通 二
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>上一篇我们根据大地老师的B站视频学习了一部分Go语言语法的基础部分，接下来让我继续开始学习，在这篇中将继续总结函数、接口、time包、 指针与结构体等重要的语法基础。
-Go 函数 函数定义 函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。 Go语言支持的函数类型包括: 函数、匿名函数、闭包 Go语言中定义函数使用func关键字，具体格式如下
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-02-10 23:20:23 +0800 +0800'>2024-02-10</span>&nbsp;·&nbsp;20 min&nbsp;·&nbsp;Sharker</footer>
-  <a class="entry-link" aria-label="post link to 基础语法速通 二" href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/"></a>
-</article>
 
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>基础语法速通 一
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Go 语法速通 以下为学习B站大地Go课程Go语言基础部分的的笔记输出，作为平时查阅的资料，希望也可以帮助读者快速熟悉Go语言
-经典Hello World 首先是经典的输出Hello World，Go语言的fmt包中包含了输出函数Print、Println、Printf，如下代码输出Hello World
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-01-31 23:55:37 +0800 +0800'>2024-01-31</span>&nbsp;·&nbsp;18 min&nbsp;·&nbsp;Sharker</footer>
-  <a class="entry-link" aria-label="post link to 基础语法速通 一" href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/"></a>
-</article>
-    </main>
-    
-<footer class="footer">
-    
-        
-    
-    <span id="sitetime">载入运行时间...</span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/theme.min.29a2f04a9f41258e6c40c77a2b2be43ac8a3a9805c65165860d8b8ec5c442050.css" integrity="sha256-KaLwSp9BJY5sQMd6KyvkOsijqYBcZRZYYNi47FxEIFA=">
+
+
+  <link
+    rel="stylesheet"
+    href="/css/syntax-dark.min.1f07fd37e9832c4c84c7cf2208a59a801f4706c3d9287985ddb9b72bef5dee68.css"
+    integrity="sha256-Hwf9N&#43;mDLEyEx88iCKWagB9HBsPZKHmF3bm3K&#43;9d7mg="
+    id="syntax-dark-theme"
+    class="syntax-theme">
+  <link
+    rel="stylesheet"
+    href="/css/syntax-light.min.001fa7f600e6f8ad413241835f3963f379d3d1d4c41d3975232727e6f2a44ae9.css"
+    integrity="sha256-AB&#43;n9gDm&#43;K1BMkGDXzlj83nT0dTEHTl1Iycn5vKkSuk="
+    id="syntax-light-theme"
+    class="syntax-theme"
+    disabled><script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+
+    const syntaxDark = document.getElementById("syntax-dark-theme");
+    const syntaxLight = document.getElementById("syntax-light-theme");
+
+    if (theme === "light") {
+      if (syntaxDark) syntaxDark.disabled = true;
+      if (syntaxLight) syntaxLight.disabled = false;
+    } else {
+      if (syntaxDark) syntaxDark.disabled = false;
+      if (syntaxLight) syntaxLight.disabled = true;
     }
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
+    
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      if (currentTheme === "light") {
+        if (syntaxDark) syntaxDark.disabled = true;
+        if (syntaxLight) syntaxLight.disabled = false;
+      } else {
+        if (syntaxDark) syntaxDark.disabled = false;
+        if (syntaxLight) syntaxLight.disabled = true;
+      }
     });
 
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  })();
 </script>
 
-<script>
-    function siteTime() {
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-        var years = days * 365;
-        var today = new Date();
-        var startYear = 2022;
-        var startMonth = 7;
-        var startDate = 27;
-        var startHour = 15;
-        var startMinute = 0;
-        var startSecond = 0;
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-            minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-            diffMinutes * minutes) / seconds);
-        if (startYear == todayYear) {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffDays + " 天 " + diffHours +
-                " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        } else {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffYears + " 年 " + diffDays +
-                " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        }
-    }
-    setInterval(siteTime, 1000);
-</script>
-</body>
 
+
+
+<link rel="stylesheet" href="/css/bundle.min.02b13456d30075fe988a6f159f849e84734a9eb6b4e46325cb891138e325f01b.css" integrity="sha256-ArE0VtMAdf6Yim8Vn4SehHNKnra05GMly4kROOMl8Bs=">
+
+
+<link rel="stylesheet" href="/css/custom.min.269656b6aa0f6790915d60bb0a489c44af08ec7d07212488a7bf3f3c2d4bb991.css" integrity="sha256-JpZWtqoPZ5CRXWC7CkicRK8I7H0HISSIp78/PC1LuZE=">
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+
+
+  <link rel="alternate" type="application/rss&#43;xml" href="https://akashark.github.io/en/tags/go/index.xml">
+
+
+
+  
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="/en/index.xml"
+      title="Sharker / Notes">
+  
+
+
+
+
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-to-main" aria-label="跳转到正文"
+      >跳转到正文</a
+    >
+    <header class="sticky-header">
+      <div class="header-container">
+        <nav class="header-nav" role="navigation" aria-label="Main navigation">
+  <div class="header-content">
+    <div class="header-logo">
+      <a href="/en/" class="logo-link" aria-label="Home - Sharker / Notes">
+        Sharker / Notes
+      </a>
+    </div>
+
+    
+    <button 
+      id="mobile-menu-toggle" 
+      class="mobile-menu-toggle" 
+      aria-label="打开菜单" 
+      aria-expanded="false"
+      type="button">
+      <span class="hamburger-icon">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
+    </button>
+
+    <div class="header-menu">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
+
+
+      <button id="search-toggle" class="search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+
+      
+
+
+      <button id="theme-toggle" class="theme-toggle" aria-label="切换明暗主题" type="button">
+  <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+  </svg>
+  <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+  </svg>
+</button>
+
+    </div>
+  </div>
+</nav>
+
+      </div>
+      <div class="reading-progress-bar" aria-hidden="true"></div>
+    </header>
+
+    <main id="main-content" class="flex-1" role="main">
+      
+  
+
+
+
+
+
+  
+  
+    
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+      
+        
+      
+        
+      
+    
+  
+  
+  
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+
+
+  <div class="list-container">
+    <header class="list-header">
+      <h1 class="list-title">
+        <span class="list-title-line2">Go</span>
+      </h1>
+      
+      <p class="collection-count">共 3 篇文章</p>
+    </header>
+
+    <div class="posts-list">
+      
+        
+        
+          
+        
+        
+
+
+
+
+
+<article
+  class="post-card"
+  data-post-url="/en/posts/tech/go/go-basics-3/"
+  data-year-month="2024-02"
+  data-tags="Go,并发,反射">
+  
+
+
+
+
+
+
+
+  <div class="post-content">
+    
+    <h3 class="post-title">
+      <a href="/en/posts/tech/go/go-basics-3/" onclick="event.stopPropagation();">Go 语法速通（三）：并发与反射</a>
+    </h3>
+
+    
+      <p class="post-description">学习 goroutine、channel 与反射，理解 Go 的并发基础。</p>
+    
+
+    <div class="post-meta-inline">
+  <time datetime="2024-02-15T13:45:07&#43;08:00" class="post-date">
+    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    2024-02-15
+  </time>
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-word-count">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      5088 字
+    </span>
+  
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-reading-time">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      11 分钟
+    </span>
+  
+</div>
+
+
+    
+
+  <div class="post-tags">
+    
+      
+        <a
+          href="/en/tags/go"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >Go</a
+        >
+      
+        <a
+          href="/en/tags/%E5%B9%B6%E5%8F%91"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >并发</a
+        >
+      
+        <a
+          href="/en/tags/%E5%8F%8D%E5%B0%84"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >反射</a
+        >
+      
+    
+  </div>
+
+
+  </div>
+</article>
+
+      
+        
+        
+          
+        
+        
+
+
+
+
+
+<article
+  class="post-card"
+  data-post-url="/en/posts/tech/go/go-basics-2/"
+  data-year-month="2024-02"
+  data-tags="Go,函数,接口">
+  
+
+
+
+
+
+
+
+  <div class="post-content">
+    
+    <h3 class="post-title">
+      <a href="/en/posts/tech/go/go-basics-2/" onclick="event.stopPropagation();">Go 语法速通（二）：函数、接口与结构体</a>
+    </h3>
+
+    
+      <p class="post-description">整理 Go 函数、接口、时间、指针与结构体的使用。</p>
+    
+
+    <div class="post-meta-inline">
+  <time datetime="2024-02-10T23:20:23&#43;08:00" class="post-date">
+    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    2024-02-10
+  </time>
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-word-count">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      9691 字
+    </span>
+  
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-reading-time">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      20 分钟
+    </span>
+  
+</div>
+
+
+    
+
+  <div class="post-tags">
+    
+      
+        <a
+          href="/en/tags/go"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >Go</a
+        >
+      
+        <a
+          href="/en/tags/%E5%87%BD%E6%95%B0"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >函数</a
+        >
+      
+        <a
+          href="/en/tags/%E6%8E%A5%E5%8F%A3"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >接口</a
+        >
+      
+    
+  </div>
+
+
+  </div>
+</article>
+
+      
+        
+        
+          
+        
+        
+
+
+
+
+
+<article
+  class="post-card"
+  data-post-url="/en/posts/tech/go/go-basics-1/"
+  data-year-month="2024-01"
+  data-tags="Go,基础语法">
+  
+
+
+
+
+
+
+
+  <div class="post-content">
+    
+    <h3 class="post-title">
+      <a href="/en/posts/tech/go/go-basics-1/" onclick="event.stopPropagation();">Go 语法速通（一）：基础语法</a>
+    </h3>
+
+    
+      <p class="post-description">Go 语言基础语法与常用写法，作为学习和日常查阅的笔记。</p>
+    
+
+    <div class="post-meta-inline">
+  <time datetime="2024-01-31T23:55:37&#43;08:00" class="post-date">
+    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+    </svg>
+    2024-01-31
+  </time>
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-word-count">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+      </svg>
+      8201 字
+    </span>
+  
+
+  
+    <span class="meta-separator">•</span>
+    <span class="post-reading-time">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      17 分钟
+    </span>
+  
+</div>
+
+
+    
+
+  <div class="post-tags">
+    
+      
+        <a
+          href="/en/tags/go"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >Go</a
+        >
+      
+        <a
+          href="/en/tags/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"
+          class="post-tag"
+          onclick="event.stopPropagation();"
+          >基础语法</a
+        >
+      
+    
+  </div>
+
+
+  </div>
+</article>
+
+      
+    </div>
+
+    
+    
+  
+  
+  
+  
+  
+  </nav>
+
+
+
+
+    
+    <div class="tag-nav-links">
+  <a href="/en/" class="tag-nav-link">返回首页</a>
+</div>
+
+  </div>
+
+    </main>
+
+    <footer>
+      <footer class="site-footer">
+  <div class="footer-content">
+    <p class="footer-text">
+      &copy;
+      
+      2022-2026
+      
+      Sharker.
+      
+        用文字沉淀思考 · Hugo &amp; Mana
+      
+    </p>
+    
+      <div class="footer-social">
+        <div class="social-links">
+  
+    <a
+      href="https://github.com/AkaShark"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-link"
+      aria-label="GitHub">
+      <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill-rule="evenodd"
+          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
+  
+
+  
+
+  
+
+  
+
+  
+    <a href="mailto:1548742234@qq.com" class="social-link" aria-label="Email">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+    </a>
+  
+  
+</div>
+
+      </div>
+    
+  </div>
+</footer>
+
+    </footer>
+
+    <div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-label="搜索" data-no-results="没有找到相关内容">
+  <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
+  <div class="search-modal-container">
+    <div class="search-input-wrapper">
+      <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="搜索标题、标签或正文…"
+        autocomplete="off"
+        aria-label="搜索">
+      <button class="search-input-clear" id="search-input-clear" aria-label="清空搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+      </button>
+      <button class="search-modal-close" id="search-modal-close" aria-label="关闭搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+
+    
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-overlay"></div>
+  <div class="mobile-menu-content">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">菜单</span>
+      <button
+        id="mobile-menu-close"
+        class="mobile-menu-close"
+        aria-label="关闭菜单"
+        type="button">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-nav" role="navigation" aria-label="Mobile navigation">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
+
+    </nav>
+    <div class="mobile-menu-footer">
+      <button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <span>搜索</span>
+      </button>
+      
+
+      <button class="theme-toggle" aria-label="切换明暗主题" type="button">
+        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+    
+
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="回到顶部" type="button">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+  </svg>
+</button>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.18e9ad1c8ca22500d26a901e6a1e6a643f5f1d9b072f8e57125002aa56531444.js" defer></script>
+
+  </body>
 </html>

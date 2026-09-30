@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>状态管理 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</link>
+		<description>Recent content in 状态管理 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 05 Oct 2022 21:21:33 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Flutter 实战笔记 03：状态管理</title>
+				<link>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</link>
+				<pubDate>Wed, 05 Oct 2022 21:21:33 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/read/flutter%E5%AE%9E%E6%88%98/%E7%AC%AC%E4%B8%80%E4%B8%AAflutter%E5%BA%94%E7%94%A8-%E4%BA%8C/</guid>
+				<description>&lt;p&gt;&lt;a href=&#34;https://book.flutterchina.club/chapter2/first_flutter_app.html#_2-1-1-%E5%88%9B%E5%BB%BAflutter%E5%BA%94%E7%94%A8%E6%A8%A1%E6%9D%BF&#34;&gt;第二章&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;状态管理&#34;&gt;状态管理&lt;/h2&gt;&#xA;&lt;p&gt;StatefulWidget的状态管理视情况被管理，通常有一下几种方式&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Widget 管理自己的状态&lt;/li&gt;&#xA;&lt;li&gt;Widget 管理子widget状态&lt;/li&gt;&#xA;&lt;li&gt;混合管理 (父Widget和子Widget都管理状态)&#xA;如何决定使用哪种管理方式&lt;/li&gt;&#xA;&lt;li&gt;如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理。&lt;/li&gt;&#xA;&lt;li&gt;如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理。&lt;/li&gt;&#xA;&lt;li&gt;如果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理。&#xA;在 Widget 内部管理状态封装性会好一些，而在父 Widget 中管理会比较灵活。有些时&#xA;候，如果不确定到底该怎么管理状态，那么推荐的首选是在父 Widget 中管理（灵活会显&#xA;得更重要一些）。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;widget管理自身状态&#34;&gt;Widget管理自身状态&lt;/h3&gt;&#xA;&lt;p&gt;_TapboxAState 类:&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

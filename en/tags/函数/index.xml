@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>函数 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E5%87%BD%E6%95%B0/</link>
+		<description>Recent content in 函数 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Sat, 10 Feb 2024 23:20:23 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Go 语法速通（二）：函数、接口与结构体</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-2/</link>
+				<pubDate>Sat, 10 Feb 2024 23:20:23 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-2/</guid>
+				<description>&lt;p&gt;上一篇我们根据大地老师的&lt;a href=&#34;https://www.bilibili.com/video/BV1XY4y1t76G/?p=3&amp;amp;spm_id_from=pageDriver&amp;amp;vd_source=1ce8f381eab5d06dd966abe30310ea9a&#34;&gt;B站视频&lt;/a&gt;学习了一部分Go语言语法的基础部分，接下来让我继续开始学习，在这篇中将继续总结函数、接口、time包、&#xA;指针与结构体等重要的语法基础。&lt;/p&gt;&#xA;&lt;h2 id=&#34;go-函数&#34;&gt;Go 函数&lt;/h2&gt;&#xA;&lt;h3 id=&#34;函数定义&#34;&gt;函数定义&lt;/h3&gt;&#xA;&lt;p&gt;函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。&#xA;Go语言支持的函数类型包括: 函数、匿名函数、闭包&#xA;Go语言中定义函数使用func关键字，具体格式如下&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

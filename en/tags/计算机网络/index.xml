@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>计算机网络 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+		<description>Recent content in 计算机网络 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 21 Dec 2025 11:40:26 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）</title>
+				<link>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</link>
+				<pubDate>Sun, 21 Dec 2025 11:40:26 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</guid>
+				<description>&lt;p&gt;这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>HTTP 发展史浅析</title>
+				<link>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</link>
+				<pubDate>Mon, 26 Sep 2022 11:54:26 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/</guid>
+				<description>&lt;h1 id=&#34;http发展历程&#34;&gt;HTTP发展历程&lt;/h1&gt;&#xA;&lt;h2 id=&#34;http协议版本&#34;&gt;HTTP协议版本&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;HTTP/0.9&lt;/li&gt;&#xA;&lt;li&gt;HTTP/1.0&lt;/li&gt;&#xA;&lt;li&gt;HTTP/1.1&lt;/li&gt;&#xA;&lt;li&gt;HTTP/2.0&lt;/li&gt;&#xA;&lt;li&gt;HTTP/3.0&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://media.wjbbf.cn/mweb/16631349733000.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;http09&#34;&gt;HTTP/0.9&lt;/h2&gt;&#xA;&lt;p&gt;0.9版本的HTTP协议他不涉及数据包传输(仅仅是HTLM通过ASCII编码后传递)，主要是规定了客户端和服务端之间的通信格式，默认使用80端口，这个版本只有一条命令GET，而且不支持处理HTML以外任何的文件格式。&#xA;缺点&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

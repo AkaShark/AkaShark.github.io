@@ -1,263 +1,398 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="language" content="zh-CN">
+<meta name="theme-color" content="#BD5FFF">
+<script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  
+  (function(){var t=sessionStorage.getItem('mana_pt');if(t){document.documentElement.setAttribute('data-page-enter',t);sessionStorage.removeItem('mana_pt');}})();
+  
+  window.MANA_SEARCH_INDEX_URL = '\/en\/index.json';
+  
+  window.MANA_LANG_PREFIXES = ['en'];
+</script>
+<title>HTTP 演进：从 HTTP/0.9 到 HTTP/3（译） | Sharker / Notes</title>
+<meta
+  name="description"
+  content="
+    回顾 HTTP 各版本的发展，以及性能和传输方式的变化。
+  
+  ">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>EP194: Evolution of HTTP[翻译] | SharkerBlog</title>
-<meta name="keywords" content="HTTP1.0 HTTP2.0 HTTP3.0">
-<meta name="description" content="HTTP演进">
-<meta name="author" content="Sharker">
+
+  <meta name="keywords" content="HTTP, 计算机网络, 翻译">
+
+
+
+  <meta name="author" content="Sharker">
+
+
+
 <link rel="canonical" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="32x32" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="apple-touch-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:title" content="EP194: Evolution of HTTP[翻译]" />
-<meta property="og:description" content="HTTP演进" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2025-12-21T11:40:26&#43;08:00" />
-<meta property="article:modified_time" content="2025-12-21T11:40:26&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="EP194: Evolution of HTTP[翻译]"/>
-<meta name="twitter:description" content="HTTP演进"/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "文章",
-      "item": "https://akashark.github.io/en/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "技术",
-      "item": "https://akashark.github.io/en/posts/tech/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "EP194: Evolution of HTTP[翻译]",
-      "item": "https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/"
+<link rel="alternate" hreflang="zh-CN" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/"><link rel="alternate" hreflang="x-default" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
+
+
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="HTTP 演进：从 HTTP/0.9 到 HTTP/3（译） | Sharker / Notes">
+<meta property="og:description" content="回顾 HTTP 各版本的发展，以及性能和传输方式的变化。">
+<meta property="og:url" content="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
+<meta property="og:site_name" content="Sharker / Notes"><meta property="article:published_time" content="2025-12-21T11:40:26&#43;08:00">
+  <meta
+    property="article:modified_time"
+    content="2025-12-21T11:40:26&#43;08:00"><meta property="article:author" content="Sharker"><meta property="article:section" content="HTTP"><meta property="article:tag" content="HTTP"><meta property="article:tag" content="计算机网络"><meta property="article:tag" content="翻译">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HTTP 演进：从 HTTP/0.9 到 HTTP/3（译） | Sharker / Notes">
+<meta name="twitter:description" content="回顾 HTTP 各版本的发展，以及性能和传输方式的变化。">
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","email":"1548742234@qq.com","name":"Sharker","sameAs":["https://github.com/AkaShark"]},"dateModified":"2025-12-21T11:40:26+08:00","datePublished":"2025-12-21T11:40:26+08:00","description":"回顾 HTTP 各版本的发展，以及性能和传输方式的变化。","headline":"HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）","inLanguage":"zh-CN","keywords":["HTTP","计算机网络","翻译"],"mainEntityOfPage":{"@id":"https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/","@type":"WebPage"},"publisher":{"@type":"Organization","name":"Sharker / Notes","url":"https://akashark.github.io/"},"timeRequired":"PT4M","url":"https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/","wordCount":1678}</script>
+
+
+
+  
+  
+  
+    
+  
+  
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://akashark.github.io/en/","name":"首页","position":1},{"@type":"ListItem","item":"https://akashark.github.io/en/posts/","name":"文章","position":2},{"@type":"ListItem","item":"https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/","name":"HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）","position":3}]}</script>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/theme.min.29a2f04a9f41258e6c40c77a2b2be43ac8a3a9805c65165860d8b8ec5c442050.css" integrity="sha256-KaLwSp9BJY5sQMd6KyvkOsijqYBcZRZYYNi47FxEIFA=">
+
+
+  <link
+    rel="stylesheet"
+    href="/css/syntax-dark.min.1f07fd37e9832c4c84c7cf2208a59a801f4706c3d9287985ddb9b72bef5dee68.css"
+    integrity="sha256-Hwf9N&#43;mDLEyEx88iCKWagB9HBsPZKHmF3bm3K&#43;9d7mg="
+    id="syntax-dark-theme"
+    class="syntax-theme">
+  <link
+    rel="stylesheet"
+    href="/css/syntax-light.min.001fa7f600e6f8ad413241835f3963f379d3d1d4c41d3975232727e6f2a44ae9.css"
+    integrity="sha256-AB&#43;n9gDm&#43;K1BMkGDXzlj83nT0dTEHTl1Iycn5vKkSuk="
+    id="syntax-light-theme"
+    class="syntax-theme"
+    disabled><script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+
+    const syntaxDark = document.getElementById("syntax-dark-theme");
+    const syntaxLight = document.getElementById("syntax-light-theme");
+
+    if (theme === "light") {
+      if (syntaxDark) syntaxDark.disabled = true;
+      if (syntaxLight) syntaxLight.disabled = false;
+    } else {
+      if (syntaxDark) syntaxDark.disabled = false;
+      if (syntaxLight) syntaxLight.disabled = true;
     }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "EP194: Evolution of HTTP[翻译]",
-  "name": "EP194: Evolution of HTTP[翻译]",
-  "description": "HTTP演进",
-  "keywords": [
-    "HTTP1.0 HTTP2.0 HTTP3.0"
-  ],
-  "articleBody": "这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。\n超文本传输协议(HTTP)历经多年发展，已经从简单的文本传输演变成了为满足现代应用需求的高性能注重实时体验的协议。\nHTTP 演进历程 HTTP 的发展历程如下\nHTTP/0.9 设置用于通过单个 GET 获取简单的 HTML文档 HTTP/1.0 增加了头部信息和状态码以支持更丰富的交互，但每个请求任需要建立新的链接 (每次请求结束后关闭链接，再次请求时创建新链接) HTTP/1.1 引入了持久链接和更多的方法支持，让日常网页浏览变得更快、更高效 HTTP/2 通过多路复用技术解决了性能瓶颈，允许对个请求共享一个链接 HTTP/3 转向了基于 UDP 的 QUIC 协议，以降低延迟并提高可靠性，尤其是适用于移动和实时应用(移动的网络环境更加复杂) 系统性能指标 你的 API 运行缓慢。但究竟慢到什么程度？你需要具体数据。真实的指标能告诉你哪里出了问题，以及该从何处着手修复。\nQPS(Queries Per Second) 每秒请求数，指的是系统每秒处理的请求数量，你的服务器一秒收到 1000 个请求，那服务器的 QPS 就是 1000。 TPS(Transactions Per Second) 每秒事务数，指的是系统每秒能够处理完成交易的数量，一次交易包含完整的往返流程，即请求发出、访问数据库并返回响应。TPS反应的是实际完成的工作量而不仅仅是接收到的请求数。 Concurrency 并发数，指的是系统在任一给定时刻同时处理的活跃请求数量，即使每秒有 100 个请求，但是如果每个请求需要 5s 才能完成，那么实际上同时处理的并发请求数高达 500 个。高并发意味着需要更多的资源、更优的连接池管理以及更加智能的线程调度。 RT 响应时间，指的是从请求开始到收到响应所需要经过的时间，在客户端层面和服务器层面均可测量。 一个简单的公式将他们联系在一起： QPS = 并发数 / 平均响应时间 更高的并发数或者更低的响应时间 = 更高的吞吐量\nNginx 为什么如此流行 Nginx受欢迎原因如下:\n高性能服务器 反向代理与负载均衡器 缓存层 SSL 终端卸载 应该掌握的网络调试命令 帮助故障定位\nping：检查目标是否响应，并报告往返时间以确认基本可达性。 traceroute / tracert：显示路径上的每一跳，以便您查看数据包在何处变慢或停止。 mtr / pathping：持续测量每一跳的延迟和丢包，以发现间歇性问题。 ip addr, ip link / ipconfig /all：打印本地 IP 地址、MAC 地址和接口状态，以便您验证机器的网络身份。 ip route：显示路由表，以确认系统将使用哪个网关和下一跳。 ip neigh：显示 IP 到 MAC 的条目，以检测局域网中的重复或过时 ARP 记录。 ss -tulpn：列出监听套接字和进程 ID，以便确认服务是否确实绑定到预期端口。 dig：解析 DNS 记录以验证客户端将连接的确切 IP 地址。 curl -I：仅获取 HTTP(S)头信息，以检查状态码、重定向和缓存设置。 tcpdump / tshark：捕获数据包，以便您能检查真实流量，并验证发送与接收的内容。 iperf3：测量两台主机之间的端到端吞吐量，以区分带宽限制与应用问题。 ssh：在远程机器上打开一个安全外壳，以便直接运行检查并应用修复。 sftp：安全地传输文件，以便在事件期间拉取日志或推送工件。 nmap：扫描开放端口并探测版本，以确认哪些服务已暴露并正在响应。 上述命令有些 Mac 需要单独安装 brew 包\n集线器、交换机与路由 每个家庭或者办公网络都离不开这三种设备，集线器、交换机和路由器，但它们的角色常常被混淆。\n集线器工作在物理层（第一层）。它是三者中最简单的设备，无法识别地址或数据类型。当数据包到达时，它只是简单地将其广播给所有连接的设备，形成一个大的冲突域。这意味着所有设备会竞争相同的带宽，使得集线器在现代网络中效率低下。 交换机工作在第二层（数据链路层）。它能够知道MAC 地址，并将数据帧仅转发至正确的目标设备。交换机的每个端口都构成独立的冲突域，从而提升效率并加速局域网内的通信。 路由器工作在网络层（第三层）。它根据 IP 地址路由数据包，并将不同网络连接在一起，例如将家庭网络连接到互联网。每个路由器接口构成一个独立的广播域，从而隔离本地流量和外部流量。 ",
-  "wordCount" : "1678",
-  "inLanguage": "en",
-  "datePublished": "2025-12-21T11:40:26+08:00",
-  "dateModified": "2025-12-21T11:40:26+08:00",
-  "author":[{
-    "@type": "Person",
-    "name": "Sharker"
-  }],
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "SharkerBlog",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg"
-    }
-  }
-}
-</script>
-</head>
 
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
+    
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      if (currentTheme === "light") {
+        if (syntaxDark) syntaxDark.disabled = true;
+        if (syntaxLight) syntaxLight.disabled = false;
+      } else {
+        if (syntaxDark) syntaxDark.disabled = false;
+        if (syntaxLight) syntaxLight.disabled = true;
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  })();
 </script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HY6JW1HYRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-HY6JW1HYRV');
-</script>
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://akashark.github.io/en/" accesskey="h" title="Sharker’s Blog (Alt + H)">
-                <img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg" alt="" aria-label="logo"
-                    height="35">Sharker’s Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <ul class="lang-switch"><li>|</li>
-                </ul>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://akashark.github.io/en/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
-                    <span>🔍搜索</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/" title="🏠主页">
-                    <span>🏠主页</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/posts" title="📚文章">
-                    <span>📚文章</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/archives/" title="⏱时间轴">
-                    <span>⏱时间轴</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/tags" title="🔖标签">
-                    <span>🔖标签</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/about" title="🙋🏻‍♂️关于">
-                    <span>🙋🏻‍♂️关于</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
+<link rel="stylesheet" href="/css/bundle.min.02b13456d30075fe988a6f159f849e84734a9eb6b4e46325cb891138e325f01b.css" integrity="sha256-ArE0VtMAdf6Yim8Vn4SehHNKnra05GMly4kROOMl8Bs=">
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://akashark.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/">文章</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/tech/">技术</a></div>
-    <h1 class="post-title">
-      EP194: Evolution of HTTP[翻译]
-    </h1>
-    <div class="post-description">
-      HTTP演进
+
+<link rel="stylesheet" href="/css/custom.min.269656b6aa0f6790915d60bb0a489c44af08ec7d07212488a7bf3f3c2d4bb991.css" integrity="sha256-JpZWtqoPZ5CRXWC7CkicRK8I7H0HISSIp78/PC1LuZE=">
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+
+
+
+
+  
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="/en/index.xml"
+      title="Sharker / Notes">
+  
+
+
+
+
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-to-main" aria-label="跳转到正文"
+      >跳转到正文</a
+    >
+    <header class="sticky-header">
+      <div class="header-container">
+        <nav class="header-nav" role="navigation" aria-label="Main navigation">
+  <div class="header-content">
+    <div class="header-logo">
+      <a href="/en/" class="logo-link" aria-label="Home - Sharker / Notes">
+        Sharker / Notes
+      </a>
     </div>
-    <div class="post-meta"><span title='2025-12-21 11:40:26 +0800 +0800'>2025-12-21</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Sharker
 
+    
+    <button 
+      id="mobile-menu-toggle" 
+      class="mobile-menu-toggle" 
+      aria-label="打开菜单" 
+      aria-expanded="false"
+      type="button">
+      <span class="hamburger-icon">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
+    </button>
+
+    <div class="header-menu">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
+
+
+      <button id="search-toggle" class="search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+
+      
+
+
+      <button id="theme-toggle" class="theme-toggle" aria-label="切换明暗主题" type="button">
+  <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+  </svg>
+  <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+  </svg>
+</button>
+
+    </div>
+  </div>
+</nav>
+
+      </div>
+      <div class="reading-progress-bar" aria-hidden="true"></div>
+    </header>
+
+    <main id="main-content" class="flex-1" role="main">
+      
+  <div class="single-post-wrapper">
+    <article class="single-post">
+      
+
+
+
+
+
+
+
+      <header class="post-header">
+        
+
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/en/" itemprop="item"><span itemprop="name">首页</span></a>
+      <meta itemprop="position" content="1" />
+      <span aria-hidden="true" class="breadcrumb-sep">›</span>
+    </li>
+    
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/en/posts/" itemprop="item"><span itemprop="name">文章</span></a>
+      <meta itemprop="position" content="2" />
+      <span aria-hidden="true" class="breadcrumb-sep">›</span>
+    </li>
+    
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name" class="breadcrumb-current">HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）</span>
+      <meta itemprop="position" content="3" />
+    </li>
+  </ol>
+</nav>
+
+
+        <h1 class="post-title-main">HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）</h1>
+
+        
+          <p class="post-description-main">回顾 HTTP 各版本的发展，以及性能和传输方式的变化。</p>
+        
+
+        <div class="post-meta">
+  <div class="post-meta-info">
+    <time datetime="2025-12-21T11:40:26&#43;08:00" class="post-date">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      2025-12-21
+    </time>
+
+    <span class="meta-separator">•</span>
+
+    
+      <span class="post-word-count">
+        <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        1678 字
+      </span>
+    
+
+    
+      <span class="meta-separator">•</span>
+      <span class="post-reading-time">
+        <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        4 分钟
+      </span>
+    
+  </div>
+
+  
+    <div class="post-tags">
+      
+        <a href="/en/tags/http" class="post-tag">HTTP</a>
+      
+        <a href="/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C" class="post-tag">计算机网络</a>
+      
+        <a href="/en/tags/%E7%BF%BB%E8%AF%91" class="post-tag">翻译</a>
+      
+    </div>
+  
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#http-%e6%bc%94%e8%bf%9b%e5%8e%86%e7%a8%8b" aria-label="HTTP 演进历程">HTTP 演进历程</a></li>
-                <li>
-                    <a href="#%e7%b3%bb%e7%bb%9f%e6%80%a7%e8%83%bd%e6%8c%87%e6%a0%87" aria-label="系统性能指标">系统性能指标</a></li>
-                <li>
-                    <a href="#nginx-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%a6%82%e6%ad%a4%e6%b5%81%e8%a1%8c" aria-label="Nginx 为什么如此流行">Nginx 为什么如此流行</a></li>
-                <li>
-                    <a href="#%e5%ba%94%e8%af%a5%e6%8e%8c%e6%8f%a1%e7%9a%84%e7%bd%91%e7%bb%9c%e8%b0%83%e8%af%95%e5%91%bd%e4%bb%a4" aria-label="应该掌握的网络调试命令">应该掌握的网络调试命令</a></li>
-                <li>
-                    <a href="#%e9%9b%86%e7%ba%bf%e5%99%a8%e4%ba%a4%e6%8d%a2%e6%9c%ba%e4%b8%8e%e8%b7%af%e7%94%b1" aria-label="集线器、交换机与路由">集线器、交换机与路由</a>
-                </li>
-            </ul>
-        </div>
-    </details>
-</div>
+      </header>
 
-  <div class="post-content"><p>这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。</p>
+      <div class="post-content-main">
+        <p>这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。</p>
 <p>超文本传输协议(HTTP)历经多年发展，已经从简单的文本传输演变成了为满足现代应用需求的高性能注重实时体验的协议。</p>
-<h2 id="http-演进历程">HTTP 演进历程<a hidden class="anchor" aria-hidden="true" href="#http-演进历程">#</a></h2>
-<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!3GQA!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F82f1e76a-8fbf-4e8f-b030-e20037c66f70_3000x3900.png" alt="Image"  title="Image"  />
-</p>
+<h2 id="http-演进历程">HTTP 演进历程</h2>
+<p><img src="https://substackcdn.com/image/fetch/$s_!3GQA!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F82f1e76a-8fbf-4e8f-b030-e20037c66f70_3000x3900.png" alt="Image" title="Image"></p>
 <p>HTTP 的发展历程如下</p>
 <ol>
 <li>HTTP/0.9 设置用于通过单个 GET 获取简单的 HTML文档</li>
@@ -266,10 +401,9 @@
 <li>HTTP/2 通过多路复用技术解决了性能瓶颈，允许对个请求共享一个链接</li>
 <li>HTTP/3 转向了基于 UDP 的 QUIC 协议，以降低延迟并提高可靠性，尤其是适用于移动和实时应用(移动的网络环境更加复杂)</li>
 </ol>
-<h2 id="系统性能指标">系统性能指标<a hidden class="anchor" aria-hidden="true" href="#系统性能指标">#</a></h2>
+<h2 id="系统性能指标">系统性能指标</h2>
 <p>你的 API 运行缓慢。但究竟慢到什么程度？你需要具体数据。真实的指标能告诉你哪里出了问题，以及该从何处着手修复。</p>
-<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Zyn0!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F063ae714-8714-4695-8b0e-16a765c5c1a8_2360x2960.png" alt="Image"  title="Image"  />
-</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!Zyn0!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F063ae714-8714-4695-8b0e-16a765c5c1a8_2360x2960.png" alt="Image" title="Image"></p>
 <ul>
 <li>QPS(Queries Per Second) 每秒请求数，指的是系统每秒处理的请求数量，你的服务器一秒收到 1000 个请求，那服务器的 QPS 就是 1000。</li>
 <li>TPS(Transactions Per Second) 每秒事务数，指的是系统每秒能够处理完成交易的数量，一次交易包含完整的往返流程，即请求发出、访问数据库并返回响应。TPS反应的是实际完成的工作量而不仅仅是接收到的请求数。</li>
@@ -278,9 +412,8 @@
 </ul>
 <p>一个简单的公式将他们联系在一起： QPS = 并发数 / 平均响应时间
 更高的并发数或者更低的响应时间 = 更高的吞吐量</p>
-<h2 id="nginx-为什么如此流行">Nginx 为什么如此流行<a hidden class="anchor" aria-hidden="true" href="#nginx-为什么如此流行">#</a></h2>
-<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ta7a!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe42382d5-9be5-443a-9f75-56ecfa22569c_2360x2960.png" alt="Image"  title="Image"  />
-</p>
+<h2 id="nginx-为什么如此流行">Nginx 为什么如此流行</h2>
+<p><img src="https://substackcdn.com/image/fetch/$s_!ta7a!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe42382d5-9be5-443a-9f75-56ecfa22569c_2360x2960.png" alt="Image" title="Image"></p>
 <p>Nginx受欢迎原因如下:</p>
 <ul>
 <li>高性能服务器</li>
@@ -288,11 +421,19 @@
 <li>缓存层</li>
 <li>SSL 终端卸载</li>
 </ul>
-<h2 id="应该掌握的网络调试命令">应该掌握的网络调试命令<a hidden class="anchor" aria-hidden="true" href="#应该掌握的网络调试命令">#</a></h2>
-<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!sXIK!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa25e1401-cc6f-49f1-9ed1-6f093a01ac6c_2360x2664.png" alt="Image"  title="Image"  />
-</p>
-<blockquote>
-<p>帮助故障定位</p>
+<h2 id="应该掌握的网络调试命令">应该掌握的网络调试命令</h2>
+<p><img src="https://substackcdn.com/image/fetch/$s_!sXIK!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa25e1401-cc6f-49f1-9ed1-6f093a01ac6c_2360x2664.png" alt="Image" title="Image"></p>
+
+
+
+
+
+
+
+
+<blockquote class="blockquote-regular">
+  <p>帮助故障定位</p>
+
 </blockquote>
 <ul>
 <li>ping：检查目标是否响应，并报告往返时间以确认基本可达性。</li>
@@ -310,194 +451,367 @@
 <li>sftp：安全地传输文件，以便在事件期间拉取日志或推送工件。</li>
 <li>nmap：扫描开放端口并探测版本，以确认哪些服务已暴露并正在响应。</li>
 </ul>
-<blockquote>
-<p>上述命令有些 Mac 需要单独安装 brew 包</p>
+
+
+
+
+
+
+
+
+<blockquote class="blockquote-regular">
+  <p>上述命令有些 Mac 需要单独安装 brew 包</p>
+
 </blockquote>
-<h2 id="集线器交换机与路由">集线器、交换机与路由<a hidden class="anchor" aria-hidden="true" href="#集线器交换机与路由">#</a></h2>
+<h2 id="集线器交换机与路由">集线器、交换机与路由</h2>
 <p>每个家庭或者办公网络都离不开这三种设备，集线器、交换机和路由器，但它们的角色常常被混淆。</p>
-<p><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!BXWB!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09a8b52f-2b80-4762-92cd-c5d18d5a7a3c_2360x2960.png" alt="Image"  title="Image"  />
-</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!BXWB!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09a8b52f-2b80-4762-92cd-c5d18d5a7a3c_2360x2960.png" alt="Image" title="Image"></p>
 <ul>
 <li>集线器工作在物理层（第一层）。它是三者中最简单的设备，无法识别地址或数据类型。当数据包到达时，它只是简单地将其广播给所有连接的设备，形成一个大的冲突域。这意味着所有设备会竞争相同的带宽，使得集线器在现代网络中效率低下。</li>
 <li>交换机工作在第二层（数据链路层）。它能够知道MAC 地址，并将数据帧仅转发至正确的目标设备。交换机的每个端口都构成独立的冲突域，从而提升效率并加速局域网内的通信。</li>
 <li>路由器工作在网络层（第三层）。它根据 IP 地址路由数据包，并将不同网络连接在一起，例如将家庭网络连接到互联网。每个路由器接口构成一个独立的广播域，从而隔离本地流量和外部流量。</li>
 </ul>
 
+      </div>
+
+      
+        <footer class="post-footer">
+          <div class="post-tags-footer">
+            <span class="tags-label">标签:</span>
+            
+              <a href="/en/tags/http" class="post-tag">HTTP</a>
+            
+              <a href="/en/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C" class="post-tag">计算机网络</a>
+            
+              <a href="/en/tags/%E7%BF%BB%E8%AF%91" class="post-tag">翻译</a>
+            
+          </div>
+        </footer>
+      
+
+      
+
+<section class="series-nav" aria-label="专题阅读"><h2><a href="/en/series/%E7%90%86%E8%A7%A3-http/">理解 HTTP</a></h2><ol><li><a href="/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/">HTTP 发展史浅析</a></li><li><span aria-current="page">HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）</span></li></ol></section>
+
+
+      
+
+
+<section class="related-posts" aria-label="相关阅读">
+  <h2 class="related-posts-title">相关阅读</h2>
+  <ul class="related-posts-list">
+    
+    <li class="related-post-item">
+      <a href="/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/" class="related-post-link">
+        <strong>HTTP 发展史浅析</strong>
+        <span>梳理 HTTP 各版本的特点、长连接与性能演进。</span>
+      </a>
+    </li>
+    
+    <li class="related-post-item">
+      <a href="/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/" class="related-post-link">
+        <strong>Xcode 14 新功能笔记（译）</strong>
+        <span>记录 Xcode 14 发布时的功能变化，作为历史版本学习资料。</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+
+      <nav class="post-navigation" aria-label="Post navigation">
+        
+          <a
+            href="/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/http%E5%8F%91%E5%B1%95%E5%8F%B2%E6%B5%85%E6%9E%90/"
+            class="nav-link nav-prev"
+            aria-label="Previous post: HTTP 发展史浅析">
+            <span class="nav-label">上一篇</span>
+            <span class="nav-title">HTTP 发展史浅析</span>
+          </a>
+        
+
+        
+      </nav>
+    </article>
+
+    
+  <aside class="post-toc" id="post-toc" aria-label="文章目录">
+    <button
+      class="toc-toggle"
+      id="toc-toggle"
+      aria-expanded="true"
+      aria-controls="toc-content"
+      aria-label="展开或收起目录">
+      <svg
+        class="toc-burger-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <span class="toc-toggle-text">文章目录</span>
+      <svg
+        class="toc-chevron-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div class="toc-content" id="toc-content">
+      <nav class="toc-nav" aria-label="文章目录">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#http-演进历程">HTTP 演进历程</a></li>
+    <li><a href="#系统性能指标">系统性能指标</a></li>
+    <li><a href="#nginx-为什么如此流行">Nginx 为什么如此流行</a></li>
+    <li><a href="#应该掌握的网络调试命令">应该掌握的网络调试命令</a></li>
+    <li><a href="#集线器交换机与路由">集线器、交换机与路由</a></li>
+  </ul>
+</nav>
+      </nav>
+    </div>
+  </aside>
+
 
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://akashark.github.io/en/tags/http1.0-http2.0-http3.0/">HTTP1.0 HTTP2.0 HTTP3.0</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="next" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
-    <span class="title">Next »</span>
-    <br>
-    <span>iOS App间跳转</span>
-  </a>
-</nav>
-
-  </footer>
-</article>
     </main>
+
+    <footer>
+      <footer class="site-footer">
+  <div class="footer-content">
+    <p class="footer-text">
+      &copy;
+      
+      2022-2026
+      
+      Sharker.
+      
+        用文字沉淀思考 · Hugo &amp; Mana
+      
+    </p>
     
-<footer class="footer">
+      <div class="footer-social">
+        <div class="social-links">
+  
+    <a
+      href="https://github.com/AkaShark"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-link"
+      aria-label="GitHub">
+      <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill-rule="evenodd"
+          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
+  
+
+  
+
+  
+
+  
+
+  
+    <a href="mailto:1548742234@qq.com" class="social-link" aria-label="Email">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+    </a>
+  
+  
+</div>
+
+      </div>
     
-        
-    
-    <span id="sitetime">载入运行时间...</span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+    </footer>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-label="搜索" data-no-results="没有找到相关内容">
+  <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
+  <div class="search-modal-container">
+    <div class="search-input-wrapper">
+      <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="搜索标题、标签或正文…"
+        autocomplete="off"
+        aria-label="搜索">
+      <button class="search-input-clear" id="search-input-clear" aria-label="清空搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+      </button>
+      <button class="search-modal-close" id="search-modal-close" aria-label="关闭搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
 
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
+    
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-overlay"></div>
+  <div class="mobile-menu-content">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">菜单</span>
+      <button
+        id="mobile-menu-close"
+        class="mobile-menu-close"
+        aria-label="关闭菜单"
+        type="button">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-nav" role="navigation" aria-label="Mobile navigation">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
+    </nav>
+    <div class="mobile-menu-footer">
+      <button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <span>搜索</span>
+      </button>
+      
 
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
+      <button class="theme-toggle" aria-label="切换明暗主题" type="button">
+        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
 
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
+    
 
-        function copyingDone() {
-            copybutton.innerHTML = 'copied!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'copy';
-            }, 2000);
-        }
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="回到顶部" type="button">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+  </svg>
+</button>
 
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
 
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
+    
 
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
 
-<script>
-    function siteTime() {
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-        var years = days * 365;
-        var today = new Date();
-        var startYear = 2022;
-        var startMonth = 7;
-        var startDate = 27;
-        var startHour = 15;
-        var startMinute = 0;
-        var startSecond = 0;
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-            minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-            diffMinutes * minutes) / seconds);
-        if (startYear == todayYear) {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffDays + " 天 " + diffHours +
-                " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        } else {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffYears + " 年 " + diffDays +
-                " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        }
-    }
-    setInterval(siteTime, 1000);
-</script>
-</body>
 
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.18e9ad1c8ca22500d26a901e6a1e6a643f5f1d9b072f8e57125002aa56531444.js" defer></script>
+
+  </body>
 </html>

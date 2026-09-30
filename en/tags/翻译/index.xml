@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>翻译 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/%E7%BF%BB%E8%AF%91/</link>
+		<description>Recent content in 翻译 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 21 Dec 2025 11:40:26 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>HTTP 演进：从 HTTP/0.9 到 HTTP/3（译）</title>
+				<link>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</link>
+				<pubDate>Sun, 21 Dec 2025 11:40:26 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/</guid>
+				<description>&lt;p&gt;这篇文章回顾了HTTP协议的发展历程，从HTTP/0.9到HTTP/3，强调了其在性能和实时性方面的改进，同时提到了服务器系统性能指标，如QPS、TPS、并发数和RT，讨论了Nginx的流行原因，还列出了一些重要的网络调试命令，以及集线器、交换机和路由器在网络中的作用。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Xcode 14 新功能笔记（译）</title>
+				<link>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</link>
+				<pubDate>Wed, 28 Sep 2022 21:20:22 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/</guid>
+				<description>&lt;h1 id=&#34;whats-new-in-xcode-14&#34;&gt;What’s New in Xcode 14&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://medium.com/better-programming/whats-new-in-xcode-14-f6b56c33a8b3&#34;&gt;What’s New in Xcode 14&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;single-size-app-icon&#34;&gt;Single Size App Icon&lt;/h2&gt;&#xA;&lt;p&gt;在WWDC22, Apple发布了最新的Xcode14，Xcode14中带来了大量的功能和性能的提高，包括了在源码编辑器和其他方面上很多比较Cool的东西，我将和你一起分享下你要知道的。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

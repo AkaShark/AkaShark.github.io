@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>User-Agent on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/tags/user-agent/</link>
+		<description>Recent content in User-Agent on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 26 Feb 2024 22:40:08 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/tags/user-agent/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>WKWebView 的 User-Agent 获取与修改</title>
+				<link>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</link>
+				<pubDate>Mon, 26 Feb 2024 22:40:08 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/</guid>
+				<description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;&#xA;&lt;p&gt;早从19年 iOS 13开始Apple就建议我们将App中使用UIWebView的地方切换为WKWebView了。&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;blockquote class=&#34;blockquote-regular&#34;&gt;&#xA;  &lt;p&gt;ITMS-90809: Deprecated API Usage - Apple will stop accepting submissions of apps that use UIWebView APIs . See &lt;a href=&#34;https://developer.apple.com/documentation/uikit/uiwebview&#34;&gt;https://developer.apple.com/documentation/uikit/uiwebview&lt;/a&gt; for more information.&lt;/p&gt;&#xA;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,291 +1,399 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="language" content="zh-CN">
+<meta name="theme-color" content="#BD5FFF">
+<script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+  
+  (function(){var t=sessionStorage.getItem('mana_pt');if(t){document.documentElement.setAttribute('data-page-enter',t);sessionStorage.removeItem('mana_pt');}})();
+  
+  window.MANA_SEARCH_INDEX_URL = '\/en\/index.json';
+  
+  window.MANA_LANG_PREFIXES = ['en'];
+</script>
+<title>iOS App 间跳转：URL Scheme 实践 | Sharker / Notes</title>
+<meta
+  name="description"
+  content="
+    从 URL Scheme 基础到 App 相互唤起，整理 iOS 应用间跳转的实现。
+  
+  ">
 
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>iOS App间跳转 | SharkerBlog</title>
-<meta name="keywords" content="iOS Scheme 应用间跳转">
-<meta name="description" content="背景
-在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面">
-<meta name="author" content="Sharker">
+
+  <meta name="keywords" content="iOS, URL Scheme">
+
+
+
+  <meta name="author" content="Sharker">
+
+
+
 <link rel="canonical" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.fcccbc39cd1ebc1e41cd6b60344dc00c07e181e4133b4ae2f78ff830f38228e0.css" integrity="sha256-/My8Oc0evB5BzWtgNE3ADAfhgeQTO0ri94/4MPOCKOA=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="16x16" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="icon" type="image/png" sizes="32x32" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="apple-touch-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<link rel="mask-icon" href="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:title" content="iOS App间跳转" />
-<meta property="og:description" content="背景
-在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-03-27T20:41:10&#43;08:00" />
-<meta property="article:modified_time" content="2024-03-27T20:41:10&#43;08:00" /><meta property="og:site_name" content="Sharker&#39;s Blog" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="iOS App间跳转"/>
-<meta name="twitter:description" content="背景
-在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面"/>
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "文章",
-      "item": "https://akashark.github.io/en/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "技术",
-      "item": "https://akashark.github.io/en/posts/tech/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "iOS",
-      "item": "https://akashark.github.io/en/posts/tech/ios/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "iOS App间跳转",
-      "item": "https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/"
+<link rel="alternate" hreflang="zh-CN" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/"><link rel="alternate" hreflang="x-default" href="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
+
+
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="iOS App 间跳转：URL Scheme 实践 | Sharker / Notes">
+<meta property="og:description" content="从 URL Scheme 基础到 App 相互唤起，整理 iOS 应用间跳转的实现。">
+<meta property="og:url" content="https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/">
+<meta property="og:site_name" content="Sharker / Notes"><meta property="article:published_time" content="2024-03-27T20:41:10&#43;08:00">
+  <meta
+    property="article:modified_time"
+    content="2024-03-27T20:41:10&#43;08:00"><meta property="article:author" content="Sharker"><meta property="article:section" content="iOS"><meta property="article:tag" content="iOS"><meta property="article:tag" content="URL Scheme">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="iOS App 间跳转：URL Scheme 实践 | Sharker / Notes">
+<meta name="twitter:description" content="从 URL Scheme 基础到 App 相互唤起，整理 iOS 应用间跳转的实现。">
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","email":"1548742234@qq.com","name":"Sharker","sameAs":["https://github.com/AkaShark"]},"dateModified":"2024-03-27T20:41:10+08:00","datePublished":"2024-03-27T20:41:10+08:00","description":"从 URL Scheme 基础到 App 相互唤起，整理 iOS 应用间跳转的实现。","headline":"iOS App 间跳转：URL Scheme 实践","inLanguage":"zh-CN","keywords":["iOS","URL Scheme"],"mainEntityOfPage":{"@id":"https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/","@type":"WebPage"},"publisher":{"@type":"Organization","name":"Sharker / Notes","url":"https://akashark.github.io/"},"timeRequired":"PT6M","url":"https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/","wordCount":2817}</script>
+
+
+
+  
+  
+  
+    
+  
+  
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://akashark.github.io/en/","name":"首页","position":1},{"@type":"ListItem","item":"https://akashark.github.io/en/posts/","name":"文章","position":2},{"@type":"ListItem","item":"https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/","name":"iOS App 间跳转：URL Scheme 实践","position":3}]}</script>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/theme.min.29a2f04a9f41258e6c40c77a2b2be43ac8a3a9805c65165860d8b8ec5c442050.css" integrity="sha256-KaLwSp9BJY5sQMd6KyvkOsijqYBcZRZYYNi47FxEIFA=">
+
+
+  <link
+    rel="stylesheet"
+    href="/css/syntax-dark.min.1f07fd37e9832c4c84c7cf2208a59a801f4706c3d9287985ddb9b72bef5dee68.css"
+    integrity="sha256-Hwf9N&#43;mDLEyEx88iCKWagB9HBsPZKHmF3bm3K&#43;9d7mg="
+    id="syntax-dark-theme"
+    class="syntax-theme">
+  <link
+    rel="stylesheet"
+    href="/css/syntax-light.min.001fa7f600e6f8ad413241835f3963f379d3d1d4c41d3975232727e6f2a44ae9.css"
+    integrity="sha256-AB&#43;n9gDm&#43;K1BMkGDXzlj83nT0dTEHTl1Iycn5vKkSuk="
+    id="syntax-light-theme"
+    class="syntax-theme"
+    disabled><script>
+  
+  (function () {
+    const storedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
+
+    const syntaxDark = document.getElementById("syntax-dark-theme");
+    const syntaxLight = document.getElementById("syntax-light-theme");
+
+    if (theme === "light") {
+      if (syntaxDark) syntaxDark.disabled = true;
+      if (syntaxLight) syntaxLight.disabled = false;
+    } else {
+      if (syntaxDark) syntaxDark.disabled = false;
+      if (syntaxLight) syntaxLight.disabled = true;
     }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "iOS App间跳转",
-  "name": "iOS App间跳转",
-  "description": "背景 在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面\n",
-  "keywords": [
-    "iOS Scheme 应用间跳转"
-  ],
-  "articleBody": "背景 在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面\n如何实现App拉起 如何实现App之间的相互拉起 背景知识 这里提前补充需要了解的知识点，下面是url的基本格式 protocol://hostname[:port]/path/[;parameters][?query]#fragment\nprotocol, 协议名称也叫做scheme，例如http、https当然这个地方也可以自定义 hostname：域名或ip地址，例如 www.baidu.com 就是域名；110.242.68.3就是IP地址。 port：端口号，例如 www.baidu.com:80后面的80就是端口号，80是默认端口号，一般不显示。 path：路径，表示主机上的目录或文件路径。例如：fanyi.baidu.com/translate。 query：可选项，用于传递参数，由?符号开始，\u0026符号隔开，参数名和值用=符号相连。例如：www.baidu.com/s?ie=utf-8\u0026… 在使用App拉起的过程中需要使用到url的基本格式定义，在拉起的过程中定义的url格式如下 customAppScheme://xxxxx/path?params=xxx App拉起 在iOS的系统中从A App打开B App，需要A App去找到B App，这就和我们邮寄信件一样我们需要写一个我们信件的目标地址，在系统中我们可以通过UIApplication中的API来完成这件事\n1 2 3 4 5 6 /** 通过应用程序打开一个资源路径 @param url 资源路径的地址 @return 返回成功失败的信息 */ - (BOOL)openURL:(NSURL*)url; openURL:通过url来标识我们要跳转的App的位置，一个简单的例子\n1 2 3 4 5 6 7 // 跳转到打电话 NSURL *url = [NSURL URLWithString:@\"tel://10086\"]; [[UIApplication sharedApplication] openURL:url]; //发送系统短信 NSURL *url = [NSURL URLWithString:@\"sms://1383838438\"]; [[UIApplication sharedApplication] openURL:url]; 从上面的例子可以产出来拉起其他App核心关键点在url，以上面的打电话为例url的定义为tel://10086结合上面的url格式定义，Scheme为tel，host为10086，可以才到10086就是要打的电话，那tel自然就是标识这打电话App，tel这个Scheme在系统的认知中就是标识着电话App，同样的如果我想要打开其他App只需要知道他的Scheme自然就可以打开该App。\nApp之间相互拉起 注册URL Scheme 根据上面的App拉起可以得出只要知道了App的scheme就可以拉起这个App，那么如果我们有两个App A和B，现在要求我用A App打开B App，自然解决方法就是在A中open B的scheme就可以了，可是B的scheme是什么呢，这就需要我们自己来定义啦。\n在Xcode的工程配置中点击info条目，在info下找到URL Types点击添加\n填写其中identifier和URL Schemes\nidentifier: URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性 URL Schemes: 为自己的app定义的schemes。使用另外的app调起自己的app时，使用这个参数 identifier是可选的，定义identifier后会变成url的host，scheme会变成url的protocol， 这么看来定义的时候identifier变成了打开url的host，scheme变成了协议，也就是说url的格式为 URL Scheme://URL identifier scheme 定义需要注意 url scheme必须能唯一标识一个App，如果你设置的scheme和其他的scheme相同，那么默认的表现是未知的 URL Scheme的命名应该是只能纯英文字符，而不能含有下划线或者数字 一个App可以同时拥有多个scheme\n通过上面的方式就定义好了Scheme啦，假设我们定义A App的scheme为customA B App的scheme为customB 当然实际上scheme对应的url protocol为customA://和customB://\n处理拉起请求 已经定义好了A和B的scheme，继续完成上面的需求，用A打开B，在A的任意位置我们调用\n1 2 NSURL *url = [NSURL URLWithString:@\"customB://idetifierB\"]; [[UIApplication sharedApplication] openURL:url]; 可以成功拉起B App那么如何将一些参数传递到B呢，如果使用的url为customB://idetifierB?params1=xx\u0026params2=yy，B App如何获取到这参数。\n上面其实有提到过处理应用之间的跳转是通过UIApplication来完成的，所以可以在B App中通过重写- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options来获取到对应的请求来完成相应逻辑的处理。\n补充 注册URL Scheme 方式2 注册URL Scheme的方式还有一种，在Info.plist中间中右击添加URL types类型为Array,\n添加的每个item的内容，这和上面介绍的注册URL Scheme的方式类似。\n[[UIApplication sharedApplication] canOpenURL:url 使用 在调用[[UIApplication sharedApplication] openURL:url]前可以去判断下是否可以打开该应用[[UIApplication sharedApplication] canOpenURL:url，但是在iOS9后判断canOpenURL需要再info.plist文件中将目标Url定义进白名单，否则不能使用。 在Info.plist文件中添加LSApplicationQueriesSchemes字段，该字段对应的是数组类型，然后添加CustomA(要跳转的目标Scheme)\nLSApplicationQueriesSchemes对应的Array至多只能添加50个item，应该是Apple为了安全考虑不允许去扫描用户已经安装的App(可以跳转的前提是已经安装App且将scheme注册进系统)\n对于LSApplicationQueriesSchemes白名单的理解 Apple文档的介绍如下 说的是，在iOS9后，如果想要使用canOpenURL方法检查是否可以打这个URL或可以处理该URL的App，需要在info.plist里添加LSApplicationQueriesSchemes字段来预设url，否则是否安装都会返回NO。\n“白名单”的意义是要检查当前设备上是否安装了其他App，而不是打开其他App必须添加“白名单”，所以如果想要打开其他App，直接使用openURL即可。\n==canOpenURL：方法有限制，openURL:方法是没有限制的。==\n如何回跳 上面已经知道了如何跳转到另一个App中，完成了最开始说的从A App跳转到B App的需求，但是如果要求跳转到B App后完成调回App的操作呢，根据上面的介绍其实这个需求也很简单，B App条回A App重点是拿到A App的scheme即可，可以将A App的scheme在第一次跳转到B App的时候作为参数传递给B App这样在B App完成逻辑处理后就可以使用该Scheme完成回跳。\n具体来说就是 A-\u003eB-\u003eA\n首先要从B中的info.plist设置A注册的Scheme白名单 然后从A-\u003eB的时候通过参数将A的scheme带过去 B处理完对应的业务后通过同样的方式返回A 其实在微信SDK中我们也是这样做的，在跳转到微信的url中添加一个backurl然后传递自己的App Scheme 微信执行完成后会拉起自己的App。\nRef iOS scheme跳转机制 关于iOS“白名单”的理解 ",
-  "wordCount" : "2832",
-  "inLanguage": "en",
-  "datePublished": "2024-03-27T20:41:10+08:00",
-  "dateModified": "2024-03-27T20:41:10+08:00",
-  "author":[{
-    "@type": "Person",
-    "name": "Sharker"
-  }],
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://akashark.github.io/en/posts/tech/ios/%E5%B8%B8%E8%A7%81%E5%8A%9F%E8%83%BD/iosapp%E9%97%B4%E8%B7%B3%E8%BD%AC/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "SharkerBlog",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg"
-    }
-  }
-}
-</script>
-</head>
 
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
+    
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      if (currentTheme === "light") {
+        if (syntaxDark) syntaxDark.disabled = true;
+        if (syntaxLight) syntaxLight.disabled = false;
+      } else {
+        if (syntaxDark) syntaxDark.disabled = false;
+        if (syntaxLight) syntaxLight.disabled = true;
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  })();
 </script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HY6JW1HYRV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-HY6JW1HYRV');
-</script>
 
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://akashark.github.io/en/" accesskey="h" title="Sharker’s Blog (Alt + H)">
-                <img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/_e54cd8c1-3550-42f8-b5f0-6037d3ac4283.jpeg" alt="" aria-label="logo"
-                    height="35">Sharker’s Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <ul class="lang-switch"><li>|</li>
-                </ul>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://akashark.github.io/en/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
-                    <span>🔍搜索</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/" title="🏠主页">
-                    <span>🏠主页</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/posts" title="📚文章">
-                    <span>📚文章</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/archives/" title="⏱时间轴">
-                    <span>⏱时间轴</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/tags" title="🔖标签">
-                    <span>🔖标签</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://akashark.github.io/en/about" title="🙋🏻‍♂️关于">
-                    <span>🙋🏻‍♂️关于</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
+<link rel="stylesheet" href="/css/bundle.min.02b13456d30075fe988a6f159f849e84734a9eb6b4e46325cb891138e325f01b.css" integrity="sha256-ArE0VtMAdf6Yim8Vn4SehHNKnra05GMly4kROOMl8Bs=">
 
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://akashark.github.io/en/">Home</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/">文章</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/tech/">技术</a>&nbsp;»&nbsp;<a href="https://akashark.github.io/en/posts/tech/ios/">iOS</a></div>
-    <h1 class="post-title">
-      iOS App间跳转
-    </h1>
-    <div class="post-meta"><span title='2024-03-27 20:41:10 +0800 +0800'>2024-03-27</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Sharker
 
+<link rel="stylesheet" href="/css/custom.min.269656b6aa0f6790915d60bb0a489c44af08ec7d07212488a7bf3f3c2d4bb991.css" integrity="sha256-JpZWtqoPZ5CRXWC7CkicRK8I7H0HISSIp78/PC1LuZE=">
+
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+
+
+
+
+  
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="/en/index.xml"
+      title="Sharker / Notes">
+  
+
+
+
+
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-to-main" aria-label="跳转到正文"
+      >跳转到正文</a
+    >
+    <header class="sticky-header">
+      <div class="header-container">
+        <nav class="header-nav" role="navigation" aria-label="Main navigation">
+  <div class="header-content">
+    <div class="header-logo">
+      <a href="/en/" class="logo-link" aria-label="Home - Sharker / Notes">
+        Sharker / Notes
+      </a>
+    </div>
+
+    
+    <button 
+      id="mobile-menu-toggle" 
+      class="mobile-menu-toggle" 
+      aria-label="打开菜单" 
+      aria-expanded="false"
+      type="button">
+      <span class="hamburger-icon">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
+    </button>
+
+    <div class="header-menu">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
+
+
+      <button id="search-toggle" class="search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+
+      
+
+
+      <button id="theme-toggle" class="theme-toggle" aria-label="切换明暗主题" type="button">
+  <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+  </svg>
+  <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+  </svg>
+</button>
+
+    </div>
+  </div>
+</nav>
+
+      </div>
+      <div class="reading-progress-bar" aria-hidden="true"></div>
+    </header>
+
+    <main id="main-content" class="flex-1" role="main">
+      
+  <div class="single-post-wrapper">
+    <article class="single-post">
+      
+
+
+
+
+
+
+
+      <header class="post-header">
+        
+
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/en/" itemprop="item"><span itemprop="name">首页</span></a>
+      <meta itemprop="position" content="1" />
+      <span aria-hidden="true" class="breadcrumb-sep">›</span>
+    </li>
+    
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a href="/en/posts/" itemprop="item"><span itemprop="name">文章</span></a>
+      <meta itemprop="position" content="2" />
+      <span aria-hidden="true" class="breadcrumb-sep">›</span>
+    </li>
+    
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <span itemprop="name" class="breadcrumb-current">iOS App 间跳转：URL Scheme 实践</span>
+      <meta itemprop="position" content="3" />
+    </li>
+  </ol>
+</nav>
+
+
+        <h1 class="post-title-main">iOS App 间跳转：URL Scheme 实践</h1>
+
+        
+          <p class="post-description-main">从 URL Scheme 基础到 App 相互唤起，整理 iOS 应用间跳转的实现。</p>
+        
+
+        <div class="post-meta">
+  <div class="post-meta-info">
+    <time datetime="2024-03-27T20:41:10&#43;08:00" class="post-date">
+      <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      2024-03-27
+    </time>
+
+    <span class="meta-separator">•</span>
+
+    
+      <span class="post-word-count">
+        <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        2817 字
+      </span>
+    
+
+    
+      <span class="meta-separator">•</span>
+      <span class="post-reading-time">
+        <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        6 分钟
+      </span>
+    
+  </div>
+
+  
+    <div class="post-tags">
+      
+        <a href="/en/tags/ios" class="post-tag">iOS</a>
+      
+        <a href="/en/tags/url-scheme" class="post-tag">URL Scheme</a>
+      
+    </div>
+  
 </div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
 
-        <div class="inner"><ul>
-                <li>
-                    <a href="#%e8%83%8c%e6%99%af" aria-label="背景">背景</a></li>
-                <li>
-                    <a href="#%e8%83%8c%e6%99%af%e7%9f%a5%e8%af%86" aria-label="背景知识">背景知识</a></li>
-                <li>
-                    <a href="#app%e6%8b%89%e8%b5%b7" aria-label="App拉起">App拉起</a></li>
-                <li>
-                    <a href="#app%e4%b9%8b%e9%97%b4%e7%9b%b8%e4%ba%92%e6%8b%89%e8%b5%b7" aria-label="App之间相互拉起">App之间相互拉起</a><ul>
-                        
-                <li>
-                    <a href="#%e6%b3%a8%e5%86%8curl-scheme" aria-label="注册URL Scheme">注册URL Scheme</a></li>
-                <li>
-                    <a href="#%e5%a4%84%e7%90%86%e6%8b%89%e8%b5%b7%e8%af%b7%e6%b1%82" aria-label="处理拉起请求">处理拉起请求</a></li></ul>
-                </li>
-                <li>
-                    <a href="#%e8%a1%a5%e5%85%85" aria-label="补充">补充</a><ul>
-                        
-                <li>
-                    <a href="#%e6%b3%a8%e5%86%8curl-scheme-%e6%96%b9%e5%bc%8f2" aria-label="注册URL Scheme 方式2">注册URL Scheme 方式2</a></li>
-                <li>
-                    <a href="#uiapplication-sharedapplication-canopenurlurl-%e4%bd%bf%e7%94%a8" aria-label="[[UIApplication sharedApplication] canOpenURL:url 使用"><code>[[UIApplication sharedApplication] canOpenURL:url</code> 使用</a><ul>
-                        
-                <li>
-                    <a href="#%e5%af%b9%e4%ba%8elsapplicationqueriesschemes%e7%99%bd%e5%90%8d%e5%8d%95%e7%9a%84%e7%90%86%e8%a7%a3" aria-label="对于LSApplicationQueriesSchemes白名单的理解">对于<code>LSApplicationQueriesSchemes</code>白名单的理解</a></li>
-                <li>
-                    <a href="#%e5%a6%82%e4%bd%95%e5%9b%9e%e8%b7%b3" aria-label="如何回跳">如何回跳</a></li></ul>
-                </li></ul>
-                </li>
-                <li>
-                    <a href="#ref" aria-label="Ref">Ref</a>
-                </li>
-            </ul>
-        </div>
-    </details>
-</div>
+      </header>
 
-  <div class="post-content"><h2 id="背景">背景<a hidden class="anchor" aria-hidden="true" href="#背景">#</a></h2>
+      <div class="post-content-main">
+        <h2 id="背景">背景</h2>
 <p>在App的开发过程中经常会遇到与其他App联动相互拉起的需求(也就是拉起其他App或者被其他App拉起)，那么在iOS中这种拉起操作应该如何实现呢，本文将主要介绍以下几个方面</p>
 <ul>
 <li>如何实现App拉起</li>
 <li>如何实现App之间的相互拉起</li>
 </ul>
-<h2 id="背景知识">背景知识<a hidden class="anchor" aria-hidden="true" href="#背景知识">#</a></h2>
+<h2 id="背景知识">背景知识</h2>
 <p>这里提前补充需要了解的知识点，下面是url的基本格式
 <code>protocol://hostname[:port]/path/[;parameters][?query]#fragment</code></p>
 <ul>
@@ -297,56 +405,29 @@
 在使用App拉起的过程中需要使用到url的基本格式定义，在拉起的过程中定义的url格式如下
 <code>customAppScheme://xxxxx/path?params=xxx</code></li>
 </ul>
-<h2 id="app拉起">App拉起<a hidden class="anchor" aria-hidden="true" href="#app拉起">#</a></h2>
+<h2 id="app拉起">App拉起</h2>
 <p>在iOS的系统中从A App打开B App，需要A App去找到B App，这就和我们邮寄信件一样我们需要写一个我们信件的目标地址，在系统中我们可以通过<code>UIApplication</code>中的API来完成这件事</p>
-<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#808080">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#808080"> 通过应用程序打开一个资源路径
-</span></span></span><span style="display:flex;"><span><span style="color:#808080">@param url 资源路径的地址
-</span></span></span><span style="display:flex;"><span><span style="color:#808080">@return 返回成功失败的信息
-</span></span></span><span style="display:flex;"><span><span style="color:#808080"> */</span>
-</span></span><span style="display:flex;"><span>- (<span style="color:#cc7832">BOOL</span>)<span style="color:#ffc66d">openURL:</span>(NSURL*)url;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>openURL:</code>通过url来标识我们要跳转的App的位置，一个简单的例子</p>
-<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#808080">// 跳转到打电话
-</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;tel://10086&#34;</span>];
-</span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#808080">//发送系统短信
-</span></span></span><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;sms://1383838438&#34;</span>];
-</span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>从上面的例子可以产出来拉起其他App核心关键点在url，以上面的打电话为例url的定义为<code>tel://10086</code>结合上面的url格式定义，Scheme为tel，host为10086，可以才到10086就是要打的电话，那<code>tel</code>自然就是标识这打电话App，<code>tel</code>这个Scheme在系统的认知中就是标识着电话App，同样的如果我想要打开其他App只需要知道他的Scheme自然就可以打开该App。</p>
-<h2 id="app之间相互拉起">App之间相互拉起<a hidden class="anchor" aria-hidden="true" href="#app之间相互拉起">#</a></h2>
-<h3 id="注册url-scheme">注册URL Scheme<a hidden class="anchor" aria-hidden="true" href="#注册url-scheme">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Objective-c" data-lang="Objective-c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> 通过应用程序打开一个资源路径
+</span></span></span><span class="line"><span class="cl"><span class="cm">@param url 资源路径的地址
+</span></span></span><span class="line"><span class="cl"><span class="cm">@return 返回成功失败的信息
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">openURL:</span><span class="p">(</span><span class="n">NSURL</span><span class="o">*</span><span class="p">)</span><span class="nv">url</span><span class="p">;</span>
+</span></span></code></pre></div><p><code>openURL:</code>通过url来标识我们要跳转的App的位置，一个简单的例子</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Objective-c" data-lang="Objective-c"><span class="line"><span class="cl"><span class="c1">// 跳转到打电话
+</span></span></span><span class="line"><span class="cl"><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&#34;tel://10086&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//发送系统短信
+</span></span></span><span class="line"><span class="cl"><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&#34;sms://1383838438&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+</span></span></code></pre></div><p>从上面的例子可以产出来拉起其他App核心关键点在url，以上面的打电话为例url的定义为<code>tel://10086</code>结合上面的url格式定义，Scheme为tel，host为10086，可以才到10086就是要打的电话，那<code>tel</code>自然就是标识这打电话App，<code>tel</code>这个Scheme在系统的认知中就是标识着电话App，同样的如果我想要打开其他App只需要知道他的Scheme自然就可以打开该App。</p>
+<h2 id="app之间相互拉起">App之间相互拉起</h2>
+<h3 id="注册url-scheme">注册URL Scheme</h3>
 <p>根据上面的App拉起可以得出只要知道了App的scheme就可以拉起这个App，那么如果我们有两个App A和B，现在要求我用A App打开B App，自然解决方法就是在A中open B的scheme就可以了，可是B的scheme是什么呢，这就需要我们自己来定义啦。</p>
-<p><img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.36.05%402x-2024-04-14-18-36-19.png" alt="CleanShot 2024-04-14 at 18.36.05@2x-2024-04-14-18-36-19"  />
-</p>
+<p><img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.36.05%402x-2024-04-14-18-36-19.png" alt="CleanShot 2024-04-14 at 18.36.05@2x-2024-04-14-18-36-19"></p>
 <p>在Xcode的工程配置中点击info条目，在info下找到URL Types点击添加</p>
-<p><img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.38.08%402x-2024-04-14-18-38-17.png" alt="CleanShot 2024-04-14 at 18.38.08@2x-2024-04-14-18-38-17"  />
-</p>
+<p><img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2018.38.08%402x-2024-04-14-18-38-17.png" alt="CleanShot 2024-04-14 at 18.38.08@2x-2024-04-14-18-38-17"></p>
 <p>填写其中identifier和URL Schemes</p>
 <ul>
 <li>identifier: URL Identifier是自定义的 URL scheme 的名字，一般采用反转域名的方法保证该名字的唯一性</li>
@@ -355,53 +436,58 @@ identifier是可选的，定义identifier后会变成url的host，scheme会变�
 这么看来定义的时候identifier变成了打开url的host，scheme变成了协议，也就是说url的格式为
 <code>URL Scheme://URL identifier</code></li>
 </ul>
-<blockquote>
-<p>scheme 定义需要注意
+
+
+
+
+
+
+
+
+<blockquote class="blockquote-regular">
+  <p>scheme 定义需要注意
 url scheme必须能唯一标识一个App，如果你设置的scheme和其他的scheme相同，那么默认的表现是未知的
 URL Scheme的命名应该是只能纯英文字符，而不能含有下划线或者数字
 一个App可以同时拥有多个scheme</p>
+
 </blockquote>
 <p>通过上面的方式就定义好了Scheme啦，假设我们定义A App的scheme为<code>customA</code> B App的scheme为<code>customB</code> 当然实际上scheme对应的url protocol为<code>customA://</code>和<code>customB://</code></p>
-<h3 id="处理拉起请求">处理拉起请求<a hidden class="anchor" aria-hidden="true" href="#处理拉起请求">#</a></h3>
+<h3 id="处理拉起请求">处理拉起请求</h3>
 <p>已经定义好了A和B的scheme，继续完成上面的需求，用A打开B，在A的任意位置我们调用</p>
-<div class="highlight"><div style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#a9b7c6;background-color:#2b2b2b;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Objective-C" data-lang="Objective-C"><span style="display:flex;"><span>NSURL *url = [NSURL URLWithString:<span style="color:#6a8759">@&#34;customB://idetifierB&#34;</span>];
-</span></span><span style="display:flex;"><span>[[UIApplication sharedApplication] openURL:url];
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>可以成功拉起B App那么如何将一些参数传递到B呢，如果使用的url为<code>customB://idetifierB?params1=xx&amp;params2=yy</code>，B App如何获取到这参数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Objective-C" data-lang="Objective-C"><span class="line"><span class="cl"><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&#34;customB://idetifierB&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="n">UIApplication</span> <span class="n">sharedApplication</span><span class="p">]</span> <span class="nl">openURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+</span></span></code></pre></div><p>可以成功拉起B App那么如何将一些参数传递到B呢，如果使用的url为<code>customB://idetifierB?params1=xx&amp;params2=yy</code>，B App如何获取到这参数。</p>
 <p>上面其实有提到过处理应用之间的跳转是通过<code>UIApplication</code>来完成的，所以可以在B App中通过重写<code>- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&lt;UIApplicationOpenURLOptionsKey,id&gt; *)options</code>来获取到对应的请求来完成相应逻辑的处理。</p>
-<p><img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2019.14.43%402x-2024-04-14-19-15-08.png" alt="CleanShot 2024-04-14 at 19.14.43@2x-2024-04-14-19-15-08"  />
-</p>
-<h2 id="补充">补充<a hidden class="anchor" aria-hidden="true" href="#补充">#</a></h2>
-<h3 id="注册url-scheme-方式2">注册URL Scheme 方式2<a hidden class="anchor" aria-hidden="true" href="#注册url-scheme-方式2">#</a></h3>
+<p><img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2019.14.43%402x-2024-04-14-19-15-08.png" alt="CleanShot 2024-04-14 at 19.14.43@2x-2024-04-14-19-15-08"></p>
+<h2 id="补充">补充</h2>
+<h3 id="注册url-scheme-方式2">注册URL Scheme 方式2</h3>
 <p>注册URL Scheme的方式还有一种，在Info.plist中间中右击添加<code>URL types</code>类型为<code>Array</code>,<br>
-<img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.44.49%402x-2024-04-14-20-45-05.png" alt="CleanShot 2024-04-14 at 20.44.49@2x-2024-04-14-20-45-05"  />
-
+<img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.44.49%402x-2024-04-14-20-45-05.png" alt="CleanShot 2024-04-14 at 20.44.49@2x-2024-04-14-20-45-05">
 添加的每个item的内容，这和上面介绍的注册URL Scheme的方式类似。</p>
-<h3 id="uiapplication-sharedapplication-canopenurlurl-使用"><code>[[UIApplication sharedApplication] canOpenURL:url</code> 使用<a hidden class="anchor" aria-hidden="true" href="#uiapplication-sharedapplication-canopenurlurl-使用">#</a></h3>
+<h3 id="uiapplication-sharedapplication-canopenurlurl-使用"><code>[[UIApplication sharedApplication] canOpenURL:url</code> 使用</h3>
 <p>在调用<code>[[UIApplication sharedApplication] openURL:url]</code>前可以去判断下是否可以打开该应用<code>[[UIApplication sharedApplication] canOpenURL:url</code>，但是在iOS9后判断<code>canOpenURL</code>需要再info.plist文件中将目标Url定义进白名单，否则不能使用。
 在Info.plist文件中添加<code>LSApplicationQueriesSchemes</code>字段，该字段对应的是数组类型，然后添加CustomA(要跳转的目标Scheme)</p>
-<p><img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.54.37%402x-2024-04-14-20-54-42.png" alt="CleanShot 2024-04-14 at 20.54.37@2x-2024-04-14-20-54-42"  />
-</p>
-<blockquote>
-<p><code>LSApplicationQueriesSchemes</code>对应的Array至多只能添加50个item，应该是Apple为了安全考虑不允许去扫描用户已经安装的App(可以跳转的前提是已经安装App且将scheme注册进系统)</p>
-</blockquote>
-<h4 id="对于lsapplicationqueriesschemes白名单的理解">对于<code>LSApplicationQueriesSchemes</code>白名单的理解<a hidden class="anchor" aria-hidden="true" href="#对于lsapplicationqueriesschemes白名单的理解">#</a></h4>
-<p>Apple文档的介绍如下
-<img loading="lazy" src="https://img-blog.csdnimg.cn/img_convert/7c0a6918c6eaf5f008738681ab91373c.png" alt=""  />
+<p><img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2020.54.37%402x-2024-04-14-20-54-42.png" alt="CleanShot 2024-04-14 at 20.54.37@2x-2024-04-14-20-54-42"></p>
 
+
+
+
+
+
+
+
+<blockquote class="blockquote-regular">
+  <p><code>LSApplicationQueriesSchemes</code>对应的Array至多只能添加50个item，应该是Apple为了安全考虑不允许去扫描用户已经安装的App(可以跳转的前提是已经安装App且将scheme注册进系统)</p>
+
+</blockquote>
+<h4 id="对于lsapplicationqueriesschemes白名单的理解">对于<code>LSApplicationQueriesSchemes</code>白名单的理解</h4>
+<p>Apple文档的介绍如下
+<img src="https://img-blog.csdnimg.cn/img_convert/7c0a6918c6eaf5f008738681ab91373c.png" alt="">
 说的是，在iOS9后，如果想要使用<code>canOpenURL</code>方法检查是否可以打这个URL或可以处理该URL的App，需要在info.plist里添加LSApplicationQueriesSchemes字段来预设url，否则是否安装都会返回NO。</p>
 <p>“白名单”的意义是要检查当前设备上是否安装了其他App，而不是打开其他App必须添加“白名单”，所以如果想要打开其他App，直接使用openURL即可。</p>
 <p>==<code>canOpenURL：</code>方法有限制，<code>openURL:</code>方法是没有限制的。==</p>
-<p><img loading="lazy" src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2021.22.21%402x-2024-04-14-21-23-36.png" alt="CleanShot 2024-04-14 at 21.22.21@2x-2024-04-14-21-23-36"  />
-</p>
-<h4 id="如何回跳">如何回跳<a hidden class="anchor" aria-hidden="true" href="#如何回跳">#</a></h4>
+<p><img src="https://sharkerhub.oss-cn-beijing.aliyuncs.com/Obsidian/Blog/CleanShot%202024-04-14%20at%2021.22.21%402x-2024-04-14-21-23-36.png" alt="CleanShot 2024-04-14 at 21.22.21@2x-2024-04-14-21-23-36"></p>
+<h4 id="如何回跳">如何回跳</h4>
 <p>上面已经知道了如何跳转到另一个App中，完成了最开始说的从A App跳转到B App的需求，但是如果要求跳转到B App后完成调回App的操作呢，根据上面的介绍其实这个需求也很简单，B App条回A App重点是拿到A App的scheme即可，可以将A App的scheme在第一次跳转到B App的时候作为参数传递给B App这样在B App完成逻辑处理后就可以使用该Scheme完成回跳。</p>
 <p>具体来说就是
 A-&gt;B-&gt;A</p>
@@ -411,237 +497,358 @@ A-&gt;B-&gt;A</p>
 <li>B处理完对应的业务后通过同样的方式返回A</li>
 </ul>
 <p>其实在微信SDK中我们也是这样做的，在跳转到微信的url中添加一个backurl然后传递自己的App Scheme 微信执行完成后会拉起自己的App。</p>
-<h2 id="ref">Ref<a hidden class="anchor" aria-hidden="true" href="#ref">#</a></h2>
+<h2 id="ref">Ref</h2>
 <ul>
 <li><a href="https://jianshu.com/p/138b44833cda">iOS scheme跳转机制</a></li>
 <li><a href="https://blog.csdn.net/u013712343/article/details/119244506">关于iOS“白名单”的理解</a></li>
 </ul>
 
+      </div>
+
+      
+        <footer class="post-footer">
+          <div class="post-tags-footer">
+            <span class="tags-label">标签:</span>
+            
+              <a href="/en/tags/ios" class="post-tag">iOS</a>
+            
+              <a href="/en/tags/url-scheme" class="post-tag">URL Scheme</a>
+            
+          </div>
+        </footer>
+      
+
+      
+
+<section class="series-nav" aria-label="专题阅读"><h2><a href="/en/series/ios-%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/">iOS 开发实践</a></h2><ol><li><span aria-current="page">iOS App 间跳转：URL Scheme 实践</span></li><li><a href="/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/">WKWebView 的 User-Agent 获取与修改</a></li></ol></section>
+
+
+      
+
+
+<section class="related-posts" aria-label="相关阅读">
+  <h2 class="related-posts-title">相关阅读</h2>
+  <ul class="related-posts-list">
+    
+    <li class="related-post-item">
+      <a href="/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/" class="related-post-link">
+        <strong>WKWebView 的 User-Agent 获取与修改</strong>
+        <span>记录 WKWebView 中 User-Agent 的读取、设置与适配实践。</span>
+      </a>
+    </li>
+    
+    <li class="related-post-item">
+      <a href="/en/posts/tech/%E7%BF%BB%E8%AF%91/xcode14%E6%96%B0%E5%8A%9F%E8%83%BD/" class="related-post-link">
+        <strong>Xcode 14 新功能笔记（译）</strong>
+        <span>记录 Xcode 14 发布时的功能变化，作为历史版本学习资料。</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+
+      <nav class="post-navigation" aria-label="Post navigation">
+        
+
+        
+      </nav>
+    </article>
+
+    
+  <aside class="post-toc" id="post-toc" aria-label="文章目录">
+    <button
+      class="toc-toggle"
+      id="toc-toggle"
+      aria-expanded="true"
+      aria-controls="toc-content"
+      aria-label="展开或收起目录">
+      <svg
+        class="toc-burger-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <span class="toc-toggle-text">文章目录</span>
+      <svg
+        class="toc-chevron-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+    <div class="toc-content" id="toc-content">
+      <nav class="toc-nav" aria-label="文章目录">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#背景知识">背景知识</a></li>
+    <li><a href="#app拉起">App拉起</a></li>
+    <li><a href="#app之间相互拉起">App之间相互拉起</a>
+      <ul>
+        <li><a href="#注册url-scheme">注册URL Scheme</a></li>
+        <li><a href="#处理拉起请求">处理拉起请求</a></li>
+      </ul>
+    </li>
+    <li><a href="#补充">补充</a>
+      <ul>
+        <li><a href="#注册url-scheme-方式2">注册URL Scheme 方式2</a></li>
+        <li><a href="#uiapplication-sharedapplication-canopenurlurl-使用"><code>[[UIApplication sharedApplication] canOpenURL:url</code> 使用</a>
+          <ul>
+            <li><a href="#对于lsapplicationqueriesschemes白名单的理解">对于<code>LSApplicationQueriesSchemes</code>白名单的理解</a></li>
+            <li><a href="#如何回跳">如何回跳</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ref">Ref</a></li>
+  </ul>
+</nav>
+      </nav>
+    </div>
+  </aside>
+
 
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://akashark.github.io/en/tags/ios-scheme-%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/">IOS Scheme 应用间跳转</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="https://akashark.github.io/en/posts/tech/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ep194-evolution-of-http%E7%BF%BB%E8%AF%91/">
-    <span class="title">« Prev</span>
-    <br>
-    <span>EP194: Evolution of HTTP[翻译]</span>
-  </a>
-  <a class="next" href="https://akashark.github.io/en/posts/tech/ios/webview/useragent%E8%8E%B7%E5%8F%96%E4%B8%8E%E4%BF%AE%E6%94%B9/">
-    <span class="title">Next »</span>
-    <br>
-    <span>UserAgent获取与修改</span>
-  </a>
-</nav>
-
-
-<div class="share-buttons">
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on twitter"
-        href="https://twitter.com/intent/tweet/?text=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac&amp;url=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f&amp;hashtags=iOSScheme%e5%ba%94%e7%94%a8%e9%97%b4%e8%b7%b3%e8%bd%ac">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on linkedin"
-        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f&amp;title=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac&amp;summary=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac&amp;source=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on reddit"
-        href="https://reddit.com/submit?url=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f&title=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on facebook"
-        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on whatsapp"
-        href="https://api.whatsapp.com/send?text=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac%20-%20https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share iOS App间跳转 on telegram"
-        href="https://telegram.me/share/url?text=iOS%20App%e9%97%b4%e8%b7%b3%e8%bd%ac&amp;url=https%3a%2f%2fakashark.github.io%2fen%2fposts%2ftech%2fios%2f%25E5%25B8%25B8%25E8%25A7%2581%25E5%258A%259F%25E8%2583%25BD%2fiosapp%25E9%2597%25B4%25E8%25B7%25B3%25E8%25BD%25AC%2f">
-        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
-            <path
-                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
-        </svg>
-    </a>
-</div>
-  </footer>
-</article>
     </main>
+
+    <footer>
+      <footer class="site-footer">
+  <div class="footer-content">
+    <p class="footer-text">
+      &copy;
+      
+      2022-2026
+      
+      Sharker.
+      
+        用文字沉淀思考 · Hugo &amp; Mana
+      
+    </p>
     
-<footer class="footer">
+      <div class="footer-social">
+        <div class="social-links">
+  
+    <a
+      href="https://github.com/AkaShark"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="social-link"
+      aria-label="GitHub">
+      <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill-rule="evenodd"
+          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </a>
+  
+
+  
+
+  
+
+  
+
+  
+    <a href="mailto:1548742234@qq.com" class="social-link" aria-label="Email">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+      </svg>
+    </a>
+  
+  
+</div>
+
+      </div>
     
-        
-    
-    <span id="sitetime">载入运行时间...</span>
+  </div>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+    </footer>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div id="search-modal" class="search-modal" aria-hidden="true" role="dialog" aria-label="搜索" data-no-results="没有找到相关内容">
+  <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
+  <div class="search-modal-container">
+    <div class="search-input-wrapper">
+      <svg class="search-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="搜索标题、标签或正文…"
+        autocomplete="off"
+        aria-label="搜索">
+      <button class="search-input-clear" id="search-input-clear" aria-label="清空搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+      </button>
+      <button class="search-modal-close" id="search-modal-close" aria-label="关闭搜索">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
 
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
+    
+<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-overlay"></div>
+  <div class="mobile-menu-content">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">菜单</span>
+      <button
+        id="mobile-menu-close"
+        class="mobile-menu-close"
+        aria-label="关闭菜单"
+        type="button">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-menu-nav" role="navigation" aria-label="Mobile navigation">
+      <ul class="menu-list">
+  
+    <li class="menu-item">
+      <a
+        href="/en/posts/"
+        class="menu-link ">
+        文章
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/series/"
+        class="menu-link ">
+        专题
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/tags/"
+        class="menu-link ">
+        标签
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/archives/"
+        class="menu-link ">
+        归档
+      </a>
+    </li>
+  
+    <li class="menu-item">
+      <a
+        href="/en/about/"
+        class="menu-link ">
+        关于
+      </a>
+    </li>
+  
+</ul>
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
+    </nav>
+    <div class="mobile-menu-footer">
+      <button id="mobile-search-toggle" class="mobile-search-toggle" aria-label="搜索" type="button">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <span>搜索</span>
+      </button>
+      
 
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
+      <button class="theme-toggle" aria-label="切换明暗主题" type="button">
+        <svg class="icon-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+        <svg class="icon-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
 
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'copy';
+    
 
-        function copyingDone() {
-            copybutton.innerHTML = 'copied!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'copy';
-            }, 2000);
-        }
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="回到顶部" type="button">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+  </svg>
+</button>
 
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
 
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
+    
 
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
 
-<script>
-    function siteTime() {
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-        var years = days * 365;
-        var today = new Date();
-        var startYear = 2022;
-        var startMonth = 7;
-        var startDate = 27;
-        var startHour = 15;
-        var startMinute = 0;
-        var startSecond = 0;
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-            minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-            diffMinutes * minutes) / seconds);
-        if (startYear == todayYear) {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffDays + " 天 " + diffHours +
-                " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        } else {
-            
-            document.getElementById("sitetime").innerHTML = "已安全运行 " + diffYears + " 年 " + diffDays +
-                " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-        }
-    }
-    setInterval(siteTime, 1000);
-</script>
-</body>
 
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.18e9ad1c8ca22500d26a901e6a1e6a643f5f1d9b072f8e57125002aa56531444.js" defer></script>
+
+  </body>
 </html>

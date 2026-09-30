@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>语法 on SharkerBlog</title>
-    <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/</link>
-    <description>Recent content in 语法 on SharkerBlog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
-    <managingEditor>1548742234@qq.com (Sharker)</managingEditor>
-    <webMaster>1548742234@qq.com (Sharker)</webMaster>
-    <lastBuildDate>Thu, 15 Feb 2024 13:45:07 +0800</lastBuildDate><atom:link href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>基础语法速通三</title>
-      <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
-      <pubDate>Thu, 15 Feb 2024 13:45:07 +0800</pubDate>
-      <author>1548742234@qq.com (Sharker)</author>
-      <guid>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</guid>
-      <description>Go基础语法速通, 速通Go语言中关键语法</description>
-    </item>
-    
-    <item>
-      <title>基础语法速通 二</title>
-      <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
-      <pubDate>Sat, 10 Feb 2024 23:20:23 +0800</pubDate>
-      <author>1548742234@qq.com (Sharker)</author>
-      <guid>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</guid>
-      <description>Go基础语法速通, 速通Go语言中关键语法</description>
-    </item>
-    
-    <item>
-      <title>基础语法速通 一</title>
-      <link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</link>
-      <pubDate>Wed, 31 Jan 2024 23:55:37 +0800</pubDate>
-      <author>1548742234@qq.com (Sharker)</author>
-      <guid>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A/</guid>
-      <description>Go基础语法速通, 速通Go语言中关键语法</description>
-    </item>
-    
-  </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>语法 on Sharker / Notes</title>
+		<link>https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/</link>
+		<description>Recent content in 语法 on Sharker / Notes</description>
+		<generator>Hugo</generator>
+		<language>zh-CN</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 15 Feb 2024 13:45:07 +0800</lastBuildDate>
+		
+			<atom:link href="https://akashark.github.io/en/posts/tech/go/%E8%AF%AD%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Go 语法速通（三）：并发与反射</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-3/</link>
+				<pubDate>Thu, 15 Feb 2024 13:45:07 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-3/</guid>
+				<description>&lt;p&gt;继续前面的整理，这将是最后一部分的整理内容，包括了goroutine channel的使用以及Go反射的使用。&lt;/p&gt;&#xA;&lt;h2 id=&#34;go-goroutine-channel&#34;&gt;Go goroutine channel&lt;/h2&gt;&#xA;&lt;h3 id=&#34;进程-线程-并行-并发&#34;&gt;进程 线程 并行 并发&lt;/h3&gt;&#xA;&lt;h4 id=&#34;进程-线程&#34;&gt;进程 线程&lt;/h4&gt;&#xA;&lt;p&gt;进程就是程序在操作系统中的一次执行过程，是系统进行资源分配和调度的基本单位，进程是一个动态概念，是程序在执行过程中分配和管理资源的基本单位，每一个进程都有自己的地址空间，一个进程中至少有5个基本状态，初始态、执行态、等待状态、就绪状态、终止状态。通俗的讲进程就是一个正在执行的程序。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Go 语法速通（二）：函数、接口与结构体</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-2/</link>
+				<pubDate>Sat, 10 Feb 2024 23:20:23 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-2/</guid>
+				<description>&lt;p&gt;上一篇我们根据大地老师的&lt;a href=&#34;https://www.bilibili.com/video/BV1XY4y1t76G/?p=3&amp;amp;spm_id_from=pageDriver&amp;amp;vd_source=1ce8f381eab5d06dd966abe30310ea9a&#34;&gt;B站视频&lt;/a&gt;学习了一部分Go语言语法的基础部分，接下来让我继续开始学习，在这篇中将继续总结函数、接口、time包、&#xA;指针与结构体等重要的语法基础。&lt;/p&gt;&#xA;&lt;h2 id=&#34;go-函数&#34;&gt;Go 函数&lt;/h2&gt;&#xA;&lt;h3 id=&#34;函数定义&#34;&gt;函数定义&lt;/h3&gt;&#xA;&lt;p&gt;函数是组织好的、可重复使用的、用于执行指定任务的代码块。本文介绍了Go语言中函数的相关内容。&#xA;Go语言支持的函数类型包括: 函数、匿名函数、闭包&#xA;Go语言中定义函数使用func关键字，具体格式如下&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Go 语法速通（一）：基础语法</title>
+				<link>https://akashark.github.io/en/posts/tech/go/go-basics-1/</link>
+				<pubDate>Wed, 31 Jan 2024 23:55:37 +0800</pubDate>
+				<guid>https://akashark.github.io/en/posts/tech/go/go-basics-1/</guid>
+				<description>&lt;h1 id=&#34;go-语法速通&#34;&gt;Go 语法速通&lt;/h1&gt;&#xA;&lt;p&gt;以下为学习&lt;a href=&#34;https://www.bilibili.com/video/BV1XY4y1t76G/?p=3&amp;amp;spm_id_from=pageDriver&amp;amp;vd_source=1ce8f381eab5d06dd966abe30310ea9a&#34;&gt;B站大地Go课程&lt;/a&gt;Go语言基础部分的的笔记输出，作为平时查阅的资料，希望也可以帮助读者快速熟悉Go语言&lt;/p&gt;&#xA;&lt;h2 id=&#34;经典hello-world&#34;&gt;经典Hello World&lt;/h2&gt;&#xA;&lt;p&gt;首先是经典的输出Hello World，Go语言的fmt包中包含了输出函数Print、Println、Printf，如下代码输出Hello World&lt;/p&gt;</description>
+			</item>
+	</channel>
 </rss>
